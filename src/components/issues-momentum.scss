@@ -1,1 +1,77 @@
 @import "../styles/_custom.scss";
+
+.momentum {
+  .momentum-tab-row {
+    padding-left: 0.5rem;
+    padding-bottom: 0;
+  }
+
+  .momentum-tab {
+    background: $rust;
+    border-radius: 4px 4px 0 0;
+    
+    a {
+      border-radius: 4px 4px 0 0;
+      color: white;
+    }
+
+    a.active {
+      background: $dark;
+    }
+  }
+
+  .momentum-pane {
+    background: $dark;
+    width: 100%;
+    color: white;
+    box-sizing: border-box;
+    padding: 0 2rem;
+
+    .article-list {
+      padding: 2rem;
+
+      .article-item {
+        border: 1px $light solid;
+
+        img {
+          width: 100px;
+        }
+      }
+
+      .article-thumb {
+        background: grey;
+        height: 100px;
+        width: 100px;
+      }
+
+      .article-heading {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+      }
+    }
+
+    .article-preview {
+      padding: 2rem;
+
+      .article-card {
+        background: white;
+        color: $dark;
+
+        .article-header {
+          background: $pink;
+          display: flex;
+          padding: 1rem;
+          font-weight: bold;
+          text-transform: italic;
+          justify-content: space-between;
+        }
+
+        .article-body {
+          padding: 1rem;
+        }
+      }
+    }
+  }
+}

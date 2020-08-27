@@ -99,7 +99,7 @@ const IndexPage = () => {
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
-              <Card id="staging" className="bg-dark text-dark">
+              <Card className="bg-dark text-dark">
                 <Card.Img src="https://placehold.it/400x400" alt="Card image" />
                 <Card.ImgOverlay className="align-contents-bottom">
                   <Card.Title><h3 className="text-white mb-0">The Human Experience</h3></Card.Title>
@@ -135,18 +135,18 @@ const IndexPage = () => {
 
         <Row className="justify-content-md-center mb-5 pb-5">
           <Col xs="12" md="4" className="text-center">
-            <Link to="" aria-label="Read more ">
-              <Img fixed={data.issue1.childImageSharp.fixed} className="mb-4" alt="Culture of Fear"/>
+            <Link to="issue1" aria-label="How the bail system worsens the lives of marginalized people">
+              <Img fixed={data.issue1.childImageSharp.fixed} className="mb-4" alt="Worsening the Lives of Marginalized people"/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="" aria-label="Read more about Socioeconomic factors">
-              <Img fixed={data.issue2.childImageSharp.fixed} className="mb-4" alt="Making Poverty a Crime"/>
+            <Link to="issue2" aria-label="How the bail system denies dignity and basic rights">
+              <Img fixed={data.issue2.childImageSharp.fixed} className="mb-4" alt="Denying Basic Dignity &amp; Rights"/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="" aria-label="Read more about Insufficient Resources">
-              <Img fixed={data.issue3.childImageSharp.fixed} className="mb-4" alt="Basic Dignity and Rights"/>
+            <Link to="issue3" aria-label="How the bail system relies on a culture built on fear">
+              <Img fixed={data.issue3.childImageSharp.fixed} className="mb-4" alt="Culture Built on Fear"/>
             </Link>
           </Col>
         </Row>

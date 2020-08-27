@@ -6,10 +6,11 @@ import Footer from "./footer"
 import "../styles/index.scss"
 import layoutStyles from './layout.module.scss';
 
-if (typeof window !== "undefined") {
-  // eslint-disable-next-line global-require
-  require("smooth-scroll")('a[href*="#"]')
-}
+// if (typeof window !== "undefined") {
+//   // eslint-disable-next-line global-require
+//   require("smooth-scroll")('a[href*="#"]')
+// }
+// Disabling this plugin because it's forcing a scroll-to-top for all "#" links.
 
 const Layout = (props) => {
   return (

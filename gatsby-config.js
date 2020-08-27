@@ -101,6 +101,18 @@ module.exports = {
       }
     },
     {
+      resolve: 'gatsby-source-airtable',
+      options: {
+        apiKey: 'keyF2AGHFec4RxFTY',
+        tables: [
+          {
+            baseId: 'appQ1ZjraW0ndi4f0',
+            tableName: 'testTable'
+          }
+        ]
+      }
+    },
+    {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'src',

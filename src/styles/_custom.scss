@@ -75,8 +75,6 @@ $dark:          #322C2C; // Bail Reform Color: Off-Black
 //   $colors
 // );
 
-// @import "./colors";
-
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
