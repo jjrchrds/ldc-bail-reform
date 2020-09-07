@@ -29,6 +29,7 @@ const MethodologyPage = ({data}) => {
   }
 
   const dataByYear = data.documents.nodes.reduce(function (r, a) {
+    
     const year = a.data.Publish__or_Start_Date_.split('-')[0];
     r[ year ] = r[ year ] || [];
     r[ year ].push(a);
@@ -67,9 +68,6 @@ const MethodologyPage = ({data}) => {
 
   const [documents, setDocuments] = useState({})
   const [filter, setFilter] = useState({})
-
-  // define content 
-  // const categories = [...data.allContentfulTimelineCategory.edges];
 
   useEffect(() => {
 
@@ -216,7 +214,7 @@ const MethodologyPage = ({data}) => {
         </Row>
 
         <Row className="">
-          <Col md="2" xl="2" className="">
+          <Col md="3" className="">
             
             <div className="legend">
               <p className="text-uppercase mb-2">Legend</p>
@@ -239,12 +237,6 @@ const MethodologyPage = ({data}) => {
                     />
                     
                   </div>
-                    
-                    {/* <button 
-                      
-                      className={`no-swag btn-category ${filter[ category.node.id ] ? 'active' : ''}`}
-                      
-                    </button> */}
                   </li>
                 )
               }
@@ -262,12 +254,12 @@ const MethodologyPage = ({data}) => {
             </div>
 
           </Col>
-          <Col md="9" xl="9" className="h-100 p-md-4 p-xl-5">
+          <Col md="9" className="h-100 p-md-4 p-xl-5">
             
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
             { Object.entries(dataByYear).map(yearData => {
               const year = yearData[0];
-              
+              let margin = 0;
               const indicators = {};
               const sortedDocs = [ ...dataByYear[year] ];
               sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
@@ -295,6 +287,10 @@ const MethodologyPage = ({data}) => {
                         indicators[doc.data.Publish__or_Start_Date_] = indicators[doc.data.Publish__or_Start_Date_] || [];
                         indicators[doc.data.Publish__or_Start_Date_].push([doc.data.Publish__or_Start_Date_]);
                         
+                        margin = indicators[doc.data.Publish__or_Start_Date_].length * 25;
+                        console.log(margin);
+                      
+
                         const offsetTop = (indicators[doc.data.Publish__or_Start_Date_].length - 1) * 25;
                         const offsetLeft = (month / 12) * 100;
                         const bg = doc.category ? doc.category.hexCode : '#888';
@@ -362,6 +358,7 @@ const MethodologyPage = ({data}) => {
   )
 }
 
+//@TODO figure out view
 export default MethodologyPage
 
 export const query = graphql`
@@ -408,8 +405,6 @@ query {
     filter: {
       data: {
         Include_in_Interactive_Bibliography:{ eq: "Yes"}
-        Publish__or_Start_Date_: { ne: null }
-        Biblio_Annotation: { ne: null }
       }
     }
   ) {
@@ -420,6 +415,7 @@ query {
         Publish__or_Start_Date_
         Biblio_Annotation
         Type_of_Content
+        Include_in_Interactive_Bibliography
         Tag
         URL
       }
