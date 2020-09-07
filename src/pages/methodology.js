@@ -9,6 +9,8 @@ import NoMobile from "../components/NoMobile";
 
 const MethodologyPage = ({data}) => {
 
+  const [ yearIndicatorHeight, setYearIndicatorHeight ] = useState({});
+
   //slugify, move to helper
   function slugify (str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -29,7 +31,6 @@ const MethodologyPage = ({data}) => {
   }
 
   const dataByYear = data.documents.nodes.reduce(function (r, a) {
-    
     const year = a.data.Publish__or_Start_Date_.split('-')[0];
     r[ year ] = r[ year ] || [];
     r[ year ].push(a);
@@ -39,13 +40,13 @@ const MethodologyPage = ({data}) => {
 
   const categories = data.documents.nodes.reduce(function (r, a) {
     const category = a.data.Type_of_Content;
-
+    console.log(category);
     let cat;
 
     if (category === null) {
       cat = 'None'
     } else {
-      cat = category[0];
+      cat = category;
     }
 
     
@@ -55,7 +56,7 @@ const MethodologyPage = ({data}) => {
     }, Object.create(null)
   );
   
-  console.log(categories);
+  // console.log(categories);
 
   // scroller
   const timeline = useRef(null);
@@ -71,6 +72,7 @@ const MethodologyPage = ({data}) => {
 
   useEffect(() => {
 
+    //set category states
     Object.keys(categories).forEach((category, index) => {
       const id = slugify(category);
       setFilter( prevState => {
@@ -81,6 +83,7 @@ const MethodologyPage = ({data}) => {
       })
     })
     
+
     Object.entries(dataByYear).forEach((yearData) => {
       const year = yearData[0];
 
@@ -170,6 +173,18 @@ const MethodologyPage = ({data}) => {
 
   }
 
+  const updateTimelineHeaderHeight = (year, length) => {
+    if (timeline.current === null) return;
+
+    console.log(year, length);
+
+    const timelineYearHeader = timeline.current.querySelectorAll(`[data-index="${year}"] .timeline-year-content-header`);
+    timelineYearHeader[0].style.marginBottom = 25*length + 'px';
+    // console.log(year, length);
+    // const header = timeline.current.querySelectorAll(`[data-index="${year}"`);
+    console.log(timelineYearHeader);
+  }
+
   useEffect(()=> {
     const indicators = timeline.current.querySelectorAll('.timeline-card-indicator');
     let filterActive = false;
@@ -216,42 +231,47 @@ const MethodologyPage = ({data}) => {
         <Row className="">
           <Col md="3" className="">
             
-            <div className="legend">
-              <p className="text-uppercase mb-2">Legend</p>
-              <ul className="list-unstyled">
-              { Object.keys(categories).map((category, index) => {
-                const bg = "blue";
-                // console.log(bg);
-                return (
-                  <li key={`category-${index}`}>
+            <ul className="legend list-unstyled">
+              <li className="mb-4">
+                <p className="text-uppercase mb-2">Legend</p>
+                <ul className="list-unstyled mb-2">
+                { Object.keys(categories).map((category, index) => {
+                  // console.log(category);
+                  const bg = "blue";
+                  // console.log(bg);
+                  return (
+                    <li key={`category-${index}`}>
 
-                  <div className="form-check">
-                    <Form.Check
-                      custom 
-                      onClick={ () => updateActiveCategories( slugify(category) )}
-                      className="form-check-input" 
-                      type="checkbox" 
-                      value="" 
-                      id={`defaultCheck-${index}`}
-                      label={ category }
-                    />
-                    
-                  </div>
+                    <div className="form-check">
+                      <Form.Check
+                        custom 
+                        onClick={ () => updateActiveCategories( slugify(category) )}
+                        className="form-check-input" 
+                        type="checkbox" 
+                        value="" 
+                        id={`defaultCheck-${index}`}
+                        label={ category }
+                      />
+                      
+                    </div>
+                    </li>
+                  )
+                }
+                )}
+                </ul>
+                <button className="btn btn-sm btn-rust">Reset</button>
+              </li>
+              <li>
+                <p className="text-uppercase mb-2">Timeline</p>
+                <ul className="list-unstyled">
+                { Object.keys(dataByYear).map(key => (
+                  <li key={`legend-${key}`}>
+                    <a href={`#year-${key}`}>{ key }</a>
                   </li>
-                )
-              }
-              )}
-              </ul>
-
-              <p className="text-uppercase mb-2">Timeline</p>
-              <ul className="list-unstyled">
-              { Object.keys(dataByYear).map(key => (
-                <li key={`legend-${key}`}>
-                  <a href={`#year-${key}`}>{ key }</a>
-                </li>
-              ))}
-              </ul>
-            </div>
+                ))}
+                </ul>
+              </li>
+            </ul>
 
           </Col>
           <Col md="9" className="h-100 p-md-4 p-xl-5">
@@ -259,7 +279,7 @@ const MethodologyPage = ({data}) => {
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
             { Object.entries(dataByYear).map(yearData => {
               const year = yearData[0];
-              let margin = 0;
+              let maxHeight = 0;
               const indicators = {};
               const sortedDocs = [ ...dataByYear[year] ];
               sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
@@ -270,7 +290,7 @@ const MethodologyPage = ({data}) => {
                 <div className="anchor" id={`year-${ year }`}></div>
 
                 <div className="timeline-year-content position-relative">
-                  <div className="timeline-year-content-header d-md-flex pb-2 mb-5">
+                  <div className="timeline-year-content-header d-md-flex pb-2">
                     <h1 className="pr-3 timeline-year-label"><strong>{year}</strong></h1>
                  
                     <div className="timeline-year-header-meta mt-3 pr-2 pr-md-5 pb-3">
@@ -286,9 +306,20 @@ const MethodologyPage = ({data}) => {
                         //set indicator counts
                         indicators[doc.data.Publish__or_Start_Date_] = indicators[doc.data.Publish__or_Start_Date_] || [];
                         indicators[doc.data.Publish__or_Start_Date_].push([doc.data.Publish__or_Start_Date_]);
+
+                        if ( indicators[doc.data.Publish__or_Start_Date_].length > maxHeight) {
+                          maxHeight = indicators[doc.data.Publish__or_Start_Date_].length;
+                          updateTimelineHeaderHeight(year, indicators[doc.data.Publish__or_Start_Date_].length);
+                        }
                         
-                        margin = indicators[doc.data.Publish__or_Start_Date_].length * 25;
-                        console.log(margin);
+                        // setYearIndicatorHeight( prevState => {
+                        //   return {
+                        //   ...prevState,
+                        //   [year] : indicators[doc.data.Publish__or_Start_Date_].length
+                        //   }
+                        // })
+                        
+                        // console.log(margin);
                       
 
                         const offsetTop = (indicators[doc.data.Publish__or_Start_Date_].length - 1) * 25;
@@ -300,7 +331,7 @@ const MethodologyPage = ({data}) => {
                             key={index} 
                             className="timeline-card-indicator" 
                             data-id={`${year}-card-${index}`} 
-                            data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content[0]) : ''}
+                            data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
                             role="button" 
                             style={{ left: offsetLeft + '%', top: offsetTop + 'px', backgroundColor: bg}}
                             onClick={ indicatorClickHandler }
@@ -405,6 +436,7 @@ query {
     filter: {
       data: {
         Include_in_Interactive_Bibliography:{ eq: "Yes"}
+        Publish__or_Start_Date_: { ne: null}
       }
     }
   ) {
