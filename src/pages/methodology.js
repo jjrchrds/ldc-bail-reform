@@ -5,7 +5,6 @@ import DocumentCard from '../components/document-card';
 
 import { graphql } from "gatsby"
 import { Container, Row, Col, Form } from "react-bootstrap"
-import NoMobile from "../components/NoMobile";
 
 const MethodologyPage = ({data}) => {
 
@@ -219,7 +218,7 @@ const MethodologyPage = ({data}) => {
     <Layout>
       <Head title="Methodology"/>
 
-      <NoMobile>
+
       <Container className="my-5 pt-5">
         <Row className="justify-content-center text-center">
           <Col md="8">
@@ -307,21 +306,12 @@ const MethodologyPage = ({data}) => {
                         indicators[doc.data.Publish__or_Start_Date_] = indicators[doc.data.Publish__or_Start_Date_] || [];
                         indicators[doc.data.Publish__or_Start_Date_].push([doc.data.Publish__or_Start_Date_]);
 
+                        //if the max height of the indicators increases, increase the height of the header
                         if ( indicators[doc.data.Publish__or_Start_Date_].length > maxHeight) {
                           maxHeight = indicators[doc.data.Publish__or_Start_Date_].length;
                           updateTimelineHeaderHeight(year, indicators[doc.data.Publish__or_Start_Date_].length);
                         }
                         
-                        // setYearIndicatorHeight( prevState => {
-                        //   return {
-                        //   ...prevState,
-                        //   [year] : indicators[doc.data.Publish__or_Start_Date_].length
-                        //   }
-                        // })
-                        
-                        // console.log(margin);
-                      
-
                         const offsetTop = (indicators[doc.data.Publish__or_Start_Date_].length - 1) * 25;
                         const offsetLeft = (month / 12) * 100;
                         const bg = doc.category ? doc.category.hexCode : '#888';
@@ -384,7 +374,7 @@ const MethodologyPage = ({data}) => {
           </Col>
         </Row>
       </Container>
-      </NoMobile>
+    
     </Layout>
   )
 }
