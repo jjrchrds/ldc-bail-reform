@@ -76,7 +76,7 @@ const Issue1Page = () => {
         <Col md="10" lg="8" classname="p-2">
           <h2 className="text-white text-center uppercase">Sources</h2>
           <Row className="bg-light pt-5 pb-3">
-            <Col>
+            <Col md="12" lg="6">
               <ul>
                 <li className="pb-4"><p>A recent study of supervised bail programs showed that over 40% of the group had mental health issues, 31% had recurring mental health and substance abuse issues, while one-third of this group identified themselves as homeless.</p>
                 (<a href="#">A Legal Aid Strategy for Bail, Legal Aid Ontario</a>)</li>
@@ -89,7 +89,7 @@ const Issue1Page = () => {
               </ul>
             </Col>
 
-            <Col>
+            <Col md="12" lg="6">
               <ul>
                 <li className="pb-4"><p>The estimates of untreated mental illness in the criminal justice system range from 15-40% of the incarcerated population.</p>
                 (<a href="#">Mental Illness and Police Fact Sheets, Canadian Mental Health Association - BC Division</a>)</li>
