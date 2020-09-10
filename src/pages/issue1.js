@@ -71,6 +71,36 @@ const Issue1Page = () => {
           <h2 className="text-center uppercase text-rust">Explorable Explanation</h2>
         </Col>
       </Row>
+
+      <Row id="sources" className="mt-5 py-5 bg-pink justify-content-center">
+        <Col md="10" lg="8" classname="p-2">
+          <h2 className="text-white text-center uppercase">Sources</h2>
+          <Row className="bg-light pt-5 pb-3">
+            <Col>
+              <ul>
+                <li className="pb-4"><p>A recent study of supervised bail programs showed that over 40% of the group had mental health issues, 31% had recurring mental health and substance abuse issues, while one-third of this group identified themselves as homeless.</p>
+                (<a href="#">A Legal Aid Strategy for Bail, Legal Aid Ontario</a>)</li>
+
+                <li className="pb-4"><p>Black people are overrepresented in federal prisons by more than 300%, while Aboriginal people are overrepresented by nearly 500%. The same disparities exist in provincial jails.</p>
+                (<a href="#">Race, Crime and Justice in Canada, John Howard Society of Canada</a>)</li>
+
+                <li className="pb-4"><p>40% of police work involves people in crisis or people experiencing a mental illness.</p>
+                (<a href="#">Study in Blue and Grey, Canadian Mental Health Association - BC Division</a>)</li>
+              </ul>
+            </Col>
+
+            <Col>
+              <ul>
+                <li className="pb-4"><p>The estimates of untreated mental illness in the criminal justice system range from 15-40% of the incarcerated population.</p>
+                (<a href="#">Mental Illness and Police Fact Sheets, Canadian Mental Health Association - BC Division</a>)</li>
+
+                <li className="pb-4"><p>43% of persons remanded into custody were unemployed. In 2000, the National Council of Welfare concluded, “the reason that accused persons are kept in custody for weeks and months before trial is not because they are dangerous and poor, but mostly because they are poor.”</p>
+                (<a href="#">A Legal Aid Strategy for Bail, Legal Aid Ontario</a>)</li>
+              </ul>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </Layout>
   )
 }

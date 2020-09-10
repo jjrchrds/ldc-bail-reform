@@ -34,7 +34,7 @@ class MomentumTabs extends React.Component {
     const docsByTabSorted = docsByTabArray.sort();
     
     return (
-      <Row className="justify-content-center mt-2 momentum">
+      <Row className="justify-content-center mt-3 mb-5 momentum">
         <Col md="12" xl="10">
           <Tab.Container defaultActiveKey="0">
             <Row className="pl-1">
