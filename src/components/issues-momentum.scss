@@ -39,12 +39,8 @@
         z-index: 2;
         margin-bottom: 16px;
         background: $dark url('http://source.unsplash.com/random/800x600') no-repeat center;
-        background-size: 100%;
+        background-size: cover;
         @include transition-300;
-
-        &:hover {
-          background-size: 150%;
-        }
         
         &:last-of-type {
           margin-bottom: 0;
@@ -62,12 +58,24 @@
           bottom: 0;
           z-index: -1;
         }
+
+        &:hover {
+          transform: scale(1.04);
+          
+          &:before {
+            background: linear-gradient(90deg,rgba(0,0,0,0.85),rgba(0,0,0,0.85));
+          }
+        }
       }
 
       .article-heading {
         display: flex;
         flex: 1;
         color: white !important;
+
+        &.active {
+          border: 4px solid $pink;
+        }
       }
     }
 
