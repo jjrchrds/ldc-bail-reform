@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import Head from '../components/head'
 import IssuesHero from "../components/issues-hero"
 import MomentumTabs from "../components/issues-momentum"
+import ExplFirst from "../components/issues-expl-first"
 
 const Issue1Page = () => {
   const data = useStaticQuery(graphql `
@@ -69,6 +70,7 @@ const Issue1Page = () => {
       <Row id="explanation" className="justify-content-center">
         <Col className="mt-5 mb-5" md="10">
           <h2 className="text-center uppercase text-rust">Explorable Explanation</h2>
+          <ExplFirst></ExplFirst>
         </Col>
       </Row>
     </Layout>
