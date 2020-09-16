@@ -1,11 +1,11 @@
 .narrative-step{
-
-  padding-top: 30vh;
+  padding-top: 0;
   padding-left: 10vw;
   padding-right: 10vw;
   padding-bottom: 50vh;
   font-size: 1.3em;
   color: white;
+  z-index: -999;
 }
 .gradient-background {
   top: 0;

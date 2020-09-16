@@ -24,22 +24,22 @@ const IndexPage = () => {
       }
       issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
         childImageSharp {
-          fixed(width: 250) {
-            ...GatsbyImageSharpFixed_tracedSVG
+          fluid(maxWidth: 500) {
+            ...GatsbyImageSharpFluid
           }
         }
       }
       issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
         childImageSharp {
-          fixed(width: 250) {
-            ...GatsbyImageSharpFixed_tracedSVG
+          fluid(maxWidth: 500) {
+            ...GatsbyImageSharpFluid
           }
         }
       }
       issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
         childImageSharp {
-          fixed(width: 250) {
-            ...GatsbyImageSharpFixed_tracedSVG
+          fluid(maxWidth: 500) {
+            ...GatsbyImageSharpFluid
           }
         }
       }
@@ -136,17 +136,17 @@ const IndexPage = () => {
         <Row className="justify-content-md-center mb-5 pb-5">
           <Col xs="12" md="4" className="text-center">
             <Link to="issue1" aria-label="How the bail system worsens the lives of marginalized people">
-              <Img fixed={data.issue1.childImageSharp.fixed} className="mb-4" alt="Worsening the Lives of Marginalized people"/>
+              <Img fluid={data.issue1.childImageSharp.fluid} className="mb-4" alt="Worsening the Lives of Marginalized people"/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
             <Link to="issue2" aria-label="How the bail system denies dignity and basic rights">
-              <Img fixed={data.issue2.childImageSharp.fixed} className="mb-4" alt="Denying Basic Dignity &amp; Rights"/>
+              <Img fluid={data.issue2.childImageSharp.fluid} className="mb-4" alt="Denying Basic Dignity &amp; Rights"/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
             <Link to="issue3" aria-label="How the bail system relies on a culture built on fear">
-              <Img fixed={data.issue3.childImageSharp.fixed} className="mb-4" alt="Culture Built on Fear"/>
+              <Img fluid={data.issue3.childImageSharp.fluid} className="mb-4" alt="Culture Built on Fear"/>
             </Link>
           </Col>
         </Row>

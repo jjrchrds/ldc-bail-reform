@@ -7,12 +7,12 @@ import "./issues-hero.scss"
 class IssuesHero extends React.Component {
   render(){
     return (
-      <Jumbotron fluid className="pt-5 pb-4 issuesHeroWrap">
+      <Jumbotron fluid className="pt-5 pb-4 bg-dark issuesHeroWrap">
         <Container>
           <Row className="justify-content-center">
             <Col className="justify-content-center p-0" sm="3">
               <Card className="issueImage bg-dark text-dark">
-                <Img fixed={this.props.issueImg} alt={ this.props.issueName } />
+                <Img fluid={this.props.issueImg} alt={ this.props.issueName }/>
               </Card>
             </Col>
           </Row>

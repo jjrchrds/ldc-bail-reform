@@ -1,8 +1,8 @@
 @import "../styles/_custom.scss";
+@import "../styles/index.scss";
 
 .momentum {
-  .momentum-tab-row {
-    padding-left: 0.5rem;
+  .momentum-tab-wrap {
     padding-bottom: 0;
   }
 
@@ -13,6 +13,10 @@
     a {
       border-radius: 4px 4px 0 0;
       color: white;
+
+      h4 {
+        margin-bottom: 0;
+      }
     }
 
     a.active {
@@ -25,35 +29,50 @@
     width: 100%;
     color: white;
     box-sizing: border-box;
-    padding: 0 2rem;
 
     .article-list {
-      padding: 2rem;
-
       .article-item {
-        border: 1px $light solid;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 120px;
+        z-index: 2;
+        margin-bottom: 16px;
+        background: $dark url('http://source.unsplash.com/random/800x600') no-repeat center;
+        background-size: 100%;
+        @include transition-300;
 
-        img {
-          width: 100px;
+        &:hover {
+          background-size: 150%;
+        }
+        
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+        
+        &:before {
+          content: "";
+          background: linear-gradient(90deg,rgba(0,0,0,0.85),rgba(0,0,0,0.5));
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: -1;
         }
       }
 
-      .article-thumb {
-        background: grey;
-        height: 100px;
-        width: 100px;
-      }
-
       .article-heading {
-        flex: 1;
         display: flex;
-        align-items: center;
-        padding: 1rem;
+        flex: 1;
+        color: white !important;
       }
     }
 
     .article-preview {
-      padding: 2rem;
+      min-width: 45%;
 
       .article-card {
         background: white;

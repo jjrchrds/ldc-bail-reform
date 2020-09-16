@@ -4,16 +4,14 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
-import { StaticQuery } from "gatsby"
+import { StaticQuery, graphql } from "gatsby"
 import { BLOCKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-
-const Text = ({ children }) => <p>{children}</p>
 
 const RichTextOptions = {
 
   renderNode: {
-    [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>
+    [BLOCKS.PARAGRAPH]: (node, children) => <p>{children}</p>
   },
 }
 
@@ -145,7 +143,7 @@ class NathanNarrative extends Component {
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
 
           return (
-            <div>
+            <div id="narrative-nathan">
               <div className="narrative-step">
                 <div className="sticky">
                   <div className="narrative-content">
@@ -161,9 +159,9 @@ class NathanNarrative extends Component {
                           <h1>
                             {this.querySlideContent(narrativeContent, 1, "heading")}
                           </h1>
-                          <p>
+                        
                             {this.querySlideContent(narrativeContent, 1, "body")}
-                          </p>
+                          
                         </span>
                       </Col>
                     </Row>
@@ -184,7 +182,7 @@ class NathanNarrative extends Component {
                         <h1>
                           {this.querySlideContent(narrativeContent, 2, "heading")}
                         </h1>
-                        <p>{this.querySlideContent(narrativeContent, 2, "body")}</p>
+                        {this.querySlideContent(narrativeContent, 2, "body")}
                       </Col>
                     </Row>
                   </div>
@@ -207,9 +205,9 @@ class NathanNarrative extends Component {
                           <h1>
                             {this.querySlideContent(narrativeContent, 3, "heading")}
                           </h1>
-                          <p>
-                            {this.querySlideContent(narrativeContent, 3, "body")}
-                          </p>
+                          
+                          {this.querySlideContent(narrativeContent, 3, "body")}
+                          
                         </span>
                       </Col>
                     </Row>
@@ -225,7 +223,7 @@ class NathanNarrative extends Component {
                         <h1>
                           {this.querySlideContent(narrativeContent, 4, "heading")}
                         </h1>
-                        <p>{this.querySlideContent(narrativeContent, 4, "body")}</p>
+                        {this.querySlideContent(narrativeContent, 4, "body")}
                         <div style={{ display: "flex", justifyContent: "center" }}>
                           <Button
                             size="lg"
@@ -314,9 +312,9 @@ class NathanNarrative extends Component {
                           <h1>
                             {this.querySlideContent(narrativeContent, 5, "heading")}
                           </h1>
-                          <p>
+                          
                             {this.querySlideContent(narrativeContent, 5, "body")}
-                          </p>
+                          
                         </span>
                       </Col>
                     </Row>
@@ -334,7 +332,7 @@ class NathanNarrative extends Component {
                         <h1>
                           {this.querySlideContent(narrativeContent, 6, "heading")}
                         </h1>
-                        <p>{this.querySlideContent(narrativeContent, 6, "body")}</p>
+                        {this.querySlideContent(narrativeContent, 6, "body")}
                       </Col>
                     </Row>
                   </div>

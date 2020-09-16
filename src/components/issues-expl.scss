@@ -1,0 +1,61 @@
+@import "../styles/_custom.scss";
+
+#explanation-1__row {
+
+  #expl-svg-wrapper {
+    position: sticky;
+    left: 0;
+    height: 600px;
+    margin: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    z-index: 0;
+  }
+
+  #expl-sidebar-wrapper {
+    position: sticky;
+    padding-top: 15px;
+    display: inline-block;
+    width: 100%;
+    height: 1200px;
+    margin: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    z-index: 0;
+  }
+
+  #expl-sidebar-wrapper h4, h5 {
+    margin-bottom: 0px;
+  }
+
+  #expl-sidebar-wrapper p {
+    line-height: 22px;
+  }
+
+  #expl-step-wrapper {
+    position: relative;
+    padding: 0;
+    max-width: 20rem;
+    margin: 0 auto;
+    pointer-events: none;
+  }
+
+  .expl-step-layer {
+    visibility: hidden;
+    margin: 0 auto;
+    background-color: rgba(223, 124, 124, 0.1);
+    pointer-events: none;
+    border: 1px black solid;
+  }
+
+  .expl-step-layer:last-child {
+    margin-bottom: 0;
+  }
+
+  // Explanation texts in sidebar hidden by default
+  .text-layer-1, .text-layer-2, .text-layer-3 {
+      display: none;
+  }
+}

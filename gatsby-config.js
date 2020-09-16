@@ -103,11 +103,11 @@ module.exports = {
     {
       resolve: 'gatsby-source-airtable',
       options: {
-        apiKey: 'keyF2AGHFec4RxFTY',
+        apiKey: 'keyl3VyMD42AADPXx',
         tables: [
           {
-            baseId: 'appQ1ZjraW0ndi4f0',
-            tableName: 'testTable'
+            baseId: 'appToqMlXxkmbbwTr',
+            tableName: 'Interactive Bibliography'
           }
         ]
       }

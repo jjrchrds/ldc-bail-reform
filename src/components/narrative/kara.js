@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
-import { StaticQuery } from "gatsby"
+import { StaticQuery, graphql } from "gatsby"
 import { BLOCKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
@@ -123,7 +123,7 @@ class KaraNarrative extends Component {
           const narrativeContent = data.allContentfulNarrativePageTemplate.edges
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
           return (
-            <div>
+            <div id="narrative-kara">
               <div className="narrative-step">
                 <div className="sticky">
                   <div className="narrative-content">

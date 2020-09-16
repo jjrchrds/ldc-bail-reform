@@ -288,7 +288,7 @@ $font-family-headings:         Martin, "Arial Condensed Black", Impact, -apple-s
 // // stylelint-enable value-keyword-case
 
 
-$font-size-base:              1rem !default; // Slightly bigger than the browser default since Crimson Text has a smaller x-height - typically 18px
+$font-size-base:              1.25rem !default; // Slightly bigger than the browser default since Crimson Text has a smaller x-height - typically 18px
 // $font-size-lg:                $font-size-base * 1.25 !default;
 // $font-size-sm:                $font-size-base * .875 !default;
 
@@ -317,7 +317,7 @@ $headings-line-height:        1.2 !default;
 $display1-size:               5.5rem !default;
 $display2-size:               3rem !default;
 $display3-size:               2rem !default;
-$display4-size:               1.25rem !default;
+$display4-size:               1.5rem !default;
 
 // $display1-weight:             300 !default;
 // $display2-weight:             300 !default;

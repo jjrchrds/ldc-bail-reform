@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
-import { StaticQuery } from "gatsby"
+import { StaticQuery, graphql } from "gatsby"
 import { BLOCKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
@@ -130,7 +130,7 @@ class GeorgeNarrative extends Component {
           const narrativeContent = data.allContentfulNarrativePageTemplate.edges
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
           return (
-            <div>
+            <div id="narrative-george">
               <div className="narrative-step">
                 <div className="sticky">
                   <div className="narrative-content">
