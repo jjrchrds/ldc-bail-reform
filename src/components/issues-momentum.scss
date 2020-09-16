@@ -102,3 +102,33 @@
     }
   }
 }
+
+// Responsive Design for Tabs
+.article-pagination {
+  display: none;
+  width: 100%;
+
+  .article-page {
+    display: inline-block;
+
+    .article-page-num {
+      color: $pink;
+
+      &.active {
+        color: $light;
+      }
+    }
+  }
+
+  
+}
+
+@media screen and (max-width: 768px) { // Breakpoint: md
+  .article-list {
+    display: none;
+  }
+
+  .article-pagination {
+    display: flex;
+  }
+}
