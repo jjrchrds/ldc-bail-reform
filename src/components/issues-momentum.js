@@ -35,7 +35,7 @@ class MomentumTabs extends React.Component {
     
     return (
       <Row className="justify-content-center mt-3 mb-5 momentum">
-        <Col xs="11" md="10" xl="8">
+        <Col lg="10" xl="8">
           <Tab.Container defaultActiveKey="0">
             <Row className="pl-1">
                 { docsByTabSorted.map((item, i) => (
@@ -55,7 +55,7 @@ class MomentumTabs extends React.Component {
                   <Tab.Pane eventKey={ i }>
                     <Row className="no-gutters">
                       <Tab.Container defaultActiveKey="0">
-                        <Col md="6" className="py-4 article-list">
+                        <Col lg="6" className="py-4 article-list">
                           <Nav variant="link" className="pl-0 pt-0 pr-4">
                           {item.docs.map(function(doc, index) {
                             return (
@@ -68,7 +68,7 @@ class MomentumTabs extends React.Component {
                           </Nav>
                         </Col>
 
-                        <Col md="6" className="pb-4 article-preview">
+                        <Col lg="6" className="pb-4 article-preview">
                           <Nav variant="link" className="article-pagination justify-content-center">
                           {item.docs.map(function(doc, index) {
                             return (
