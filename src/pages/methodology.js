@@ -6,28 +6,19 @@ import DocumentCard from '../components/document-card';
 import { graphql } from "gatsby"
 import { Container, Row, Col, Form } from "react-bootstrap"
 
+import { slugify } from "../libs/helpers";
+
 const MethodologyPage = ({data}) => {
 
-  const [ yearIndicatorHeight, setYearIndicatorHeight ] = useState({});
-
-  //slugify, move to helper
-  function slugify (str) {
-    str = str.replace(/^\s+|\s+$/g, ''); // trim
-    str = str.toLowerCase();
-  
-    // remove accents, swap ñ for n, etc
-    var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-    var to   = "aaaaeeeeiiiioooouuuunc------";
-    for (var i=0, l=from.length ; i<l ; i++) {
-        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-    }
-
-    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-        .replace(/\s+/g, '-') // collapse whitespace and replace by -
-        .replace(/-+/g, '-'); // collapse dashes
-
-    return str;
-  }
+  //change to map
+  const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
+    const year = a.node.year;
+    // console.log(a);
+    r[ year ] = r[ year ] || [];
+    r[ year ] = a.node;
+    return r;
+  }, Object.create(null)
+  )
 
   const dataByYear = data.documents.nodes.reduce(function (r, a) {
     const year = a.data.Publish__or_Start_Date_.split('-')[0];
@@ -39,7 +30,7 @@ const MethodologyPage = ({data}) => {
 
   const categories = data.documents.nodes.reduce(function (r, a) {
     const category = a.data.Type_of_Content;
-    console.log(category);
+    // console.log(category);
     let cat;
 
     if (category === null) {
@@ -162,28 +153,25 @@ const MethodologyPage = ({data}) => {
   }
 
   const updateActiveCategories = (id) => {
-
     setFilter(prevState => {
       return {
         ...prevState,
         [id] : !filter[id]
       }
     });
-
   }
 
   const updateTimelineHeaderHeight = (year, length) => {
     if (timeline.current === null) return;
 
-    console.log(year, length);
-
     const timelineYearHeader = timeline.current.querySelectorAll(`[data-index="${year}"] .timeline-year-content-header`);
     timelineYearHeader[0].style.marginBottom = 25*length + 'px';
     // console.log(year, length);
     // const header = timeline.current.querySelectorAll(`[data-index="${year}"`);
-    console.log(timelineYearHeader);
+    // console.log(timelineYearHeader);
   }
 
+  //update on filter change
   useEffect(()=> {
     const indicators = timeline.current.querySelectorAll('.timeline-card-indicator');
     let filterActive = false;
@@ -236,7 +224,7 @@ const MethodologyPage = ({data}) => {
                 <ul className="list-unstyled mb-2">
                 { Object.keys(categories).map((category, index) => {
                   // console.log(category);
-                  const bg = "blue";
+                  // const bg = "blue";
                   // console.log(bg);
                   return (
                     <li key={`category-${index}`}>
@@ -258,7 +246,7 @@ const MethodologyPage = ({data}) => {
                 }
                 )}
                 </ul>
-                <button className="btn btn-sm btn-rust">Reset</button>
+                <button className="btn btn-sm btn-rust pt-0 pb-1"><small>Reset</small></button>
               </li>
               <li>
                 <p className="text-uppercase mb-2">Timeline</p>
@@ -283,6 +271,7 @@ const MethodologyPage = ({data}) => {
               const sortedDocs = [ ...dataByYear[year] ];
               sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
               
+
               return (
                 
               <div key={year} className="timeline-year mb-5" data-index={year}>
@@ -291,11 +280,13 @@ const MethodologyPage = ({data}) => {
                 <div className="timeline-year-content position-relative">
                   <div className="timeline-year-content-header d-md-flex pb-2">
                     <h1 className="pr-3 timeline-year-label"><strong>{year}</strong></h1>
-                 
+
+                    { yearMeta[year] ? 
                     <div className="timeline-year-header-meta mt-3 pr-2 pr-md-5 pb-3">
-                      {/* <p className="mb-0"><strong>{item.node.headline}</strong></p> */}
-                      {/* <p className="mb-0">{item.node.description.description}</p> */}
+                      <p className="mb-0"><strong>{yearMeta[year].headline}</strong></p>
+                      <p className="mb-0">{yearMeta[year].description.description}</p>
                     </div>
+                     : '' }
 
                     <div className="timeline-year-indicators">          
                       { sortedDocs.map((doc, index) => {
@@ -317,17 +308,17 @@ const MethodologyPage = ({data}) => {
                         const bg = doc.category ? doc.category.hexCode : '#888';
 
                         return (
-                          <div 
+                          <button 
                             key={index} 
                             className="timeline-card-indicator" 
                             data-id={`${year}-card-${index}`} 
                             data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
-                            role="button" 
+                          
                             style={{ left: offsetLeft + '%', top: offsetTop + 'px', backgroundColor: bg}}
                             onClick={ indicatorClickHandler }
                           >
                             {year}-document-{index}
-                          </div>
+                          </button>
                         )
                       })}
                     </div>
@@ -401,23 +392,6 @@ query {
         description {
           description
         }
-        events {
-          eventTitle
-          eventDate
-        }
-        documents {
-          title
-          date
-          author
-          quote
-          url
-          category {
-            id
-            title
-            hexCode
-          }
-        }
-
       }
     }
   }
