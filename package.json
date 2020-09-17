@@ -28,7 +28,7 @@
     "gatsby-plugin-react-svg": "^3.0.0",
     "gatsby-plugin-sass": "^2.3.10",
     "gatsby-plugin-scroll-reveal": "0.0.7",
-    "gatsby-plugin-sharp": "^2.6.17",
+    "gatsby-plugin-sharp": "^2.6.36",
     "gatsby-remark-images": "^3.3.17",
     "gatsby-remark-relative-images": "^0.3.0",
     "gatsby-source-airtable": "^2.1.1",

@@ -46,33 +46,33 @@ const Issue1Page = () => {
       <Head title="Issues"/>
       <IssuesHero issueName="Worsening the Lives of Marginalized People" issueImg={ data.issue1.childImageSharp.fluid } link1="/issue1#momentum" link2="/issue1#opportunity" link3="/issue1#explanation" />
 
-      <Row id="momentum" className="justify-content-center pt-5 px-4 bg-light">
-        <Col className="mb-2" md="10" lg="8">
+      <Row id="momentum" className="justify-content-center mx-0 pt-5 bg-light">
+        <Col className="mb-2" xs="11" lg="10" xl="7">
           <h2 className="text-center uppercase">Momentum</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat orci vel justo semper varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam fermentum, massa ut molestie venenatis, justo nibh laoreet risus, at imperdiet nisl purus sed augue.</p>
         </Col>
       </Row>
 
-      <Row className="justify-content-center pb-5 px-5 bg-light">
+      <Row className="justify-content-center mx-0 pb-5 bg-light">
         <Col>
           <MomentumTabs documents={ data.documents.nodes } />
         </Col>
       </Row>
 
-      <Row id="opportunity" className="justify-content-center pt-5 pb-5 pl-4 pr-4 bg-rust">
-        <Col className="mb-2 pt-4 pb-4 crooked-box" md="10" lg="8">
+      <Row id="opportunity" className="justify-content-center mx-0 pt-5 pb-5 pl-4 pr-4 bg-rust">
+        <Col className="mb-2 pt-4 pb-4 crooked-box"  xs="11" lg="10" xl="7">
           <h2 className="text-center uppercase text-pink">Opportunity</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat orci vel justo semper varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam fermentum, massa ut molestie venenatis, justo nibh laoreet risus, at imperdiet nisl purus sed augue.</p>
         </Col>
       </Row>
 
-      <Row id="explanation" className="justify-content-center">
+      <Row id="explanation" className="justify-content-center mx-0">
         <Col className="mt-5 mb-5" md="10">
           <h2 className="text-center uppercase text-rust">Explorable Explanation</h2>
         </Col>
       </Row>
 
-      <Row id="sources" className="mt-5 py-5 bg-pink justify-content-center">
+      <Row id="sources" className="mt-5 mx-0 py-5 bg-pink justify-content-center">
         <Col md="10" lg="8" classname="p-2">
           <h2 className="text-white text-center uppercase">Sources</h2>
           <Row className="mt-4 pt-5 pb-3 crooked-box">
