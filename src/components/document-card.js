@@ -17,9 +17,9 @@ const DocumentCard = ({doc, bg, item, index, active, category = 1 }) => {
         <h5 className="text-uppercase my-1">{doc.data.Publish__or_Start_Date_}</h5>
       </Card.Header>
       <Card.Body>
-        <p className="author mb-2">{doc.data.Author_s_}</p>
-        <p className="title mb-2">{doc.data.Title}</p>
-        <p className="quote mb-4" style={{ color: bg }}><em>"{doc.data.Biblio_Annotation}"</em></p>
+        <p className="methodology-author mb-2">{doc.data.Author_s_}</p>
+        <p style={{ color: bg }} className="methodology-title mb-2">{doc.data.Title}</p>
+        { doc.data.Biblio_Annotation ? <p className="methodology-quote mb-4"><em>"{doc.data.Biblio_Annotation}"</em></p> : '' }
         <a className="btn btn-rust" target="_blank" href={doc.data.URL}> View Document</a>
       </Card.Body>
     </Card>
