@@ -13,7 +13,6 @@ const MethodologyPage = ({data}) => {
   //change to map
   const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
     const year = a.node.year;
-    // console.log(a);
     r[ year ] = r[ year ] || [];
     r[ year ] = a.node;
     return r;
@@ -28,9 +27,16 @@ const MethodologyPage = ({data}) => {
     }, Object.create(null)
   );
 
+  const linkedByYear = data.linked.nodes.reduce(function (r, a) {
+    const year = a.data.Publish__or_Start_Date_.split('-')[0];
+    r[ year ] = r[ year ] || [];
+    r[ year ].push(a);
+    return r;
+    }, Object.create(null)
+  );
+
   const categories = data.documents.nodes.reduce(function (r, a) {
     const category = a.data.Type_of_Content;
-    // console.log(category);
     let cat;
 
     if (category === null) {
@@ -39,15 +45,12 @@ const MethodologyPage = ({data}) => {
       cat = category;
     }
 
-    
     r[ cat ] = r[ cat ] || [];
     r[ cat ].push(a);
     return r;
     }, Object.create(null)
   );
   
-  // console.log(categories);
-
   // scroller
   const timeline = useRef(null);
 
@@ -72,7 +75,6 @@ const MethodologyPage = ({data}) => {
         }
       })
     })
-    
 
     Object.entries(dataByYear).forEach((yearData) => {
       const year = yearData[0];
@@ -205,7 +207,6 @@ const MethodologyPage = ({data}) => {
   return (
     <Layout>
       <Head title="Methodology"/>
-
 
       <Container className="my-5 pt-5">
         <Row className="justify-content-center text-center">
@@ -340,11 +341,15 @@ const MethodologyPage = ({data}) => {
                   <div className="timeline-year-docs mr-3 mr-md-5">
                     { sortedDocs.map((doc, index) => {
                       const bg = doc.category ? doc.category.hexCode : '#888';
+                      const linkedDocuments = linkedByYear[year];
+                      // console.log(linkedDocuments);
+
                       let id = `${year}-card-${index}`;
                       // console.log(documents[id]);
 
                       return(
-                        <DocumentCard 
+                        <DocumentCard
+                          linked={ linkedDocuments } 
                           key={index} 
                           bg={bg}
                           index={index} 
@@ -375,15 +380,6 @@ export default MethodologyPage
 
 export const query = graphql`
 query {
-  allContentfulTimelineCategory {
-    edges {
-      node {
-        id
-        title
-        hexCode
-      }
-    }
-  }
   allContentfulTimelineYear {
     edges {
       node {
@@ -395,11 +391,41 @@ query {
       }
     }
   }
-
+  categoryColours: allAirtable (filter:{ table:{ eq: "Colours"}}) {
+    nodes {
+      data {
+        Category_Name
+        Hexcode
+      }
+    }
+  }
   documents: allAirtable (
     filter: {
       data: {
-        Include_in_Interactive_Bibliography:{ eq: "Yes"}
+        Include_in_Interactive_Bibliography:{ in: ["Yes"]},
+        Publish__or_Start_Date_: { ne: null}
+      }
+    }
+  ) {
+    nodes {
+      data {
+        Title
+        Author_s_
+        Publish__or_Start_Date_
+        Biblio_Annotation
+        Type_of_Content
+        Include_in_Interactive_Bibliography
+        Tag
+        URL
+      }
+      recordId
+    }
+  }
+
+  linked: allAirtable (
+    filter: {
+      data: {
+        Include_in_Interactive_Bibliography:{ in: ["Linked to Item"]},
         Publish__or_Start_Date_: { ne: null}
       }
     }
