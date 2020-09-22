@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 
-const DocumentCard = ({doc, bg, item, index, active, category = 1, linked }) => {
+const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heightHandler, yearHeights }) => {
+  
   // console.log(doc);
   let colour = '',
       headerTextColour = ''
@@ -10,9 +11,21 @@ const DocumentCard = ({doc, bg, item, index, active, category = 1, linked }) => 
     colour = 'purple'
     headerTextColour = 'white'
   }
-  // console.log(active);
+
+  useEffect(()=> {
+    setTimeout(()=>{
+      const id = `${year}-card-${index}`
+      const height = document.getElementById(id).clientHeight;
+      heightHandler(year, height)
+    }, 1000)
+  }, [])
+
   return (
-    <Card key={`card-${index}`} className={`timeline-card w-100 ${active ? "active" : ""}`} id={`${item.year}-card-${index}`} style={{display: active ? 'block' : '' }}>
+    <Card 
+      key={`card-${index}`} 
+      className={`timeline-card w-100 ${active ? "active" : ""}`} 
+      id={`${year}-card-${index}`} 
+      style={{display: active ? 'block' : '' }}>
       <Card.Header className={`text-right text-${headerTextColour} py-1`} style={{ backgroundColor: bg }}>
         <h5 className="text-uppercase my-1">{doc.data.Publish__or_Start_Date_}</h5>
       </Card.Header>
@@ -25,7 +38,7 @@ const DocumentCard = ({doc, bg, item, index, active, category = 1, linked }) => 
           <ul className="mt-4 mb-0 list-unstyled">
             {
               linked.map( (linkedDocument , idx) => {
-                console.log(linkedDocument);
+                // console.log(linkedDocument);
                 return (
                   <li key={ linkedDocument.recordId }>
                     <a target="_blank" href={ linkedDocument.data.URL } className="btn-link">{ linkedDocument.data.Title }</a>
