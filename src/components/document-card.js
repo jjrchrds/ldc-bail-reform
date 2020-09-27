@@ -62,7 +62,7 @@ const DocumentCard = ({doc, bg, year, index, linked }) => {
             Expand
             
           </Accordion.Toggle>
-          { linked ? <span>{linked.length} additional link{linked.length > 1 ? 's' : ''}</span> : ''}
+          { linked ? <small className="text-muted">{linked.length} additional link{linked.length > 1 ? 's' : ''}</small> : ''}
         </Card.Footer>
       : '' }
     

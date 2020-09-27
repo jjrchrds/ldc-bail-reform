@@ -285,7 +285,7 @@ const MethodologyPage = ({data}) => {
 
               return (
                 
-              <div key={year} className="timeline-year mb-5" data-index={year}>
+              <div key={year} className="timeline-year mb-3" data-index={year}>
                 <div className="anchor" id={`year-${ year }`}></div>
 
                 <div className="timeline-year-content position-relative">
@@ -313,7 +313,7 @@ const MethodologyPage = ({data}) => {
                     )
                   })}
                   </div> */}
-                  <div className="timeline-year-docs mr-3 mr-md-5">
+                  <div className="timeline-year-docs mr-3 mr-md-5 pb-4">
 
              
                       { sortedDocs.map((doc, index) => {
