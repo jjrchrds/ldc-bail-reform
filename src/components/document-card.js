@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Accordion, Badge } from "react-bootstrap";
+import { dateFormat } from "../libs/helpers"
 
-const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heightHandler, yearHeights }) => {
-  
-  // console.log(doc);
-  let colour = '',
-      headerTextColour = ''
+const DocumentCard = ({doc, bg, year, index, linked }) => {
 
-  if (category == 1) {
-    colour = 'purple'
-    headerTextColour = 'white'
-  }
-
-  useEffect(()=> {
-    setTimeout(()=>{
-      const id = `${year}-card-${index}`
-      const height = document.getElementById(id).clientHeight;
-      heightHandler(year, height)
-    }, 1000)
-  }, [])
 
   return (
     <Card 
       key={`card-${index}`} 
-      className={`timeline-card w-100 ${active ? "active" : ""}`} 
+      className={`timeline-card w-100 mb-3`} 
       id={`${year}-card-${index}`} 
-      style={{display: active ? 'block' : '' }}>
-      <Card.Header className={`text-right text-${headerTextColour} py-1`} style={{ backgroundColor: bg }}>
-        <h5 className="text-uppercase my-1">{doc.data.Publish__or_Start_Date_}</h5>
+    >
+      <Accordion>
+      <Card.Header
+        className="bg-white"
+      >
+
+        <p className="h6 mb-2"><a target="_blank" href={doc.data.URL}>{doc.data.Title}</a></p>
+        <p className="methodology-author mb-1">
+        { doc.data.Author_s_ ? <span>{doc.data.Author_s_} &#8226; </span> : '' }
+        {dateFormat.format(new Date(doc.data.Publish__or_Start_Date_))}
+        </p>
+        <Badge
+          style={
+            {
+              background: bg,
+              border: 'none',
+              color: 'white'
+            }
+          }
+        >
+          {doc.data.Type_of_Content}
+        </Badge>
       </Card.Header>
+      <Accordion.Collapse eventKey={index+1}>
       <Card.Body>
-        <p className="methodology-author mb-2">{doc.data.Author_s_}</p>
-        <p style={{ color: bg }} className="methodology-title mb-2">{doc.data.Title}</p>
-        { doc.data.Biblio_Annotation ? <p className="methodology-quote mb-4"><em>"{doc.data.Biblio_Annotation}"</em></p> : '' }
-        <a className="btn btn-rust" target="_blank" href={doc.data.URL}> View Document</a>
+        { doc.data.Biblio_Annotation ? <p className="methodology-quote mb-"><em>"{doc.data.Biblio_Annotation}"</em></p> : '' }
         { linked ? 
-          <ul className="mt-4 mb-0 list-unstyled">
+          <ul className="mb-0 list-unstyled">
             {
               linked.map( (linkedDocument , idx) => {
                 // console.log(linkedDocument);
@@ -48,6 +50,23 @@ const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heigh
             } 
           </ul> : ''}
       </Card.Body>
+      </Accordion.Collapse>
+      
+      { doc.data.Biblio_Annotation || linked ?
+        <Card.Footer>
+
+          <Accordion.Toggle
+            eventKey={index+1} 
+            className="btn btn-sm btn-rust mr-2"
+          >
+            Expand
+            
+          </Accordion.Toggle>
+          { linked ? <span>{linked.length} additional link{linked.length > 1 ? 's' : ''}</span> : ''}
+        </Card.Footer>
+      : '' }
+    
+    </Accordion>
     </Card>
   )
 }

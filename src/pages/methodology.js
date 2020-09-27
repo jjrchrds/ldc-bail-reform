@@ -5,28 +5,12 @@ import DocumentCard from '../components/document-card';
 
 import { graphql } from "gatsby"
 import { Container, Row, Col, Form } from "react-bootstrap"
-
 import { slugify } from "../libs/helpers";
-import { csvParse } from "d3";
+import AnchorLink from 'react-anchor-link-smooth-scroll'
 
 const MethodologyPage = ({data}) => {
 
-  const [ yearHeights, setYearHeight ] = useState({});
-
-  const updateYearHeight = (year, height) => {
-    let newHeight = height;
-
-    setYearHeight( prevState => {
-      if (prevState[year] !== undefined) {
-        newHeight = height > prevState[year] ? height : prevState[year];
-      }
-
-      return {
-        ...prevState,
-        [year]: newHeight
-      }
-    })
-  }
+  const [ sortedYears, setSortedYears ] = useState([]);
 
   //change to map
   const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
@@ -36,6 +20,7 @@ const MethodologyPage = ({data}) => {
     return r;
   }, Object.create(null)
   )
+
 
   const dataByYear = data.documents.nodes.reduce(function (r, a) {
     const year = a.data.Publish__or_Start_Date_.split('-')[0];
@@ -54,9 +39,6 @@ const MethodologyPage = ({data}) => {
   );
 
   const [categoryColours, setCategoryColours] = useState({});
-
-  
-
 
   const categories = data.documents.nodes.reduce(function (r, a) {
     const category = a.data.Type_of_Content;
@@ -111,6 +93,7 @@ const MethodologyPage = ({data}) => {
       })
     })
 
+    //set document state
     Object.entries(dataByYear).forEach((yearData) => {
       const year = yearData[0];
 
@@ -148,7 +131,7 @@ const MethodologyPage = ({data}) => {
 
     const scrollama = require('scrollama')
     const scrollThreshold = 0.5;
-    const scrollOffset = 0.5;
+    const scrollOffset = 0.2;
     const scroller = scrollama()
 
     scroller.setup({
@@ -170,24 +153,24 @@ const MethodologyPage = ({data}) => {
     };
   }, [])
 
-  const indicatorClickHandler = (e) => {
-    const id = e.target.dataset.id;
-    updateActiveDocumentCard(id);
-  }
+  // const indicatorClickHandler = (e) => {
+  //   const id = e.target.dataset.id;
+  //   updateActiveDocumentCard(id);
+  // }
 
-  const updateActiveDocumentCard = (id) => {
-    const year = id.split('-')[0];
-    const newDocuments = { ...documents}
+  // const updateActiveDocumentCard = (id) => {
+  //   const year = id.split('-')[0];
+  //   const newDocuments = { ...documents}
 
-    Object.keys(newDocuments).forEach(v => {
-      if ( v.includes(year) ) {
-        newDocuments[v] = false
-      }
-    });
+  //   Object.keys(newDocuments).forEach(v => {
+  //     if ( v.includes(year) ) {
+  //       newDocuments[v] = false
+  //     }
+  //   });
 
-    newDocuments[id] = true;
-    setDocuments({...newDocuments});
-  }
+  //   newDocuments[id] = true;
+  //   setDocuments({...newDocuments});
+  // }
 
   const updateActiveCategories = (id) => {
     setFilter(prevState => {
@@ -277,9 +260,9 @@ const MethodologyPage = ({data}) => {
               <li>
                 <p className="text-uppercase mb-2">Timeline</p>
                 <ul className="list-unstyled">
-                { Object.keys(dataByYear).map(key => (
+                { Object.keys(dataByYear).sort().reverse().map(key => (
                   <li key={`legend-${key}`}>
-                    <a href={`#year-${key}`}>{ key }</a>
+                    <AnchorLink href={`#year-${key}`}>{ key }</AnchorLink>
                   </li>
                 ))}
                 </ul>
@@ -290,11 +273,14 @@ const MethodologyPage = ({data}) => {
           <Col md="9" className="h-100 p-md-4 p-xl-5">
             
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
-            { Object.entries(dataByYear).map(yearData => {
+            { 
+            
+              Object.entries(dataByYear).sort().reverse().map(yearData => {
+              
               const year = yearData[0];
-              const indicators = {};
+          
               const sortedDocs = [ ...dataByYear[year] ];
-              sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
+              sortedDocs.sort((a,b) => (b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? 1 : ((a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? -1 : 0));
               
 
               return (
@@ -312,31 +298,6 @@ const MethodologyPage = ({data}) => {
                       <p className="mb-0">{yearMeta[year].description.description}</p>
                     </div>
                      : '' }
-
-                    <div className="timeline-year-indicators">          
-                      { sortedDocs.map((doc, index) => {
-                        
-                        const offsetLeft = (index * .05) * 100 ;
-                        // console.log(doc.data.Type_of_Content);
-                        // console.log(offsetLeft);
-                        const cat = slugify(doc.data.Type_of_Content);
-                        const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888'; 
-                        
-                        return (
-                          <button 
-                            key={index} 
-                            className="timeline-card-indicator" 
-                            data-id={`${year}-card-${index}`} 
-                            data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
-                          
-                            style={{ left: offsetLeft + '%', backgroundColor: bg}}
-                            onClick={ indicatorClickHandler }
-                          >
-                            {year}-document-{index}
-                          </button>
-                        )
-                      })}
-                    </div>
                   </div>
                   {/* <div className="timeline-year-events">
                   { item.node.events.map((event, index) => {
@@ -352,35 +313,28 @@ const MethodologyPage = ({data}) => {
                     )
                   })}
                   </div> */}
-                  <div 
-                    className="timeline-year-docs mr-3 mr-md-5"
-                    style={{height: yearHeights[year] + 'px'}}>
-                    { sortedDocs.map((doc, index) => {
-                      const cat = slugify(doc.data.Type_of_Content);
-                      const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
-                      // console.log(bg);
-                      //  console.log(cat);
-                      // console.log(doc);
-                      const linkedDocuments = linkedByRecordId[doc.recordId];
-                      // console.log(linkedDocuments);
+                  <div className="timeline-year-docs mr-3 mr-md-5">
 
-                      let id = `${year}-card-${index}`;
-                      // console.log(documents[id]);
+             
+                      { sortedDocs.map((doc, index) => {
+                        const cat = slugify(doc.data.Type_of_Content);
+                        const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+                        const linkedDocuments = linkedByRecordId[doc.recordId];
+                        let id = `${year}-card-${index}`;
 
-                      return(
-                        <DocumentCard
-                          key={index} 
-                          index={index} 
-                          doc={doc} 
-                          linked={ linkedDocuments } 
-                          bg={bg}
-                          year={ year } 
-                          active={documents[id]}
-                          heightHandler= { updateYearHeight }
-                          yearHeights = { yearHeights }
-                        />
-                      )
-                    })}
+                        return(
+                          <DocumentCard
+                            key={index} 
+                            index={index} 
+                            doc={doc} 
+                            linked={ linkedDocuments } 
+                            bg={bg}
+                            year={ year } 
+                            // active={documents[id]}
+                            
+                          />
+                        )
+                      })}
                   </div>
                 </div>
               </div>
