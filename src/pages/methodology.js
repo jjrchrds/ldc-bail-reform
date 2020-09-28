@@ -4,7 +4,7 @@ import Head from '../components/head';
 import DocumentCard from '../components/document-card';
 
 import { graphql } from "gatsby"
-import { Container, Row, Col, Form } from "react-bootstrap"
+import { Container, Row, Col, Badge } from "react-bootstrap"
 import { slugify } from "../libs/helpers";
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 
@@ -217,48 +217,20 @@ const MethodologyPage = ({data}) => {
       <Head title="Methodology"/>
 
       <Container className="my-5 pt-5">
-        <Row className="justify-content-center text-center">
+        <Row className="">
           <Col md="8">
-            <h1 className="text-rust">LOREM IPSUM DOLOR SIT AMET</h1>
+            <h1 className="text-rust">Methodology</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem commodo at rhoncus, vitae. Consequat, condimentum convallis nisl hac. Et a, sed suscipit egestas fringilla. Eu non tristique facilisi fringilla facilisi arcu urna sociis nibh. Volutpat gravida tincidunt ut venenatis egestas in tellus. Ridiculus commodo vel arcu, facilisis velit, mattis fermentum pellentesque.</p>
           </Col>
         </Row>
 
         <Row className="">
-          <Col md="3" className="">
+          <Col md="2" className="pt-4">
             
             <ul className="legend list-unstyled">
-              <li className="mb-4">
-                <p className="text-uppercase mb-2">Legend</p>
-                <ul className="list-unstyled mb-2">
-                { Object.keys(categories).map((category, index) => {
-                  // console.log(category);
-                  // const bg = "blue";
-                  // console.log(bg);
-                  return (
-                    <li key={`category-${index}`}>
-
-                    <div className="form-check">
-                      <Form.Check
-                        custom 
-                        onClick={ () => updateActiveCategories( slugify(category) )}
-                        className="form-check-input" 
-                        type="checkbox" 
-                        value="" 
-                        id={`defaultCheck-${index}`}
-                        label={ category }
-                      />
-                      
-                    </div>
-                    </li>
-                  )
-                }
-                )}
-                </ul>
-                <button className="btn btn-sm btn-rust pt-0 pb-1"><small>Reset</small></button>
-              </li>
+              
               <li>
-                <p className="text-uppercase mb-2">Timeline</p>
+                <h5 className="text-uppercase mb-2">Timeline</h5>
                 <ul className="list-unstyled">
                 { Object.keys(dataByYear).sort().reverse().map(key => (
                   <li key={`legend-${key}`}>
@@ -270,9 +242,9 @@ const MethodologyPage = ({data}) => {
             </ul>
 
           </Col>
-          <Col md="9" className="h-100 p-md-4 p-xl-5">
+          <Col md="7" className="h-100">
             
-            <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
+            <div ref={timeline} className="timeline-wrapper">
             { 
             
               Object.entries(dataByYear).sort().reverse().map(yearData => {
@@ -290,7 +262,7 @@ const MethodologyPage = ({data}) => {
 
                 <div className="timeline-year-content position-relative">
                   <div className="timeline-year-content-header d-md-flex pb-2 mb-4">
-                    <h1 className="pr-3 timeline-year-label"><strong>{year}</strong></h1>
+                    <h1 className="pr-3 timeline-year-label">{year}</h1>
 
                     { yearMeta[year] ? 
                     <div className="timeline-year-header-meta mt-3 pr-2 pr-md-5 pb-3">
@@ -299,20 +271,7 @@ const MethodologyPage = ({data}) => {
                     </div>
                      : '' }
                   </div>
-                  {/* <div className="timeline-year-events">
-                  { item.node.events.map((event, index) => {
-
-                    const month = parseFloat(event.eventDate.split('-')[1]) - 1;
-                    const offsetTop = (month / 12) * 100;
-
-                    return (
-                      <div key={index} className="timeline-event" style={{top: offsetTop + "%"}}>
-                        <h6 className="timeline-event-title text-rust mb-0">{event.eventDate}</h6>
-                        <p>{event.eventTitle}</p>
-                      </div>
-                    )
-                  })}
-                  </div> */}
+            
                   <div className="timeline-year-docs mr-3 mr-md-5 pb-4">
 
              
@@ -343,6 +302,30 @@ const MethodologyPage = ({data}) => {
           }
             </div>  
           
+          </Col>
+          <Col md="3" className="pt-3">
+            <ul className="legend list-unstyled">
+              <li className="mb-4">
+                <h5 className="text-uppercase mb-2">Legend</h5>
+                <ul className="list-unstyled mb-2">
+                { Object.keys(categories).map((category, index) => {
+                  const cat = slugify(category);
+                  const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+                  // console.log(category);
+                  // const bg = "blue";
+                  // console.log(bg);
+                  return (
+                    <li key={`category-${index}`}>
+                      <Badge
+                        style={{ background: bg, border: "none", color: "white"}}>{ category }</Badge>
+                    </li>
+                  )
+                }
+                )}
+                </ul>
+                <button className="btn btn-sm btn-rust pt-0 pb-1"><small>Reset</small></button>
+              </li>
+            </ul>
           </Col>
         </Row>
       </Container>

@@ -1,5 +1,5 @@
 .timeline-wrapper {
-  border-right: 2px solid $dark;
+  border-right: 2px solid #ddd;
 }
 
 .timeline-year-content-header {
@@ -7,15 +7,16 @@
   top: 64px;
   background: white;
   z-index: 10;
-  &:after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 24px;
-    background: linear-gradient(white, rgba(255,255,255,0));
-  }
+  border-bottom: 1px solid #ddd;
+  // &:after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 100%;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 24px;
+  //   background: linear-gradient(white, rgba(255,255,255,0));
+  // }
 }
 
 .timeline-year-indicators {
@@ -94,6 +95,12 @@
   }
 }
 
+.timeline-card {
+  .btn-sm {
+    line-height: 1.25;
+    padding-bottom: 6px;
+  }
+}
 .react-reveal {
   transition: .5s all ease-out;
   transition-delay: 1s;
@@ -110,13 +117,17 @@
 
 .legend {
   position: sticky;
-  top: 100px;
+  top: 88px;
+  .badge {
+    font-weight: normal;
+    font-size: 1rem;
+  }
 }
 
 .anchor {
   display: block;
   position: relative;
-  top: -90px;
+  top: -64px;
   visibility: hidden;
 }
 

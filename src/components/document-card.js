@@ -19,7 +19,7 @@ const DocumentCard = ({doc, bg, year, index, linked }) => {
         <p className="h6 mb-2"><a target="_blank" href={doc.data.URL}>{doc.data.Title}</a></p>
         <p className="methodology-author mb-1">
         { doc.data.Author_s_ ? <span>{doc.data.Author_s_} &#8226; </span> : '' }
-        {dateFormat.format(new Date(doc.data.Publish__or_Start_Date_))}
+        <strong>{dateFormat.format(new Date(doc.data.Publish__or_Start_Date_))}</strong>
         </p>
         <Badge
           style={
