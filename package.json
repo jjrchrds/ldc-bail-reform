@@ -47,6 +47,7 @@
     "react-reveal": "^1.2.2",
     "react-router-hash-link": "^2.1.0",
     "react-scrollama": "^2.2.12",
+    "react-transition-group": "^4.4.1",
     "scrollama": "^2.2.1",
     "smooth-scroll": "^16.1.3"
   },

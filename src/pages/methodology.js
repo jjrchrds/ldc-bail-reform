@@ -8,6 +8,9 @@ import { Container, Row, Col, Badge } from "react-bootstrap"
 import { slugify } from "../libs/helpers";
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 
+import Fade from 'react-reveal/Fade';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+
 const MethodologyPage = ({data}) => {
 
   const [ sortedYears, setSortedYears ] = useState([]);
@@ -269,7 +272,7 @@ const MethodologyPage = ({data}) => {
                       <p className="lh-1 mb-0"><strong>{yearMeta[year].headline}</strong></p>
                       <p className="lh-1"><small>{yearMeta[year].description.description}</small></p>
                       { yearMeta[year].events ? yearMeta[year].events.map((event) => {
-                        console.log(event);
+                        // console.log(event);
                         return (
                           <Badge className="outline-light">{event.eventTitle}</Badge>
                         )
@@ -279,14 +282,19 @@ const MethodologyPage = ({data}) => {
                   </div>
             
                   <div className="timeline-year-docs mr-3 mr-md-5 pb-4">
-
+                    <TransitionGroup
+                      appear="true"
+                      enter="true"
+                      exit="false"
+                    >
                       { sortedDocs.map((doc, index) => {
                         const cat = slugify(doc.data.Type_of_Content);
                         const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
                         const linkedDocuments = linkedByRecordId[doc.recordId];
-                        let id = `${year}-card-${index}`;
+                        // let id = `${year}-card-${index}`;
 
                         return(
+                          <Fade key={index}>
                           <DocumentCard
                             key={index} 
                             index={index} 
@@ -297,8 +305,10 @@ const MethodologyPage = ({data}) => {
                             // active={documents[id]}
                             
                           />
+                          </Fade>
                         )
                       })}
+                    </TransitionGroup>
                   </div>
                 </div>
               </div>
@@ -320,7 +330,8 @@ const MethodologyPage = ({data}) => {
                   // const bg = "blue";
                   // console.log(bg);
                   return (
-                    <li key={`category-${index}`}>
+                    <li key={`category-${index}`}
+                      className="mb-1">
                       <Badge
                         style={{ background: bg, border: "none", color: "white"}}>{ category }</Badge>
                     </li>
