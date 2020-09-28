@@ -13,7 +13,7 @@ import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 const MethodologyPage = ({data}) => {
 
-  const [ sortedYears, setSortedYears ] = useState([]);
+  const [ timelineNav, setTimelineNav ] = useState({});
 
   //change to map
   const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
@@ -117,6 +117,7 @@ const MethodologyPage = ({data}) => {
   //Handle Scrollama
   const handleScrollStepEnter = ({element, index, direction}) => {
     const data = state.steps[index];
+    console.log(element);
     element.classList.add('active');
     setState({data});
   }
@@ -237,7 +238,11 @@ const MethodologyPage = ({data}) => {
                 <ul className="list-unstyled">
                 { Object.keys(dataByYear).sort().reverse().map(key => (
                   <li key={`legend-${key}`}>
-                    <AnchorLink href={`#year-${key}`}>{ key }</AnchorLink>
+                    <AnchorLink 
+                      href={`#year-${key}`}
+                    >
+                        { key }
+                    </AnchorLink>
                   </li>
                 ))}
                 </ul>
@@ -271,10 +276,10 @@ const MethodologyPage = ({data}) => {
                     <div className="timeline-year-header-meta mt-4 pr-2 pr-md-5 pb-3">
                       <p className="lh-1 mb-0"><strong>{yearMeta[year].headline}</strong></p>
                       <p className="lh-1"><small>{yearMeta[year].description.description}</small></p>
-                      { yearMeta[year].events ? yearMeta[year].events.map((event) => {
+                      { yearMeta[year].events ? yearMeta[year].events.map((event, index) => {
                         // console.log(event);
                         return (
-                          <Badge className="outline-light">{event.eventTitle}</Badge>
+                          <Badge key={index} className="outline-light mr-1">{event.eventTitle}</Badge>
                         )
                       }): ''}
                     </div>
@@ -283,9 +288,9 @@ const MethodologyPage = ({data}) => {
             
                   <div className="timeline-year-docs mr-3 mr-md-5 pb-4">
                     <TransitionGroup
-                      appear="true"
-                      enter="true"
-                      exit="false"
+                      appear
+                      enter
+                      exit
                     >
                       { sortedDocs.map((doc, index) => {
                         const cat = slugify(doc.data.Type_of_Content);
@@ -321,7 +326,8 @@ const MethodologyPage = ({data}) => {
           <Col md="3" className="pt-3">
             <ul className="legend list-unstyled">
               <li className="mb-4">
-                <h5 className="text-uppercase mb-2">Legend</h5>
+                <h5 className="text-uppercase mb-0">Categories</h5>
+                <p className="lh-1 mb-3"><small>click to enable/disable</small></p>
                 <ul className="list-unstyled mb-2">
                 { Object.keys(categories).map((category, index) => {
                   const cat = slugify(category);
