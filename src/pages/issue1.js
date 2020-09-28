@@ -18,33 +18,56 @@ const Issue1Page = () => {
         }
       }
       documents: allAirtable(
-          filter: {
-            data: { 
-              Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions" }
-              Publish__or_Start_Date_: { ne: null }
-              Momentum_Annotation: { ne: null }
-            }
+        filter: {
+          data: { 
+            Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions" }
+            Publish__or_Start_Date_: { ne: null }
+            Momentum_Annotation: { ne: null }
           }
-        ) {
-          nodes {
-            data {
-              Momentum_Theme
-              Momentum_Tab
-              Title
-              Author_s_
-              URL
-              Publish__or_Start_Date_
-              Momentum_Annotation
+        }
+      ) {
+        nodes {
+          data {
+            Momentum_Theme
+            Momentum_Tab
+            Title
+            Author_s_
+            URL
+            Publish__or_Start_Date_
+            Momentum_Annotation
+          }
+        }
+      }
+      issueContent: allContentfulIssues (filter: {
+        issueName: {eq: "Worsening the Lives of Marginalized People"}
+      })
+      {
+        edges {
+          node {
+            issueName
+            issueBlurb { issueBlurb }
+            heroMomentum { heroMomentum }
+            heroOpportunity { heroOpportunity }
+            heroEE { heroEE }
+            momentumBlurb { json }
+            opportunityBlurb { json }
+            sources {
+              title
+              fact { json }
             }
           }
         }
+      }
     }
   `)
+
+  const issueContents = data.issueContent.edges[0].node;
+  console.log(issueContents.issueName);
 
   return (
     <Layout>
       <Head title="Issues"/>
-      <IssuesHero issueName="Worsening the Lives of Marginalized People" issueImg={ data.issue1.childImageSharp.fluid } link1="/issue1#momentum" link2="/issue1#opportunity" link3="/issue1#explanation" />
+      <IssuesHero issueName={ issueContents.issueName } issueImg={ data.issue1.childImageSharp.fluid } link1="/issue1#momentum" link2="/issue1#opportunity" link3="/issue1#explanation" />
 
       <Row id="momentum" className="justify-content-center mx-0 pt-5 bg-light">
         <Col className="mb-2" xs="11" lg="10" xl="7">
@@ -73,7 +96,7 @@ const Issue1Page = () => {
       </Row>
 
       <Row id="sources" className="mt-5 mx-0 py-5 bg-pink justify-content-center">
-        <Col md="10" lg="8" classname="p-2">
+        <Col md="10" lg="8" className="p-2">
           <h2 className="text-white text-center uppercase">Sources</h2>
           <Row className="mt-4 pt-5 pb-3 crooked-box">
             <Col md="12" lg="6">
