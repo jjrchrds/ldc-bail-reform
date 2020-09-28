@@ -265,16 +265,21 @@ const MethodologyPage = ({data}) => {
                     <h1 className="pr-3 timeline-year-label">{year}</h1>
 
                     { yearMeta[year] ? 
-                    <div className="timeline-year-header-meta mt-3 pr-2 pr-md-5 pb-3">
-                      <p className="mb-0"><strong>{yearMeta[year].headline}</strong></p>
-                      <p className="mb-0">{yearMeta[year].description.description}</p>
+                    <div className="timeline-year-header-meta mt-4 pr-2 pr-md-5 pb-3">
+                      <p className="lh-1 mb-0"><strong>{yearMeta[year].headline}</strong></p>
+                      <p className="lh-1"><small>{yearMeta[year].description.description}</small></p>
+                      { yearMeta[year].events ? yearMeta[year].events.map((event) => {
+                        console.log(event);
+                        return (
+                          <Badge className="outline-light">{event.eventTitle}</Badge>
+                        )
+                      }): ''}
                     </div>
                      : '' }
                   </div>
             
                   <div className="timeline-year-docs mr-3 mr-md-5 pb-4">
 
-             
                       { sortedDocs.map((doc, index) => {
                         const cat = slugify(doc.data.Type_of_Content);
                         const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
@@ -346,6 +351,9 @@ query {
         headline
         description {
           description
+        }
+        events {
+          eventTitle
         }
       }
     }
