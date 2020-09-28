@@ -2,7 +2,6 @@ import React from "react"
 import { Jumbotron, Container, Card, Row, Col } from "react-bootstrap"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
-import "./issues-hero.scss"
 
 class IssuesHero extends React.Component {
   render(){

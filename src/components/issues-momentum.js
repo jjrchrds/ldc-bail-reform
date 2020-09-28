@@ -1,6 +1,5 @@
 import React from "react"
 import { Row, Col, Nav, Tab } from "react-bootstrap"
-import "./issues-momentum.scss"
 
 class MomentumTabs extends React.Component {
   render() {
