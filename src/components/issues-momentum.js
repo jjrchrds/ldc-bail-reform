@@ -1,6 +1,5 @@
 import React from "react"
 import { Row, Col, Nav, Tab } from "react-bootstrap"
-import "./issues-momentum.scss"
 
 class MomentumTabs extends React.Component {
   render() {
@@ -34,8 +33,8 @@ class MomentumTabs extends React.Component {
     const docsByTabSorted = docsByTabArray.sort();
     
     return (
-      <Row className="justify-content-center mt-2 momentum">
-        <Col md="12" xl="10">
+      <Row className="justify-content-center mt-3 mb-5 momentum">
+        <Col lg="10" xl="8">
           <Tab.Container defaultActiveKey="0">
             <Row className="pl-1">
                 { docsByTabSorted.map((item, i) => (
@@ -51,23 +50,35 @@ class MomentumTabs extends React.Component {
 
             <Row className="pl-2 pr-2">
               { docsByTabSorted.map((item, i) => (
-                <Tab.Content key={ i }>
-                  <Tab.Pane eventKey={ i } className="momentum-pane px-4">
+                <Tab.Content key={ i } className="momentum-pane px-4">
+                  <Tab.Pane eventKey={ i }>
                     <Row className="no-gutters">
                       <Tab.Container defaultActiveKey="0">
-                        <Col sm="6" className="py-4 article-list">
-                            <Nav variant="link" className="pl-0 pt-0 pr-4">
-                            {item.docs.map(function(doc, index) {
-                              return (
-                              <Nav.Item key={ index } className="article-item">
-                                <Nav.Link eventKey={ index } className="article-heading align-items-center">
-                                  { doc.Title }
-                                </Nav.Link>
-                              </Nav.Item>
-                              )})}
-                            </Nav>
+                        <Col lg="6" className="py-4 article-list">
+                          <Nav variant="link" className="pl-0 pt-0 pr-4">
+                          {item.docs.map(function(doc, index) {
+                            return (
+                            <Nav.Item key={ index } className="article-item">
+                              <Nav.Link eventKey={ index } className="article-heading align-items-center">
+                                { doc.Title }
+                              </Nav.Link>
+                            </Nav.Item>
+                            )})}
+                          </Nav>
                         </Col>
-                        <Col sm="6" className="py-4 article-preview">
+
+                        <Col lg="6" className="pb-4 article-preview">
+                          <Nav variant="link" className="article-pagination justify-content-center">
+                          {item.docs.map(function(doc, index) {
+                            return (
+                            <Nav.Item key={ index } className="article-page">
+                              <Nav.Link eventKey={ index } className="article-page-num display-2">
+                                ⸰
+                              </Nav.Link>
+                            </Nav.Item>
+                            )})}
+                          </Nav>
+
                           {item.docs.map(function(doc, index) {
                             return (
                             <Tab.Content key={ index }>
