@@ -55,9 +55,6 @@ const MethodologyPage = ({data}) => {
 
   const [categoryColours, setCategoryColours] = useState({});
 
-  
-
-
   const categories = data.documents.nodes.reduce(function (r, a) {
     const category = a.data.Type_of_Content;
     let cat;
