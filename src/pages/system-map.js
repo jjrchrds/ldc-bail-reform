@@ -235,7 +235,7 @@ class SystemMapPage extends Component {
     return (
       <Layout>
         <Head title="System Map" />
-        <Container className="mt-4">
+        <Container className="mt-5 pt-5">
           {/* New Row */}
           <Row>
             <div className="text-center col-md-12">
