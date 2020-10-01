@@ -7,13 +7,30 @@ import { graphql } from "gatsby"
 import { Container, Row, Col, Form } from "react-bootstrap"
 
 import { slugify } from "../libs/helpers";
+import { csvParse } from "d3";
 
 const MethodologyPage = ({data}) => {
+
+  const [ yearHeights, setYearHeight ] = useState({});
+
+  const updateYearHeight = (year, height) => {
+    let newHeight = height;
+
+    setYearHeight( prevState => {
+      if (prevState[year] !== undefined) {
+        newHeight = height > prevState[year] ? height : prevState[year];
+      }
+
+      return {
+        ...prevState,
+        [year]: newHeight
+      }
+    })
+  }
 
   //change to map
   const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
     const year = a.node.year;
-    // console.log(a);
     r[ year ] = r[ year ] || [];
     r[ year ] = a.node;
     return r;
@@ -28,9 +45,18 @@ const MethodologyPage = ({data}) => {
     }, Object.create(null)
   );
 
+  const linkedByRecordId = data.linked.nodes.reduce(function (r, a) {
+    const year = a.data.Linked_to_Entry_;
+    r[ year ] = r[ year ] || [];
+    r[ year ].push(a);
+    return r;
+    }, Object.create(null)
+  );
+
+  const [categoryColours, setCategoryColours] = useState({});
+
   const categories = data.documents.nodes.reduce(function (r, a) {
     const category = a.data.Type_of_Content;
-    // console.log(category);
     let cat;
 
     if (category === null) {
@@ -39,15 +65,12 @@ const MethodologyPage = ({data}) => {
       cat = category;
     }
 
-    
     r[ cat ] = r[ cat ] || [];
     r[ cat ].push(a);
     return r;
     }, Object.create(null)
   );
   
-  // console.log(categories);
-
   // scroller
   const timeline = useRef(null);
 
@@ -62,6 +85,18 @@ const MethodologyPage = ({data}) => {
 
   useEffect(() => {
 
+    //set cat colours
+    data.categoryColours.nodes.map( (cat) => {
+      if (cat.data.Category_Name) {
+        setCategoryColours( prevState => {
+          return {
+            ...prevState,
+            [slugify(cat.data.Category_Name)]: '#'+cat.data.Hexcode
+          }
+        })
+      }
+    })
+
     //set category states
     Object.keys(categories).forEach((category, index) => {
       const id = slugify(category);
@@ -72,7 +107,6 @@ const MethodologyPage = ({data}) => {
         }
       })
     })
-    
 
     Object.entries(dataByYear).forEach((yearData) => {
       const year = yearData[0];
@@ -161,16 +195,6 @@ const MethodologyPage = ({data}) => {
     });
   }
 
-  const updateTimelineHeaderHeight = (year, length) => {
-    if (timeline.current === null) return;
-
-    const timelineYearHeader = timeline.current.querySelectorAll(`[data-index="${year}"] .timeline-year-content-header`);
-    timelineYearHeader[0].style.marginBottom = 25*length + 'px';
-    // console.log(year, length);
-    // const header = timeline.current.querySelectorAll(`[data-index="${year}"`);
-    // console.log(timelineYearHeader);
-  }
-
   //update on filter change
   useEffect(()=> {
     const indicators = timeline.current.querySelectorAll('.timeline-card-indicator');
@@ -205,7 +229,6 @@ const MethodologyPage = ({data}) => {
   return (
     <Layout>
       <Head title="Methodology"/>
-
 
       <Container className="my-5 pt-5">
         <Row className="justify-content-center text-center">
@@ -266,7 +289,6 @@ const MethodologyPage = ({data}) => {
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
             { Object.entries(dataByYear).map(yearData => {
               const year = yearData[0];
-              let maxHeight = 0;
               const indicators = {};
               const sortedDocs = [ ...dataByYear[year] ];
               sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
@@ -278,7 +300,7 @@ const MethodologyPage = ({data}) => {
                 <div className="anchor" id={`year-${ year }`}></div>
 
                 <div className="timeline-year-content position-relative">
-                  <div className="timeline-year-content-header d-md-flex pb-2">
+                  <div className="timeline-year-content-header d-md-flex pb-2 mb-4">
                     <h1 className="pr-3 timeline-year-label"><strong>{year}</strong></h1>
 
                     { yearMeta[year] ? 
@@ -291,22 +313,12 @@ const MethodologyPage = ({data}) => {
                     <div className="timeline-year-indicators">          
                       { sortedDocs.map((doc, index) => {
                         
-                        const month = parseFloat(doc.data.Publish__or_Start_Date_.split('-')[1]) - 1;
-
-                        //set indicator counts
-                        indicators[doc.data.Publish__or_Start_Date_] = indicators[doc.data.Publish__or_Start_Date_] || [];
-                        indicators[doc.data.Publish__or_Start_Date_].push([doc.data.Publish__or_Start_Date_]);
-
-                        //if the max height of the indicators increases, increase the height of the header
-                        if ( indicators[doc.data.Publish__or_Start_Date_].length > maxHeight) {
-                          maxHeight = indicators[doc.data.Publish__or_Start_Date_].length;
-                          updateTimelineHeaderHeight(year, indicators[doc.data.Publish__or_Start_Date_].length);
-                        }
+                        const offsetLeft = (index * .05) * 100 ;
+                        // console.log(doc.data.Type_of_Content);
+                        // console.log(offsetLeft);
+                        const cat = slugify(doc.data.Type_of_Content);
+                        const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888'; 
                         
-                        const offsetTop = (indicators[doc.data.Publish__or_Start_Date_].length - 1) * 25;
-                        const offsetLeft = (month / 12) * 100;
-                        const bg = doc.category ? doc.category.hexCode : '#888';
-
                         return (
                           <button 
                             key={index} 
@@ -314,7 +326,7 @@ const MethodologyPage = ({data}) => {
                             data-id={`${year}-card-${index}`} 
                             data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
                           
-                            style={{ left: offsetLeft + '%', top: offsetTop + 'px', backgroundColor: bg}}
+                            style={{ left: offsetLeft + '%', backgroundColor: bg}}
                             onClick={ indicatorClickHandler }
                           >
                             {year}-document-{index}
@@ -337,20 +349,32 @@ const MethodologyPage = ({data}) => {
                     )
                   })}
                   </div> */}
-                  <div className="timeline-year-docs mr-3 mr-md-5">
+                  <div 
+                    className="timeline-year-docs mr-3 mr-md-5"
+                    style={{height: yearHeights[year] + 'px'}}>
                     { sortedDocs.map((doc, index) => {
-                      const bg = doc.category ? doc.category.hexCode : '#888';
+                      const cat = slugify(doc.data.Type_of_Content);
+                      const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+                      // console.log(bg);
+                      //  console.log(cat);
+                      // console.log(doc);
+                      const linkedDocuments = linkedByRecordId[doc.recordId];
+                      // console.log(linkedDocuments);
+
                       let id = `${year}-card-${index}`;
                       // console.log(documents[id]);
 
                       return(
-                        <DocumentCard 
+                        <DocumentCard
                           key={index} 
-                          bg={bg}
                           index={index} 
                           doc={doc} 
-                          item={ dataByYear[year] } 
+                          linked={ linkedDocuments } 
+                          bg={bg}
+                          year={ year } 
                           active={documents[id]}
+                          heightHandler= { updateYearHeight }
+                          yearHeights = { yearHeights }
                         />
                       )
                     })}
@@ -375,15 +399,6 @@ export default MethodologyPage
 
 export const query = graphql`
 query {
-  allContentfulTimelineCategory {
-    edges {
-      node {
-        id
-        title
-        hexCode
-      }
-    }
-  }
   allContentfulTimelineYear {
     edges {
       node {
@@ -395,11 +410,18 @@ query {
       }
     }
   }
-
+  categoryColours: allAirtable (filter:{ table:{ eq: "Colours"}}) {
+    nodes {
+      data {
+        Category_Name
+        Hexcode
+      }
+    }
+  }
   documents: allAirtable (
     filter: {
       data: {
-        Include_in_Interactive_Bibliography:{ eq: "Yes"}
+        Include_in_Interactive_Bibliography:{ in: ["Yes"]},
         Publish__or_Start_Date_: { ne: null}
       }
     }
@@ -414,6 +436,29 @@ query {
         Include_in_Interactive_Bibliography
         Tag
         URL
+      }
+      recordId
+    }
+  }
+
+  linked: allAirtable (
+    filter: {
+      data: {
+        Include_in_Interactive_Bibliography:{ in: ["Linked to Item"]}
+      }
+    }
+  ) {
+    nodes {
+      data {
+        Title
+        Author_s_
+        Publish__or_Start_Date_
+        Biblio_Annotation
+        Type_of_Content
+        Include_in_Interactive_Bibliography
+        Tag
+        URL
+        Linked_to_Entry_
       }
       recordId
     }
