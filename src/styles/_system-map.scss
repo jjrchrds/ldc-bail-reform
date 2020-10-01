@@ -43,22 +43,33 @@
 
 #sm-legend {
   bottom: 0;
-position: absolute;
+  position: absolute;
   width: 100%;
   display: none;
 
   .sm-legend__item {
+    display: flex;
+    align-items: center;
+    div {
+      align-items: center;
+      display: flex;
+    }
 
-    div,
     p {
-      display: inline-block;
-    margin-bottom: .2rem;
+      margin-bottom: 0.2rem;
     }
 
     .sm-legend__symbol {
       margin-right: 10px;
       width: 50px;
+      svg {
+        width: 55%;
+      }
     }
+  }
+
+  .legend-cog-zap {
+    width: 2rem;
   }
 }
 
