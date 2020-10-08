@@ -1,8 +1,8 @@
 import React from "react"
 import "intersection-observer"
 import Layout from "../components/layout"
-import { graphql, StaticQuery } from "gatsby"
-import Img from "gatsby-image"
+// import { graphql, StaticQuery } from "gatsby"
+// import Img from "gatsby-image"
 import Head from "../components/head"
 import NarrativeComponent from "../components/narrative-body"
 import "./narrative.scss"
@@ -12,7 +12,7 @@ const NarrativePage = () => {
   return (
     <Layout>
       <Head title="Narrative" />
-      <StaticQuery
+      {/* <StaticQuery
           query={graphql`
             query {
               intro_bg: file(relativePath: { eq: "images/intro_bg.jpg" }) {
@@ -25,13 +25,14 @@ const NarrativePage = () => {
             }
           `}
           render={data => {
-            return (
-              <div className="narrative-intro-background">
-                  <Img fluid={data.intro_bg.childImageSharp.fluid} height="80vh" />
-              </div> 
-            )
+            // return (
+            //   <div className="narrative-intro-background">
+            //       <Img fluid={data.intro_bg.childImageSharp.fluid} height="80vh" />
+            //   </div> 
+            // )
+            return null;
           }}
-        />
+        /> */}
       <NarrativeComponent />
     </Layout>
   )

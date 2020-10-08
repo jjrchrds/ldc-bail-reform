@@ -1,0 +1,181 @@
+.narrative-step{
+  padding-top: 0;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  padding-bottom: 50vh;
+  font-size: 1.3em;
+  color: white;
+  z-index: -999;
+}
+.gradient-background {
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+  max-width: 100%;
+  background-image: linear-gradient(
+    rgba($color: #000000, $alpha: 0),
+    rgba($color: #000000, $alpha: 1)
+  );
+}
+
+#police-car-image {
+  position: absolute;
+  top: -35vh;
+  width: 40vw;
+}
+
+#nathan-choice-slide {
+  height: 75vh;
+}
+
+#kara-choice-slide {
+  height: 75vh;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.narrative-content {
+  position: absolute;
+  bottom: 0;
+}
+
+.narrative-intro-background {
+    width: 100%;
+    height: 100vh;
+}
+
+.narrative-background {
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  position: fixed;
+  z-index: -2;
+  max-width: 100%;
+}
+
+.justify-content-md-center {
+  align-items: center;
+}
+
+/* This puts all CSS mods that may have a global impact (due to its name) into a local scope (by selecting the #narrative-scroll parent container) */
+#narrative-scroll {
+  .quote {
+    font-style: italic;
+  }
+
+  .narrative-modal-title h1 {
+    color: orangered;
+  }
+
+  h1,
+  h2 {
+    color: white;
+  }
+
+  #nathan-wait-modal {
+    min-width: 590px;
+  }
+}
+
+.kara-phone-card {
+  margin: 10px;
+  border-radius: 0;
+  margin-bottom: 70px;
+}
+
+.kara-phone-card-content {
+  color: black;
+  padding: 5px;
+  font-size: 0.75em;
+}
+
+.kara-card {
+  margin: 15px;
+  color: black;
+  border-radius: 0;
+}
+
+.kara-card h1 {
+  color: orangered;
+}
+
+.kara-card-content {
+  padding: 10px;
+}
+
+#george-conditions ol {
+  list-style: none;
+  counter-reset: my-awesome-counter;
+}
+
+#george-conditions li:not(.x) {
+  counter-increment: my-awesome-counter;
+}
+#george-conditions ol li::before {
+  content: counter(my-awesome-counter) "  ";
+  color: #f08fdb;
+  font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  transform: rotate(30deg);
+}
+
+#george-conditions ul li::before {
+  content: none;
+}
+
+#george-police-check {
+  align-items: flex-end;
+  justify-content: center;
+}
+
+#george-choice-slide {
+  height: 85vh;
+}
+#nathan-police-station {
+  align-items: flex-end;
+}
+
+.scroll-height {
+  height: 140vh;
+}
+
+.narrative-button-left {
+  margin: 10px;
+  background-color: #f08fdb;
+  border-radius: 0;
+  border-color: white;
+  transform: rotate(3deg);
+  font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.narrative-button-right {
+  margin: 10px;
+  background-color: #f08fdb;
+  border-radius: 0;
+  border-color: white;
+  transform: rotate(-4deg);
+  font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  padding-left: 50px;
+  padding-right: 50px;
+}
