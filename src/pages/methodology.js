@@ -4,11 +4,73 @@ import Head from '../components/head';
 import DocumentCard from '../components/document-card';
 
 import { graphql } from "gatsby"
-import { Container, Row, Col } from "react-bootstrap"
-import NoMobile from "../components/NoMobile";
+import { Container, Row, Col, Form } from "react-bootstrap"
+
+import { slugify } from "../libs/helpers";
+import { csvParse } from "d3";
 
 const MethodologyPage = ({data}) => {
 
+  const [ yearHeights, setYearHeight ] = useState({});
+
+  const updateYearHeight = (year, height) => {
+    let newHeight = height;
+
+    setYearHeight( prevState => {
+      if (prevState[year] !== undefined) {
+        newHeight = height > prevState[year] ? height : prevState[year];
+      }
+
+      return {
+        ...prevState,
+        [year]: newHeight
+      }
+    })
+  }
+
+  //change to map
+  const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
+    const year = a.node.year;
+    r[ year ] = r[ year ] || [];
+    r[ year ] = a.node;
+    return r;
+  }, Object.create(null)
+  )
+
+  const dataByYear = data.documents.nodes.reduce(function (r, a) {
+    const year = a.data.Publish__or_Start_Date_.split('-')[0];
+    r[ year ] = r[ year ] || [];
+    r[ year ].push(a);
+    return r;
+    }, Object.create(null)
+  );
+
+  const linkedByRecordId = data.linked.nodes.reduce(function (r, a) {
+    const year = a.data.Linked_to_Entry_;
+    r[ year ] = r[ year ] || [];
+    r[ year ].push(a);
+    return r;
+    }, Object.create(null)
+  );
+
+  const [categoryColours, setCategoryColours] = useState({});
+
+  const categories = data.documents.nodes.reduce(function (r, a) {
+    const category = a.data.Type_of_Content;
+    let cat;
+
+    if (category === null) {
+      cat = 'None'
+    } else {
+      cat = category;
+    }
+
+    r[ cat ] = r[ cat ] || [];
+    r[ cat ].push(a);
+    return r;
+    }, Object.create(null)
+  );
+  
   // scroller
   const timeline = useRef(null);
 
@@ -21,14 +83,23 @@ const MethodologyPage = ({data}) => {
   const [documents, setDocuments] = useState({})
   const [filter, setFilter] = useState({})
 
-  // define content 
-  const years = [ ...data.allContentfulTimelineYear.edges].reverse();
-  const categories = [...data.allContentfulTimelineCategory.edges];
-
   useEffect(() => {
 
-    categories.forEach((category) => {
-      const id = category.node.id;
+    //set cat colours
+    data.categoryColours.nodes.map( (cat) => {
+      if (cat.data.Category_Name) {
+        setCategoryColours( prevState => {
+          return {
+            ...prevState,
+            [slugify(cat.data.Category_Name)]: '#'+cat.data.Hexcode
+          }
+        })
+      }
+    })
+
+    //set category states
+    Object.keys(categories).forEach((category, index) => {
+      const id = slugify(category);
       setFilter( prevState => {
         return {
           ...prevState,
@@ -36,10 +107,12 @@ const MethodologyPage = ({data}) => {
         }
       })
     })
-    
-    years.forEach((year) => {
-      year.node.documents.forEach( (doc, index ) => {
-        const newKey = `${year.node.year}-card-${index}`;
+
+    Object.entries(dataByYear).forEach((yearData) => {
+      const year = yearData[0];
+
+      dataByYear[year].forEach( (doc, index ) => {
+        const newKey = `${year}-card-${index}`;
         
         setDocuments(prevState => {
           return {
@@ -51,7 +124,6 @@ const MethodologyPage = ({data}) => {
     })
     
   }, []); 
-
 
   //Handle Scrollama
   const handleScrollStepEnter = ({element, index, direction}) => {
@@ -115,16 +187,15 @@ const MethodologyPage = ({data}) => {
   }
 
   const updateActiveCategories = (id) => {
-
     setFilter(prevState => {
       return {
         ...prevState,
         [id] : !filter[id]
       }
     });
-
   }
 
+  //update on filter change
   useEffect(()=> {
     const indicators = timeline.current.querySelectorAll('.timeline-card-indicator');
     let filterActive = false;
@@ -159,7 +230,6 @@ const MethodologyPage = ({data}) => {
     <Layout>
       <Head title="Methodology"/>
 
-      <NoMobile>
       <Container className="my-5 pt-5">
         <Row className="justify-content-center text-center">
           <Col md="8">
@@ -169,106 +239,103 @@ const MethodologyPage = ({data}) => {
         </Row>
 
         <Row className="">
-          <Col md="2" xl="2" className="">
-            <div className="legend">
-              <p className="text-uppercase mb-2">Legend</p>
-              <ul className="list-unstyled">
-              { categories.map((category, index) => {
-                const bg = category.node.hexCode;
-                console.log(bg);
-                return (
-                  <li key={`category-${index}`}>
+          <Col md="3" className="">
+            
+            <ul className="legend list-unstyled">
+              <li className="mb-4">
+                <p className="text-uppercase mb-2">Legend</p>
+                <ul className="list-unstyled mb-2">
+                { Object.keys(categories).map((category, index) => {
+                  // console.log(category);
+                  // const bg = "blue";
+                  // console.log(bg);
+                  return (
+                    <li key={`category-${index}`}>
 
-                  <div class="form-check">
-                    <input 
-                      onClick={ () => updateActiveCategories( category.node.id )}
-                      class="form-check-input" 
-                      type="checkbox" 
-                      value="" 
-                      id={`defaultCheck-${index}`}
-                    />
-                    <div className="square" style={{ backgroundColor: bg }}/>
-                    <label class="form-check-label" for={`defaultCheck-${index}`}>
-                      { category.node.title }
-                    </label>
-                  </div>
-                    
-                    {/* <button 
+                    <div className="form-check">
+                      <Form.Check
+                        custom 
+                        onClick={ () => updateActiveCategories( slugify(category) )}
+                        className="form-check-input" 
+                        type="checkbox" 
+                        value="" 
+                        id={`defaultCheck-${index}`}
+                        label={ category }
+                      />
                       
-                      className={`no-swag btn-category ${filter[ category.node.id ] ? 'active' : ''}`}
-                      
-                    </button> */}
+                    </div>
+                    </li>
+                  )
+                }
+                )}
+                </ul>
+                <button className="btn btn-sm btn-rust pt-0 pb-1"><small>Reset</small></button>
+              </li>
+              <li>
+                <p className="text-uppercase mb-2">Timeline</p>
+                <ul className="list-unstyled">
+                { Object.keys(dataByYear).map(key => (
+                  <li key={`legend-${key}`}>
+                    <a href={`#year-${key}`}>{ key }</a>
                   </li>
-                )
-              }
-              )}
-              </ul>
-
-              <p className="text-uppercase mb-2">Timeline</p>
-              <ul className="list-unstyled">
-              { years.map(item => (
-                <li key={`legend-${item.node.year}`}>
-                  <a href={`#year-${item.node.year}`}>{ item.node.year }</a>
-                </li>
-              ))}
-              </ul>
-            </div>
+                ))}
+                </ul>
+              </li>
+            </ul>
 
           </Col>
-          <Col md="9" xl="9" className="h-100 p-md-4 p-xl-5">
+          <Col md="9" className="h-100 p-md-4 p-xl-5">
             
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
-            { years.map(item => {
-
+            { Object.entries(dataByYear).map(yearData => {
+              const year = yearData[0];
               const indicators = {};
-              const sortedDocs = [ ...item.node.documents];
-              sortedDocs.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+              const sortedDocs = [ ...dataByYear[year] ];
+              sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
               
-              // console.log(documents);
-              // console.log(item.node);
+
               return (
                 
-              <div key={item.node.year} className="timeline-year mb-5" data-index={item.node.year}>
-                <div className="anchor" id={`year-${ item.node.year }`}></div>
+              <div key={year} className="timeline-year mb-5" data-index={year}>
+                <div className="anchor" id={`year-${ year }`}></div>
 
                 <div className="timeline-year-content position-relative">
-                  <div className="timeline-year-content-header d-md-flex pb-2 mb-5">
-                    <h1 className="pr-3 timeline-year-label"><strong>{item.node.year}</strong></h1>
-                 
+                  <div className="timeline-year-content-header d-md-flex pb-2 mb-4">
+                    <h1 className="pr-3 timeline-year-label"><strong>{year}</strong></h1>
+
+                    { yearMeta[year] ? 
                     <div className="timeline-year-header-meta mt-3 pr-2 pr-md-5 pb-3">
-                      <p className="mb-0"><strong>{item.node.headline}</strong></p>
-                      <p className="mb-0">{item.node.description.description}</p>
+                      <p className="mb-0"><strong>{yearMeta[year].headline}</strong></p>
+                      <p className="mb-0">{yearMeta[year].description.description}</p>
                     </div>
+                     : '' }
 
                     <div className="timeline-year-indicators">          
                       { sortedDocs.map((doc, index) => {
-                        const month = parseFloat(doc.date.split('-')[1]) - 1;
-
-                        //set indicator counts
-                        indicators[doc.date] = indicators[doc.date] || [];
-                        indicators[doc.date].push([doc.date]);
                         
-                        const offsetTop = (indicators[doc.date].length - 1) * 25;
-                        const offsetLeft = (month / 12) * 100;
-                        const bg = doc.category ? doc.category.hexCode : '#888';
-
+                        const offsetLeft = (index * .05) * 100 ;
+                        // console.log(doc.data.Type_of_Content);
+                        // console.log(offsetLeft);
+                        const cat = slugify(doc.data.Type_of_Content);
+                        const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888'; 
+                        
                         return (
-                          <div 
+                          <button 
                             key={index} 
                             className="timeline-card-indicator" 
-                            data-id={`${item.node.year}-card-${index}`} 
-                            data-cat={doc.category ?  doc.category.id : ''}
-                            role="button" 
-                            style={{ left: offsetLeft + '%', top: offsetTop + 'px', backgroundColor: bg}}
+                            data-id={`${year}-card-${index}`} 
+                            data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
+                          
+                            style={{ left: offsetLeft + '%', backgroundColor: bg}}
                             onClick={ indicatorClickHandler }
                           >
-                            {item.node.year}-document-{index}
-                          </div>
+                            {year}-document-{index}
+                          </button>
                         )
                       })}
                     </div>
                   </div>
-                  <div className="timeline-year-events">
+                  {/* <div className="timeline-year-events">
                   { item.node.events.map((event, index) => {
 
                     const month = parseFloat(event.eventDate.split('-')[1]) - 1;
@@ -281,21 +348,33 @@ const MethodologyPage = ({data}) => {
                       </div>
                     )
                   })}
-                  </div>
-                  <div className="timeline-year-docs mr-3 mr-md-5">
+                  </div> */}
+                  <div 
+                    className="timeline-year-docs mr-3 mr-md-5"
+                    style={{height: yearHeights[year] + 'px'}}>
                     { sortedDocs.map((doc, index) => {
-                      const bg = doc.category ? doc.category.hexCode : '#888';
-                      let id = `${item.node.year}-card-${index}`;
+                      const cat = slugify(doc.data.Type_of_Content);
+                      const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+                      // console.log(bg);
+                      //  console.log(cat);
+                      // console.log(doc);
+                      const linkedDocuments = linkedByRecordId[doc.recordId];
+                      // console.log(linkedDocuments);
+
+                      let id = `${year}-card-${index}`;
                       // console.log(documents[id]);
 
                       return(
-                        <DocumentCard 
+                        <DocumentCard
                           key={index} 
-                          bg={bg}
                           index={index} 
                           doc={doc} 
-                          item={item.node} 
+                          linked={ linkedDocuments } 
+                          bg={bg}
+                          year={ year } 
                           active={documents[id]}
+                          heightHandler= { updateYearHeight }
+                          yearHeights = { yearHeights }
                         />
                       )
                     })}
@@ -310,24 +389,16 @@ const MethodologyPage = ({data}) => {
           </Col>
         </Row>
       </Container>
-      </NoMobile>
+    
     </Layout>
   )
 }
 
+//@TODO figure out view
 export default MethodologyPage
 
 export const query = graphql`
 query {
-  allContentfulTimelineCategory {
-    edges {
-      node {
-        id
-        title
-        hexCode
-      }
-    }
-  }
   allContentfulTimelineYear {
     edges {
       node {
@@ -336,25 +407,62 @@ query {
         description {
           description
         }
-        events {
-          eventTitle
-          eventDate
-        }
-        documents {
-          title
-          date
-          author
-          quote
-          url
-          category {
-            id
-            title
-            hexCode
-          }
-        }
-
       }
     }
   }
+  categoryColours: allAirtable (filter:{ table:{ eq: "Colours"}}) {
+    nodes {
+      data {
+        Category_Name
+        Hexcode
+      }
+    }
+  }
+  documents: allAirtable (
+    filter: {
+      data: {
+        Include_in_Interactive_Bibliography:{ in: ["Yes"]},
+        Publish__or_Start_Date_: { ne: null}
+      }
+    }
+  ) {
+    nodes {
+      data {
+        Title
+        Author_s_
+        Publish__or_Start_Date_
+        Biblio_Annotation
+        Type_of_Content
+        Include_in_Interactive_Bibliography
+        Tag
+        URL
+      }
+      recordId
+    }
+  }
+
+  linked: allAirtable (
+    filter: {
+      data: {
+        Include_in_Interactive_Bibliography:{ in: ["Linked to Item"]}
+      }
+    }
+  ) {
+    nodes {
+      data {
+        Title
+        Author_s_
+        Publish__or_Start_Date_
+        Biblio_Annotation
+        Type_of_Content
+        Include_in_Interactive_Bibliography
+        Tag
+        URL
+        Linked_to_Entry_
+      }
+      recordId
+    }
+  }
 }
+
 `

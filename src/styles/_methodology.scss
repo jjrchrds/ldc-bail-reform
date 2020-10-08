@@ -25,6 +25,7 @@
   background-color: hsl(211, 100%, 67%);
   transform: scale(.5);
   transition: .35s all;
+  border: none;
   &.disabled {
     opacity: .5 !important;
     pointer-events: none !important;
@@ -47,7 +48,7 @@
   position: relative;
   // overflow: hidden;
   min-height: 300px;
-  margin-bottom: 10vh;
+  margin-bottom: 3rem;
   
   .card {
     position: absolute;
@@ -158,4 +159,8 @@
   height: 12px;
   display: inline-block;
   margin-right: 8px;
+}
+
+.methodology-title {
+  font-weight: 500;
 }
