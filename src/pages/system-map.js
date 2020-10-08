@@ -5,8 +5,8 @@ import Head from "../components/head"
 import { graphql, StaticQuery } from "gatsby"
 import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
-import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
-// import svgSystemMap from "../../static/assets/system-map/SM_oct7.svg"
+// import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
+import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
 import StaticModal from "../components/system-map/static-modal"
 import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
@@ -113,7 +113,7 @@ class SystemMapPage extends Component {
   // handleProgress = ({ progress }) => {}
 
   handleResize = () => {
-    // console.log("resize")
+    console.log("resize")
     // console.log(this.steps)
     // console.log(this.systemMap)
 
@@ -129,6 +129,7 @@ class SystemMapPage extends Component {
       "top",
       d => `${(window.innerHeight * 0.2) / 2}px`
     )
+    .style("height", `${window.innerHeight * 0.8}px`)
 
     this.scroller.resize()
   }
@@ -164,7 +165,7 @@ class SystemMapPage extends Component {
     // setup resize event
     window.addEventListener("resize", this.scroller.resize)
     // Probably the way to resize, below
-    // window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize);
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
@@ -215,6 +216,25 @@ class SystemMapPage extends Component {
       // Adding event listeners: layer 1 (cogs)
       D3.select("#cog-click")
         .selectAll("rect")
+        // Test to make symbols bigger on hover
+        // .on("mouseover", function (d, i, n) {
+        //   // D3.select(`#${this.id}-symbol`).node().classList.add("test1")
+        //   let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+        //   console.log(bbox)
+        //   // D3.select(`#${this.id}-symbol`).node().style.transform = "translate(-250, -25)"
+        //   // D3.select(`#${this.id}-symbol`).node().style.transform = "translate(100, 100) rotate(7deg) scale(1.2)"
+        //   D3.select(`#${this.id}-symbol`).node().setAttribute('transform',`translate(-${bbox.x}, -${bbox.y}) scale(1.1)`)
+        //   // D3.select(`#${this.id}-symbol`).node().setAttribute('transform','scale(1.1)')
+        //   console.log(D3.select(`#${this.id}-symbol`).node())
+
+
+        //   D3.select(`#${this.id}-symbol`)
+        //     .node()
+        //     // .style("transform", `translate(-${bbox.width / 2}, -${bbox.height / 2})`)
+        //     // .attr("transform", `translate(-${50 / 2}, -${50 / 2})`)
+
+        //     // .attr("transform", "scale(1.5)")
+        // })
         .on("click", function (d) {
           console.log(this.id)
           self.modalX = D3.event.clientX + "px"
@@ -291,12 +311,11 @@ class SystemMapPage extends Component {
                 <Container id="characters__wrapper" className="stepx">
                   <Row>
                     {data.allContentfulSystemMapCharacters.edges.map(edge => {
-                      // console.log(edge.node.characterName)
                       return (
                         <Col
                           key={edge.node.id}
                           xs={10}
-                          sm={12}
+                          sm={10}
                           md={6}
                           lg={4}
                           className="mb-5 card-custom-column"
