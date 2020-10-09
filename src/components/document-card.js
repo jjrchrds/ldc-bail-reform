@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 
-const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heightHandler, yearHeights }) => {
+const DocumentCard = ({doc, bg, year, index, active, category = 1, linked }) => {
   
   // console.log(doc);
   let colour = '',
@@ -11,14 +11,6 @@ const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heigh
     colour = 'purple'
     headerTextColour = 'white'
   }
-
-  useEffect(()=> {
-    setTimeout(()=>{
-      const id = `${year}-card-${index}`
-      const height = document.getElementById(id).clientHeight;
-      heightHandler(year, height)
-    }, 1000)
-  }, [])
 
   return (
     <Card 
@@ -31,11 +23,12 @@ const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heigh
       </Card.Header>
       <Card.Body>
         <p className="methodology-author mb-2">{doc.data.Author_s_}</p>
-        <p style={{ color: bg }} className="methodology-title mb-2">{doc.data.Title}</p>
+        <a target="_blank" href={doc.data.URL} className="methodology-title mb-2">{doc.data.Title}</a>
         { doc.data.Biblio_Annotation ? <p className="methodology-quote mb-4"><em>"{doc.data.Biblio_Annotation}"</em></p> : '' }
-        <a className="btn btn-rust" target="_blank" href={doc.data.URL}> View Document</a>
         { linked ? 
-          <ul className="mt-4 mb-0 list-unstyled">
+          <>
+          <h2 className="h5 my-2">Related Documents</h2>
+          <ul className="mb-0 list-unstyled">
             {
               linked.map( (linkedDocument , idx) => {
                 // console.log(linkedDocument);
@@ -46,7 +39,8 @@ const DocumentCard = ({doc, bg, year, index, active, category = 1, linked, heigh
                 )
               })
             } 
-          </ul> : ''}
+          </ul>
+          </> : ''}
       </Card.Body>
     </Card>
   )

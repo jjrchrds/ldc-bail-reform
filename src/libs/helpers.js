@@ -17,3 +17,9 @@ export const slugify = (str) => {
 
   return str;
 }
+
+export const dateFormat = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
