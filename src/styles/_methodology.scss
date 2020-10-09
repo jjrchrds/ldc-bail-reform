@@ -114,11 +114,20 @@
   .timeline-year-label {
     font-size: 2rem;
     transition: .35s all;
-    line-height: 1;
     padding-top: .3rem;
     padding-bottom:.35rem;
     width: 20%;
     display: inline-block;
+    @include media-breakpoint-up(lg) {
+      width: auto;
+      background: none;
+      color: $dark;
+      pointer-events: none;
+      border: none;
+      font-size: 5rem;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
   }
 
   @include media-breakpoint-up(lg) {
@@ -235,10 +244,24 @@
   .modal-title {
     font-family: "Martin"
   }
-  .modal-header .close {
+  .modal-header  {
+    padding-top: .6rem;
+    padding-bottom: .75rem;
+  .close {
     font-size: 2rem;
     opacity: 1;
     text-shadow: none;
     font-weight: 400;
+    padding-top: .6rem;
+    padding-bottom: .75rem;
+  }
+}
+}
+
+.btn-rotate {
+  transform: rotate(-4deg);
+  span {
+    display: inline-block;
+    transform: rotate(4deg);
   }
 }

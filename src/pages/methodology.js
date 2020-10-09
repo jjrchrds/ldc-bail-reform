@@ -19,12 +19,13 @@ const MethodologyPage = ({data}) => {
     title: '',
     quote: '',
     url: '',
-    links: []
+    links: [],
+    events: []
   })
 
   const handleDocumentModalClose = () => setShowDocumentModal(false);
   const handleDocumentModalShow = (doc, bg) => {
-    console.log(doc);
+   
     setDocumentCard( prevState => {
       return {
         ...prevState,
@@ -34,6 +35,7 @@ const MethodologyPage = ({data}) => {
         title: doc.data.Title,
         quote: doc.data.Biblio_Annotation,
         url: doc.data.URL,
+        links: linkedByRecordId[doc.recordId],
       }
     })
     setShowDocumentModal(true);
@@ -44,11 +46,13 @@ const MethodologyPage = ({data}) => {
   const [showYearModal, setShowYearModal] = useState(false);
   const [methodologyCard, setMethodologyCardData] = useState({
     year: '',
-    sortedDocs: []
+    sortedDocs: [],
+    events: []
   });
 
   const handleYearModalClose = () => setShowYearModal(false);
   const handleYearModalShow = (year) => {
+    console.log(data.allContentfulTimelineYear)
     const sortedDocs = [ ...dataByYear[year] ];
     sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
               
@@ -56,11 +60,21 @@ const MethodologyPage = ({data}) => {
       return {
         ...prevState,
         year: year,
-        sortedDocs: sortedDocs
+        sortedDocs: sortedDocs,
+        
       }
     })
     setShowYearModal(true);
   }
+
+  //Event Data
+  const yearMeta = data.allContentfulTimelineYear.edges.reduce(function(r,a) {
+    const year = a.node.year;
+    r[ year ] = r[ year ] || [];
+    r[ year ] = a.node;
+    return r;
+  }, Object.create(null)
+  )
 
   const dataByYear = data.documents.nodes.reduce(function (r, a) {
     const year = a.data.Publish__or_Start_Date_.split('-')[0];
@@ -267,6 +281,7 @@ const MethodologyPage = ({data}) => {
       >
         <Modal.Header 
           style={{ backgroundColor: documentCard.bg }}
+          className="d-flex align-items-center"
           closeButton
         >
           <Modal.Title className="text-white text-uppercase lh-1" id="contained-modal-title-vcenter">
@@ -277,6 +292,22 @@ const MethodologyPage = ({data}) => {
           { documentCard.author ? <p>{documentCard.author}</p> : ''}
           { documentCard.title ? <a href={documentCard.url} target="_blank" className="d-block mb-3">{documentCard.title}</a> : ''}
           { documentCard.quote ? <p><em>"{documentCard.quote}"</em></p> : ''}
+          { documentCard.links ? 
+          <>
+          <h2 className="h5 my-2 text-uppercase">Related Documents</h2>
+          <ul className="mb-0 list-unstyled">
+            {
+              documentCard.links.map( (linkedDocument , idx) => {
+                // console.log(linkedDocument);
+                return (
+                  <li key={ linkedDocument.recordId }>
+                    <a target="_blank" href={ linkedDocument.data.URL } className="d-block btn-link mb-1">{ linkedDocument.data.Title }</a>
+                  </li>
+                )
+              })
+            } 
+          </ul>
+          </> : ''}
         </Modal.Body>
       </Modal>
 
@@ -289,7 +320,7 @@ const MethodologyPage = ({data}) => {
         <Modal.Body>
           <h1 className="text-center text-rust">{ methodologyCard.year }</h1>
           <p>Click on a square to expand the resource’s details!</p>
-          <div className="indicators-lg">
+          <div className="indicators-lg mb-3">
           { methodologyCard.sortedDocs.map((doc, index) => {
                         
             const cat = slugify(doc.data.Type_of_Content);
@@ -307,12 +338,50 @@ const MethodologyPage = ({data}) => {
             )
           })}
           </div>
-          <p>Relevant events</p>
+
+          <ul className="list-unstyled list-inline mb-2">
+                { Object.keys(categories).map((category, index) => {
+                  const cat = slugify(category);
+                  const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+                  // console.log(category);
+                  // const bg = "blue";
+                  // console.log(bg);
+                  return (
+                    <li
+                      key={`category-${index}`}
+                      className="mb-1 mr-2 list-inline-item">
+                        <div className="d-flex align-items-center">
+                          <span
+                          className="d-inline-block timeline-card-indicator pt-1 pb-1"
+                          style={{ background: bg, border: "none", color: "white"}}/> { category }
+                        </div>
+                      
+                    </li>
+                  )
+                }
+                )}
+                </ul>
+          
+          { yearMeta[methodologyCard.year] ? 
+            <div className="timeline-year-header-meta mt-4 pr-2 pr-md-5 pb-3">
+              <h2 className="h4 text-uppercase">Relevant events</h2>
+              <ul className="list-unstyled">
+              { yearMeta[methodologyCard.year].events ? yearMeta[methodologyCard.year].events.map((event, index) => {
+                console.log(event);
+                return (
+                  <li key={index} className="outline-light mr-1">
+                    { event.eventDate ? <strong className="text-pink">{dateFormat.format(new Date(event.eventDate))}</strong> : ''} {event.eventTitle}
+                  </li>
+                )
+              }): ''}
+              </ul>
+            </div>
+          : '' }
 
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleYearModalClose}>
-            Close
+        <Modal.Footer className="justify-content-center">
+          <Button className="text-uppercase btn-rotate text-white py-1" variant="pink" onClick={handleYearModalClose}>
+            <span>Back</span>
           </Button>
         </Modal.Footer>
       </Modal>
@@ -373,6 +442,7 @@ const MethodologyPage = ({data}) => {
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
               
             { Object.entries(dataByYear).sort().reverse().map(yearData => {
+              // console.log(yearData);
               const year = yearData[0];
               const indicators = {};
               const sortedDocs = [ ...dataByYear[year] ];
@@ -418,7 +488,9 @@ const MethodologyPage = ({data}) => {
                             data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
                           
                             style={{ left: offsetLeft + '%', backgroundColor: bg}}
-                            onClick={ indicatorClickHandler }
+                            onClick={ ()=> handleDocumentModalShow(doc, bg) }
+
+                            // onClick={ indicatorClickHandler }
                           >
                             {year}-document-{index}
                           </button>
@@ -491,6 +563,7 @@ query {
           description
         }
         events {
+          eventDate
           eventTitle
         }
       }
