@@ -275,6 +275,7 @@ const MethodologyPage = ({data}) => {
         aria-labelledby="contained-modal-title-vcenter"
         className="modal-document"
         centered={ documentCard.center }
+        backdrop={ documentCard.center }
         style={{ top: documentCard.top, left: documentCard.left }}
       >
         <Modal.Header 
