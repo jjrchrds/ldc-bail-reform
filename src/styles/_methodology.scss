@@ -239,6 +239,10 @@
     border-radius: 0;
     border: none;
   }
+
+  .timeline-card-indicator {
+    pointer-events: all;
+  }
   
   &.fade .modal-dialog {
     transform: translate(0, 50px);
