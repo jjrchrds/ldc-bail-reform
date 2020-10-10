@@ -19,12 +19,23 @@ const MethodologyPage = ({data}) => {
     quote: '',
     url: '',
     links: [],
-    events: []
+    events: [],
+    top: 0,
+    left: 0,
+    center: true
   })
 
   const handleDocumentModalClose = () => setShowDocumentModal(false);
-  const handleDocumentModalShow = (doc, bg) => {
-   
+  const handleDocumentModalShow = (doc, bg, e) => {
+    let center = true;
+    if (vpWidth > 992) {
+      center = false;
+    }
+
+    var rect = e.target.getBoundingClientRect();
+    console.log(vpWidth);
+    console.log(rect.top, rect.right, rect.bottom, rect.left);
+
     setDocumentCard( prevState => {
       return {
         ...prevState,
@@ -35,11 +46,13 @@ const MethodologyPage = ({data}) => {
         quote: doc.data.Biblio_Annotation,
         url: doc.data.URL,
         links: linkedByRecordId[doc.recordId],
+        top: !center ? rect.top : 0,
+        left: !center ? rect.left - (vpWidth/2 - 500/2) : 0,
+        center: center
       }
     })
     setShowDocumentModal(true);
   }
-
 
   //Year Modal
   const [showYearModal, setShowYearModal] = useState(false);
@@ -118,7 +131,6 @@ const MethodologyPage = ({data}) => {
     progress: 0
   });
 
-  const [documents, setDocuments] = useState({})
   const [filter, setFilter] = useState({})
 
   //build data objects, once
@@ -148,21 +160,6 @@ const MethodologyPage = ({data}) => {
       })
     })
 
-    Object.entries(dataByYear).forEach((yearData) => {
-      const year = yearData[0];
-
-      dataByYear[year].forEach( (doc, index ) => {
-        const newKey = `${year}-card-${index}`;
-        
-        setDocuments(prevState => {
-          return {
-            ...prevState,
-            [newKey]: index > 0 ? false : true
-          }
-        });
-      });
-    })
-    
   }, []); 
 
   //Handle Scrollama
@@ -259,6 +256,15 @@ const MethodologyPage = ({data}) => {
 
   }, [filter])
 
+  const [vpWidth, setVpWidth] = useState(window.innerWidth);
+  useEffect(()=>{
+    if (typeof window !== 'undefined') {
+      const handleWindowResize = () => setVpWidth(window.innerWidth);
+      window.addEventListener("resize", handleWindowResize);
+      return () => window.removeEventListener("resize", handleWindowResize);
+    }
+  }, []);
+
   return (
     <Layout>
       <Head title="Methodology"/>
@@ -266,10 +272,10 @@ const MethodologyPage = ({data}) => {
       <Modal
         show={showDocumentModal} 
         onHide={handleDocumentModalClose}
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         className="modal-document"
-        centered
+        centered={ documentCard.center }
+        style={{ top: documentCard.top, left: documentCard.left }}
       >
         <Modal.Header 
           style={{ backgroundColor: documentCard.bg }}
@@ -323,7 +329,7 @@ const MethodologyPage = ({data}) => {
                 key={index} 
                 className="timeline-card-indicator timeline-card-indicator-lg" 
                 style={{ backgroundColor: bg}}
-                onClick={ ()=> handleDocumentModalShow(doc, bg) }
+                onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
               >
                 {methodologyCard.year}-document-{index}
               </button>
@@ -340,10 +346,10 @@ const MethodologyPage = ({data}) => {
                 <li
                   key={`category-${index}`}
                   className="mb-1 mr-2 list-inline-item">
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center text-grey">
                       <span
                       className="d-inline-block timeline-card-indicator pt-1 pb-1"
-                      style={{ background: bg, border: "none", color: "white"}}/> { category }
+                      style={{ background: bg }}/> { category }
                     </div>
                   
                 </li>
@@ -359,8 +365,13 @@ const MethodologyPage = ({data}) => {
               { yearMeta[methodologyCard.year].events ? yearMeta[methodologyCard.year].events.map((event, index) => {
                 console.log(event);
                 return (
-                  <li key={index} className="outline-light mr-1">
-                    { event.eventDate ? <strong className="text-pink">{dateFormat.format(new Date(event.eventDate))}</strong> : ''} {event.eventTitle}
+                  <li key={index}>
+                    <div className="d-inline-block w-25">
+                      { event.eventDate ? <strong className="text-pink text-uppercase text-heading mr-2">{dateFormat.format(new Date(event.eventDate))}</strong> : ''} 
+                    </div>
+                    <div className="d-inline-block w-75">
+                      <strong>{event.eventTitle}</strong>
+                    </div>
                   </li>
                 )
               }): ''}
@@ -376,7 +387,7 @@ const MethodologyPage = ({data}) => {
         </Modal.Footer>
       </Modal>
 
-      <Container className="my-5 pt-5">
+      <Container className="my-5 pt-4 pt-lg-5">
         <Row className="justify-content-center">
           <Col md="8">
             <h1 className="text-rust text-center">LOREM IPSUM DOLOR SIT</h1>
@@ -473,7 +484,7 @@ const MethodologyPage = ({data}) => {
                             data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
                           
                             style={{ left: offsetLeft + '%', backgroundColor: bg}}
-                            onClick={ ()=> handleDocumentModalShow(doc, bg) }
+                            onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
 
                             // onClick={ indicatorClickHandler }
                           >

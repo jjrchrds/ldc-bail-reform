@@ -12,7 +12,7 @@ $white:    #fff !default;
 // $gray-400: #ced4da !default;
 // $gray-500: #adb5bd !default;
 // $gray-600: #6c757d !default;
-// $gray-700: #495057 !default;
+$gray-700: #495057 !default;
 // $gray-800: #343a40 !default;
 // $gray-900: #212529 !default;
 // $black:    #000 !default;
@@ -87,7 +87,8 @@ $theme-colors: map-merge(
     "red":          $red,
     "light":        $light,
     "dark":         $dark,
-    "purple":       $purple
+    "purple":       $purple,
+    "grey":         $gray-700
   ),
   $theme-colors
 );
@@ -229,7 +230,7 @@ $emphasized-link-hover-darken-percentage: 15% !default;
 // // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:                12 !default;
-$grid-gutter-width:           60px !default;
+$grid-gutter-width:           30px !default;
 $grid-row-columns:            6 !default;
 
 

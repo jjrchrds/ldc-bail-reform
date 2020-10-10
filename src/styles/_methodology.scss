@@ -251,10 +251,14 @@
     transform: none;
   }
 }
-
+.text-heading {
+  font-family: "Martin", sans-serif;
+  font-size: 112%;
+}
 .modal-document {
   .modal-title {
-    font-family: "Martin"
+    font-family: "Martin";
+    font-weight: 400;
   }
   .modal-header  {
     padding-top: .6rem;
@@ -285,6 +289,7 @@
     width: 20px;
     height: 20px;
     margin-right: 6px;
+    box-shadow: 0 0 0 2px inset rgba(0,0,0,.4)
   }
   &.active {
     
