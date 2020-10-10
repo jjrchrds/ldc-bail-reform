@@ -192,8 +192,7 @@ const MethodologyPage = ({data}) => {
       step: '.timeline-year',
       threshold: scrollThreshold,
       progress: true,
-      offset: scrollOffset,
-      debug: true
+      offset: scrollOffset
     })
     .onStepEnter(handleScrollStepEnter)
     .onStepExit(handleScrollStepExit)
