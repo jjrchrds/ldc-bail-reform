@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Layout from "../components/layout"
 import Head from '../components/head';
-import DocumentCard from '../components/document-card';
 
 import { graphql } from "gatsby"
 import { Container, Row, Col, Button, Modal } from "react-bootstrap"
@@ -127,7 +126,7 @@ const MethodologyPage = ({data}) => {
   useEffect(() => {
 
     //set cat colours
-    data.categoryColours.nodes.map( (cat) => {
+    data.categoryColours.nodes.forEach( (cat) => {
       if (cat.data.Category_Name) {
         setCategoryColours( prevState => {
           return {
@@ -185,8 +184,8 @@ const MethodologyPage = ({data}) => {
     if (typeof window === 'undefined') return;
 
     const scrollama = require('scrollama')
-    const scrollThreshold = 0.1;
-    const scrollOffset = 0.5;
+    const scrollThreshold = 4;
+    const scrollOffset = 0.3;
     const scroller = scrollama()
 
     scroller.setup({
@@ -194,7 +193,7 @@ const MethodologyPage = ({data}) => {
       threshold: scrollThreshold,
       progress: true,
       offset: scrollOffset,
-      // debug: true
+      debug: true
     })
     .onStepEnter(handleScrollStepEnter)
     .onStepExit(handleScrollStepExit)
@@ -208,26 +207,20 @@ const MethodologyPage = ({data}) => {
     };
   }, [])
 
-  const indicatorClickHandler = (e) => {
-    const id = e.target.dataset.id;
-    updateActiveDocumentCard(id);
-  }
-
-  const updateActiveDocumentCard = (id) => {
-    const year = id.split('-')[0];
-    const newDocuments = { ...documents}
-
-    Object.keys(newDocuments).forEach(v => {
-      if ( v.includes(year) ) {
-        newDocuments[v] = false
-      }
+  const resetFilters = () => {
+    Object.keys(filter).forEach( (key, index) => {
+      setFilter(prevState => {
+        return {
+          ...prevState,
+          [key] : false
+        }
+      });
     });
-
-    newDocuments[id] = true;
-    setDocuments({...newDocuments});
   }
 
   const updateActiveCategories = (id) => {
+    console.log(filter);
+
     setFilter(prevState => {
       return {
         ...prevState,
@@ -290,7 +283,7 @@ const MethodologyPage = ({data}) => {
         </Modal.Header>
         <Modal.Body>
           { documentCard.author ? <p>{documentCard.author}</p> : ''}
-          { documentCard.title ? <a href={documentCard.url} target="_blank" className="d-block mb-3">{documentCard.title}</a> : ''}
+          { documentCard.title ? <a href={documentCard.url} target="_blank" className="d-block mb-3" rel="noreferrer">{documentCard.title}</a> : ''}
           { documentCard.quote ? <p><em>"{documentCard.quote}"</em></p> : ''}
           { documentCard.links ? 
           <>
@@ -301,7 +294,7 @@ const MethodologyPage = ({data}) => {
                 // console.log(linkedDocument);
                 return (
                   <li key={ linkedDocument.recordId }>
-                    <a target="_blank" href={ linkedDocument.data.URL } className="d-block btn-link mb-1">{ linkedDocument.data.Title }</a>
+                    <a target="_blank" href={ linkedDocument.data.URL } className="d-block btn-link mb-1" rel="noreferrer">{ linkedDocument.data.Title }</a>
                   </li>
                 )
               })
@@ -340,27 +333,25 @@ const MethodologyPage = ({data}) => {
           </div>
 
           <ul className="list-unstyled list-inline mb-2">
-                { Object.keys(categories).map((category, index) => {
-                  const cat = slugify(category);
-                  const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
-                  // console.log(category);
-                  // const bg = "blue";
-                  // console.log(bg);
-                  return (
-                    <li
-                      key={`category-${index}`}
-                      className="mb-1 mr-2 list-inline-item">
-                        <div className="d-flex align-items-center">
-                          <span
-                          className="d-inline-block timeline-card-indicator pt-1 pb-1"
-                          style={{ background: bg, border: "none", color: "white"}}/> { category }
-                        </div>
-                      
-                    </li>
-                  )
-                }
-                )}
-                </ul>
+            { Object.keys(categories).map((category, index) => {
+              const cat = slugify(category);
+              const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+
+              return (
+                <li
+                  key={`category-${index}`}
+                  className="mb-1 mr-2 list-inline-item">
+                    <div className="d-flex align-items-center">
+                      <span
+                      className="d-inline-block timeline-card-indicator pt-1 pb-1"
+                      style={{ background: bg, border: "none", color: "white"}}/> { category }
+                    </div>
+                  
+                </li>
+              )
+            }
+            )}
+          </ul>
           
           { yearMeta[methodologyCard.year] ? 
             <div className="timeline-year-header-meta mt-4 pr-2 pr-md-5 pb-3">
@@ -401,28 +392,32 @@ const MethodologyPage = ({data}) => {
             <ul className="legend list-unstyled">
               <li className="mb-4">
                 <h2 className="text-uppercase h5 mb-2">Legend</h2>
-                <ul className="list-unstyled mb-2">
-                { Object.keys(categories).map((category, index) => {
-                  const cat = slugify(category);
-                  const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
-                  // console.log(category);
-                  // const bg = "blue";
-                  // console.log(bg);
-                  return (
-                    <li
-                      key={`category-${index}`}
-                      onClick={ () => updateActiveCategories( slugify(category) )}
-                      className="mb-1">
-                      <Button
-                        size="sm"
-                        className="pt-1 pb-1"
-                        style={{ background: bg, border: "none", color: "white"}}>{ category }</Button>
-                    </li>
-                  )
-                }
-                )}
+                <ul className="list-unstyled list-inline mb-2">
+                  { Object.keys(categories).map((category, index) => {
+                    const cat = slugify(category);
+                    const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
+
+                    return (
+                      <li
+                        key={`category-${index}`}
+                        onClick={ () => updateActiveCategories( slugify(category) )}
+                        className="mb-1 mr-2 list-inline-item">
+                          <div className={`category-indicator d-flex align-items-center ${ filter[cat] ? 'active' : ''}`}>
+                            <span
+                            className="d-inline-block pt-1 pb-1"
+                            style={{ background: bg }}/> { category }
+                          </div>
+                        
+                      </li>
+                    )
+                  }
+                  )}
                 </ul>
-                <button className="btn btn-sm btn-rust pt-0 pb-1"><small>Reset</small></button>
+
+                <button 
+                  className="btn btn-sm btn-rust py-0 text-uppercase"
+                  onClick={resetFilters}
+                >Reset</button>
               </li>
               <li>
                 <h2 className="text-uppercase h5 mb-2">Timeline</h2>
@@ -437,18 +432,16 @@ const MethodologyPage = ({data}) => {
             </ul>
 
           </Col>
-          <Col md="9" className="h-100 p-md-4 p-xl-5">
+          <Col md="9" className="h-100">
             
             <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
               
             { Object.entries(dataByYear).sort().reverse().map(yearData => {
               // console.log(yearData);
               const year = yearData[0];
-              const indicators = {};
               const sortedDocs = [ ...dataByYear[year] ];
               sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
               
-
               return (
                 
               <div key={year} className="timeline-year mb-3" data-index={year}>
@@ -463,13 +456,6 @@ const MethodologyPage = ({data}) => {
                     >
                       {year}
                     </Button>
-
-                    {/* { yearMeta[year] ? 
-                    <div className="timeline-year-header-meta mt-3 pr-2 pr-md-5 pb-3">
-                      <p className="mb-0"><strong>{yearMeta[year].headline}</strong></p>
-                      <p className="mb-0">{yearMeta[year].description.description}</p>
-                    </div>
-                     : '' } */}
 
                     <div className="timeline-year-indicators">          
                       { sortedDocs.map((doc, index) => {
@@ -512,28 +498,7 @@ const MethodologyPage = ({data}) => {
                     )
                   })}
                   </div> */}
-                  {/* <div 
-                    className="timeline-year-docs mr-3 mr-md-5">
-                    { sortedDocs.map((doc, index) => {
-                      const cat = slugify(doc.data.Type_of_Content);
-                      const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
-                      const linkedDocuments = linkedByRecordId[doc.recordId];
 
-                      let id = `${year}-card-${index}`;
-
-                      return(
-                        <DocumentCard
-                          key={index} 
-                          index={index} 
-                          doc={doc} 
-                          linked={ linkedDocuments } 
-                          bg={bg}
-                          year={ year } 
-                          active={documents[id]}
-                        />
-                      )
-                    })}
-                  </div> */}
                 </div>
               </div>
               
