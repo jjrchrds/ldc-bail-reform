@@ -5,7 +5,7 @@
     height: 100%;
     width: 2px;
     background: $dark;
-    left: 15%;
+    left: 10%;
   }
   @include media-breakpoint-up(lg) {
     &:before {
@@ -43,7 +43,6 @@
   width: 20px;
   height: 20px;
   text-indent: -9999px;
-  line-height: 0;
   margin-right: 6px;
   
   background-color: hsl(211, 100%, 67%);
@@ -117,12 +116,15 @@
 .timeline-year {
 
   .timeline-year-label {
-    font-size: 2rem;
+    font-size: 1.6rem;
     transition: .35s all;
     padding-top: .3rem;
     padding-bottom:.35rem;
     width: 20%;
     display: inline-block;
+    margin-right: 5%;
+    text-align: center;
+
     @include media-breakpoint-up(lg) {
       width: auto;
       background: none;
@@ -237,6 +239,10 @@
     border-radius: 0;
     border: none;
   }
+  .modal-body {
+    height: 100%;
+    overflow-y: scroll;
+  }
 
   .timeline-card-indicator {
     pointer-events: all;
@@ -252,6 +258,7 @@
 .text-heading {
   font-family: "Martin", sans-serif;
   font-size: 112%;
+  font-weight: 400;
 }
 .modal-document {
   .modal-title {
@@ -302,4 +309,12 @@
       }
     
   }
+}
+
+.list-legend {
+  font-size: 1rem;
+}
+.legend-card-indicator {
+  width: 16px;
+  height: 16px;
 }

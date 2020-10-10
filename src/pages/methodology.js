@@ -339,7 +339,7 @@ const MethodologyPage = ({data}) => {
           })}
           </div>
 
-          <ul className="list-unstyled list-inline mb-2">
+          <ul className="list-legend list-unstyled list-inline mb-2">
             { Object.keys(categories).map((category, index) => {
               const cat = slugify(category);
               const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888';
@@ -348,9 +348,9 @@ const MethodologyPage = ({data}) => {
                 <li
                   key={`category-${index}`}
                   className="mb-1 mr-2 list-inline-item">
-                    <div className="d-flex align-items-center text-grey">
+                    <div className="d-flex align-items-center text-grey mr-2">
                       <span
-                      className="d-inline-block timeline-card-indicator pt-1 pb-1"
+                      className="d-inline-block legend-card-indicator mr-1 pt-1 pb-1"
                       style={{ background: bg }}/> { category }
                     </div>
                   
@@ -367,12 +367,12 @@ const MethodologyPage = ({data}) => {
               { yearMeta[methodologyCard.year].events ? yearMeta[methodologyCard.year].events.map((event, index) => {
                 console.log(event);
                 return (
-                  <li key={index}>
+                  <li key={index} className="mb-1">
                     <div className="d-inline-block w-25">
                       { event.eventDate ? <strong className="text-pink text-uppercase text-heading mr-2">{dateFormat.format(new Date(event.eventDate))}</strong> : ''} 
                     </div>
                     <div className="d-inline-block w-75">
-                      <strong>{event.eventTitle}</strong>
+                      {event.eventTitle}
                     </div>
                   </li>
                 )
@@ -446,7 +446,7 @@ const MethodologyPage = ({data}) => {
           </Col>
           <Col md="9" className="h-100">
             
-            <div ref={timeline} className="timeline-wrapper mr-1 mr-md-5">
+            <div ref={timeline} className="timeline-wrapper position-relative mr-md-5">
               
             { Object.entries(dataByYear).sort().reverse().map(yearData => {
               // console.log(yearData);
