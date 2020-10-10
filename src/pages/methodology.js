@@ -256,13 +256,14 @@ const MethodologyPage = ({data}) => {
 
   }, [filter])
 
-  const [vpWidth, setVpWidth] = useState(window.innerWidth);
+  //get viewport width
+  const [vpWidth, setVpWidth] = useState(typeof window === 'undefined' ? 0 : window.innerWidth);
+
   useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      const handleWindowResize = () => setVpWidth(window.innerWidth);
-      window.addEventListener("resize", handleWindowResize);
-      return () => window.removeEventListener("resize", handleWindowResize);
-    }
+    if (typeof window === 'undefined') return;
+    const handleWindowResize = () => setVpWidth(window.innerWidth);
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
   return (
