@@ -1,7 +1,10 @@
 import React, { Component } from "react"
 import "intersection-observer"
+import clsx from 'clsx'
+import { Parallax, Background } from "react-parallax"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import Container from "react-bootstrap/Container"
 // import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
@@ -14,10 +17,6 @@ const RichTextOptions = {
     [BLOCKS.PARAGRAPH]: (node, children) => <p>{children}</p>,
   },
 }
-
-//multiplier the determines paralax scroll speed for nathan portrait
-// const NATHAN_PORTRAIT_MULTIPLIER = 50
-// const NATHANS_STORY_STEP = 1
 
 class NathanNarrative extends Component {
   //no need for explicit constructor anymore
@@ -37,6 +36,14 @@ class NathanNarrative extends Component {
 
   componentDidMount() {
     this.props.attachNathanRef(this.nathanRef)
+    // console.log(this.nathanRef.current.querySelector('.meet-nathan').offsetHeight)
+
+    this.meetNathanSlideHeight = this.nathanRef.current.querySelector(
+      ".meet-nathan"
+    ).offsetHeight
+
+    // this.meetNathanSlideHeight =
+    //   this.nathanRef.current.querySelector('.meet-nathan').offsetHeight;
 
     try {
       this.nathanMeetTextElm = this.nathanMeetTextRef.current
@@ -81,7 +88,7 @@ class NathanNarrative extends Component {
         return query.filter(edge => edge.node.slideNumber === slideNumber)[0]
           .node.slideImage.fluid.src
       default:
-          //no default
+      //no default
     }
   }
 
@@ -98,7 +105,7 @@ class NathanNarrative extends Component {
         return query.filter(edge => edge.node.modalId === id)[0].node.image
           .fluid.src
       default:
-          //no default
+      //no default
     }
   }
 
@@ -110,34 +117,8 @@ class NathanNarrative extends Component {
 
   render() {
     const { nathanModal1, nathanModal2 } = this.state
-    // const [start, end] = [this.props.startAndEnd[0], this.props.startAndEnd[1]]
 
-    //relative visible slide indexed from 1
-    // const visibleSlide =
-    //   start >= this.props.step && this.props.step <= end
-    //     ? this.props.step - start + 1
-    //     : 0
-    // const MAX_PORTRAIT_POS_LEFT = 50 //in percent
-
-    //set default property values for elements
-    //in this narrative
-    // var isPortraitVisible = false
-    // var portraitPosLeft = 0
-
-    // console.log(start, end, this.props.step, visibleSlide); //dbg
-
-    //setup individual slide settings based on
-    //scrollama progress
-    // switch (visibleSlide) {
-    //   case 1:
-    //     // isPortraitVisible = true
-    //     // portraitPosLeft = MAX_PORTRAIT_POS_LEFT * 1.0 * this.props.progress
-
-    //     // console.log(MAX_PORTRAIT_POS_LEFT, this.props.progress, MAX_PORTRAIT_POS_LEFT * this.props.progress); //dnbg
-    //     break
-    //   default:
-    //   //do nothing in this case
-    // }
+    const { overall_step } = this.props;
 
     return (
       <StaticQuery
@@ -186,79 +167,124 @@ class NathanNarrative extends Component {
           const narrativeContent = data.allContentfulNarrativePageTemplate.edges
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
 
+          //in px
+
+          // console.log(this.props.progress);
+          const nathanPortraitTotalDist = 200
+          const nathanPortraitOffset = `${
+            this.props.progress * nathanPortraitTotalDist
+          }px`
+
+          // nathanPortraitPosBottom =
+          //   this.meethNathanSlideHeight != null ?
+          //   `${this.meetNathanSlideHeight *
+          //   (1 - this.props.progress)) } `
+
+          // console.log(this.meetNathanSlideHeight);
+          // const meetNathanSlideHeight =
+          //   this.nathanRef.current.querySelector()
+
           return (
             <div id="narrative-nathan" ref={this.nathanRef}>
-              {/* Meet Nathan */}
               <div className="narrative-step meet-nathan">
-                <div className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col
-                      md="auto"
-                      className="d-flex flex-column justify-content-center"
-                    >
-                      <div className="nathan-count" />
+                <Container>
+                  <Row className="fixed-content h-100">
+                    <Col className="d-flex flex-column justify-content-center align-items-end">
                       <img
                         src={this.querySlideContent(
                           narrativeContent,
                           1,
-                          "image",
+                          "image"
                         )}
                         className="nathan-portrait-img"
                         ref={this.nathanPortraitRef}
                         alt=""
+                        style={{ bottom: nathanPortraitOffset }}
                       />
                     </Col>
+                    <Col />
+                  </Row>
+                  <Row className="relative-content">
+                    <Col />
                     <Col
-                      // md="auto"
                       className="d-flex flex-column justify-content-center"
                       ref={this.nathanMeetTextRef}
                     >
-                      {/* <div className="meet-nathan-text"> */}
                       <h1>
                         {this.querySlideContent(narrativeContent, 1, "heading")}
                       </h1>
                       {this.querySlideContent(narrativeContent, 1, "body")}
-                      {/* </div> */}
                     </Col>
                   </Row>
-                </div>
-                {/* fixed content should go inside
-                jsx element that has 
-                className="fixed-content" */}
+                </Container>
               </div>
 
-              {/* Arrest */}
-              <div className="narrative-step arrest">
-                <div className="relative-content ">
-                  <Row className="justify-content-md-center">
-                    <Col>
+              {/* tesst slide nathan alternative */}
+              <div className="narrative-step meet-nathan css-anim">
+                <Container>
+                  <Row className="fixed-content h-100">
+                    <Col className="d-flex flex-column justify-content-center align-items-end">
                       <img
-                        className="police-car-img"
                         src={this.querySlideContent(
                           narrativeContent,
-                          2,
+                          1,
                           "image"
                         )}
+                        className="nathan-portrait-img"
+                        ref={this.nathanPortraitRef}
                         alt=""
+                        
                       />
                     </Col>
+                    <Col />
                   </Row>
-                  <Row className="justify-content-md-center">
+                  <Row className="relative-content">
+                    <Col />
+                    <Col
+                      className="d-flex flex-column justify-content-center"
+                      ref={this.nathanMeetTextRef}
+                    >
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 1, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 1, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+
+              <div className="narrative-step arrest">
+                <Container className="relative-content">
+                  <Row>
                     <Col>
+                      {/* <img
+                            className="police-car-img"
+                            src={this.querySlideContent(
+                              narrativeContent,
+                              2,
+                              "image"
+                            )}
+                            alt=""
+                            style={{
+                              position: "fixed",
+                              left: `${percentage}%`,
+                            }}
+                          /> */}
+
                       <h1>
                         {this.querySlideContent(narrativeContent, 2, "heading")}
                       </h1>
                       {this.querySlideContent(narrativeContent, 2, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
-              {/* The Police Station intro */}
               <div className="narrative-step police-station-intro">
                 <div className="relative-content">
                   <Row className="justify-content-center">
-                    <Col md="auto">
+                    <Col>
                       <img
                         className="payphone-img"
                         src={this.querySlideContent(
@@ -269,20 +295,14 @@ class NathanNarrative extends Component {
                         alt=""
                       />
                     </Col>
-                    <Col
-                      className="d-flex flex-column justify-content-end police-station-intro-text"
-                    >
+                    <Col className="d-flex flex-column justify-content-end police-station-intro-text">
                       {/* <span> */}
                       {/* <div className="police-station-intro-text"> */}
-                        <h1>
-                          {this.querySlideContent(
-                            narrativeContent,
-                            3,
-                            "heading"
-                          )}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 3, "body")}
-                        {/* </span> */}
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 3, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 3, "body")}
+                      {/* </span> */}
                       {/* </div> */}
                     </Col>
                   </Row>
@@ -391,9 +411,10 @@ class NathanNarrative extends Component {
               <div className="narrative-step the-court">
                 <div className="relative-content the-court">
                   <Row className="justify-content-center">
-                    <Col 
-                    md="auto"
-                    className="d-flex flex-column justify-content-center">
+                    <Col
+                      md="auto"
+                      className="d-flex flex-column justify-content-center"
+                    >
                       <img
                         className="calendar-img"
                         src={this.querySlideContent(
@@ -406,15 +427,11 @@ class NathanNarrative extends Component {
                     </Col>
                     <Col>
                       {/* <div> */}
-                        <h1>
-                          {this.querySlideContent(
-                            narrativeContent,
-                            5,
-                            "heading"
-                          )}
-                        </h1>
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 5, "heading")}
+                      </h1>
 
-                        {this.querySlideContent(narrativeContent, 5, "body")}
+                      {this.querySlideContent(narrativeContent, 5, "body")}
                       {/* </div> */}
                     </Col>
                   </Row>

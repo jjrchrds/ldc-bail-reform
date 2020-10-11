@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import "intersection-observer"
 import { graphql, StaticQuery } from "gatsby"
 // import Img from "gatsby-image"
+import { Parallax, Background } from "react-parallax"
 
 import NathanNarrative from "./narrative/nathan"
 import KaraNarrative from "./narrative/kara"
@@ -13,24 +14,18 @@ import ProgressBar from "./progress-bar/index"
 
 import "./narrative-body.scss"
 
-//distance (in pixels) from scrollama offset
-//where slide should start its closing
-//transition
-const SLIDE_TRANSITION_HEIGHT = "30"
 
 //set beginning/end overall_step indicies for
 //each narrative section
 //(a way to avoid magic numbers)
 const NATHAN_NARRATIVE_SLIDES = [1, 6]
-const KARA_NARRATIVE_INDICIES = []
-const GEORGE_NARRATIVE_INDICIES = []
 
 const LAST_SLIDE_INDEX = 21
 
 class NarrativeSection extends Component {
   constructor(props) {
     super(props)
-    // this.nathanRef = React.createRef()
+    this.nathanRef = React.createRef()
     this.karaRef = React.createRef()
     this.georgeRef = React.createRef()
 
@@ -58,8 +53,6 @@ class NarrativeSection extends Component {
 
   handleAttachNathanRef = nathanRef => {
     this.nathanRef = nathanRef
-    // console.log(ref.current)
-
     this.nathanPortraitImgElm = nathanRef.current.querySelector(
       ".nathan-portrait-img"
     )
@@ -67,20 +60,15 @@ class NarrativeSection extends Component {
     this.nathanMeetTextElm = nathanRef.current.querySelector(
       ".nathan-meet-text"
     )
-
-    // console.log(this.nathanPortraitImgElm.className)
   }
 
   handleScrollStepEnter = ({ element, index, direction }) => {
     element.classList.add("active")
-
-    // element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState({
       overall_step: index,
     })
 
     if (index === 0) {
-      // console.log("less eq than 1")
       this.setState({
         kara_opacity: 0,
         george_opacity: 0,
@@ -117,12 +105,6 @@ class NarrativeSection extends Component {
       direction === 'up') {
       element.classList.remove("active")
     }
-    // this.setState({
-    //   contentPosition: {
-    //     position: "relative",
-    //     top: 0
-    //   }
-    // })
   }
 
   handleProgress = ({ element, progress, index }) => {
@@ -132,40 +114,11 @@ class NarrativeSection extends Component {
     this.setState({ story_sect_stp: index })
     this.setState({ slide_elm: element })
     this.setState({ slide_elm_height: element.scrollHeight })
-
-    /////////////////////////////////
-    //nathan narrative
-
-    //meet nathan elememnts
-    // this.nathanPortraitImgElm.style.top =
-    //   `${60 - (60 * progress)}%`;
-
-    // this.nathanPortraitImgElm.style.opacity =
-    //   progress
-    // this.nathanMeetTextElm.style.top =
-    //   `-${100 * progress}%`;
-
-    //to show progrfess coutn speed
-    // this.nathanCountElm.innerHTML = progress;
-
-    // console.log(this.nathanRef) //dbg
-
-    // try {
-    //   console.log(this.nathanPortraitImgElm.className);
-    // } catch (e) {
-    //   console.error(e.message);
-    //   //do nothing
-    // }
-
-    //distance from offset to end of current slide
-    //  var distanceToEnd = slide_elm_height * (1 - progress)
-    //  var content_opacity = 1 - progress
-    //  this.narrativeRef.style.opacity = 1 - progress;
-  }
+ }
 
   componentDidMount() {
     const scrollama = require("scrollama")
-    const scrollThreshold = 1
+    // const scrollThreshold = 1s
     this.scroller = scrollama()
 
     this.scroller
@@ -190,10 +143,10 @@ class NarrativeSection extends Component {
     this.scroller.destroy()
   }
 
-  scrollToRef = character => {
+  // scrollToRef = character => {
     // console.log(character)
     // window.scrollTo(0, this.karaRef.current.offsetTop)
-  }
+  // }
 
   render() {
     const {
@@ -206,23 +159,8 @@ class NarrativeSection extends Component {
       story_stp,
     } = this.state
 
-    var content_opacity
-    // content_opacity =
-    //   progress < 0.3
-    //     ? (1 / 0.23) * progress - 0.3
-    //     : progress > 0.7
-    //     ? -(1 / 0.3) * progress + 3
-    //     : 1
-
     //distance from offset to end of current slide
-    var distanceToEnd = slide_elm_height * (1 - progress)
-    content_opacity = 1 - progress
-
-    // content_opacity =
-    //   distanceToEnd < 700 && distanceToEnd >= 200 ?
-    //   0.5 : distanceToEnd < 200 ? 0 : 1;
-
-    // console.log('opaciotycalc', slide_elm_height * (1 - progress), window.innerHeight );
+    // var content_opacity = 1 - progress
 
     return (
       <>
@@ -279,25 +217,8 @@ class NarrativeSection extends Component {
             }
           `}
           render={data => {
-            // switch (story_stp) {
-            //   case 0:
-            //     var narrativeBGSrc = data.intro_bg.childImageSharp.fluid.src
-            //     break
-            //   case 1:
-            //     var narrativeBGSrc = data.nathan_bg.childImageSharp.fluid.src
-            //     break
-            //   case 2:
-            //     var narrativeBGSrc = data.kara_bg.childImageSharp.fluid.src
-            //     break
-            //   case 3:
-            //     var narrativeBGSrc = data.george_bg.childImageSharp.fluid.src
-            //     break
-            //   default:
-            //     var narrativeBGSrc = ""
-            // }
-
             return (
-              <>
+              <div id="narrative-page">
                 {/* the narrative bg that corresponds
                 to the current story_stp will have 
                 opacity: 1, all the others will 
@@ -349,18 +270,17 @@ class NarrativeSection extends Component {
                     <IntroNarrative />
                   </div>
 
-                  {/* NATHAN */}
                   <div ref={this.nathanRef}>
                     <NathanNarrative
-                      // progress={progress}
-                      // step={overall_step}
+                      progress={progress}
+                      overall_step={overall_step}
                       // contentPosition={contentPosition}
                       // story_stp={story_stp}
-                      startAndEnd={NATHAN_NARRATIVE_SLIDES}
+                      // startAndEnd={NATHAN_NARRATIVE_SLIDES}
                       attachNathanRef={this.handleAttachNathanRef}
                     />
                   </div>
-                  {/* KARA */}
+
                   <div ref={this.karaRef}>
                     <KaraNarrative
                       progress={progress}
@@ -369,7 +289,6 @@ class NarrativeSection extends Component {
                     />
                   </div>
 
-                  {/* GEORGE */}
                   <div ref={this.georgeRef}>
                     <GeorgeNarrative
                       progress={progress}
@@ -378,12 +297,11 @@ class NarrativeSection extends Component {
                     />
                   </div>
 
-                  {/* EndingNarrative */}
                   <div>
                     <EndingNarrative />
                   </div>
                 </div>
-              </>
+              </div>
             )
           }}
         />
