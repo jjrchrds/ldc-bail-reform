@@ -27,14 +27,21 @@ const MethodologyPage = ({data}) => {
 
   const handleDocumentModalClose = () => setShowDocumentModal(false);
   const handleDocumentModalShow = (doc, bg, e) => {
+    let rect = e.target.getBoundingClientRect();
+    let modalWidth = 500;
+    let offsetLeft = rect.left - (vpWidth/2 - modalWidth/2)
     let center = true;
+
     if (vpWidth > 992) {
       center = false;
     }
 
-    var rect = e.target.getBoundingClientRect();
+    if (modalWidth + rect.left > vpWidth) {
+      offsetLeft = (offsetLeft - modalWidth + 20);
+    }
     console.log(vpWidth);
     console.log(rect.top, rect.right, rect.bottom, rect.left);
+    console.log(modalWidth + rect.left);
 
     setDocumentCard( prevState => {
       return {
@@ -47,7 +54,7 @@ const MethodologyPage = ({data}) => {
         url: doc.data.URL,
         links: linkedByRecordId[doc.recordId],
         top: !center ? rect.top : 0,
-        left: !center ? rect.left - (vpWidth/2 - 500/2) : 0,
+        left: !center ? offsetLeft : 0,
         center: center
       }
     })
@@ -276,7 +283,8 @@ const MethodologyPage = ({data}) => {
         aria-labelledby="contained-modal-title-vcenter"
         className="modal-document"
         centered={ documentCard.center }
-        backdrop={ documentCard.center }
+        backdropClassName="modal-backdrop-xs"
+        // backdrop={ documentCard.center }
         style={{ top: documentCard.top, left: documentCard.left }}
       >
         <Modal.Header 
