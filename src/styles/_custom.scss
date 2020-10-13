@@ -288,7 +288,7 @@ $font-family-headings:         Martin, "Arial Condensed Black", Impact, -apple-s
 // // stylelint-enable value-keyword-case
 
 
-$font-size-base:              1.125rem !default; // Slightly bigger than the browser default since Crimson Text has a smaller x-height - typically 18px
+$font-size-base:                 1.125rem !default; // 16px * 1.125 = 18px
 // $font-size-lg:                $font-size-base * 1.25 !default;
 // $font-size-sm:                $font-size-base * .875 !default;
 
