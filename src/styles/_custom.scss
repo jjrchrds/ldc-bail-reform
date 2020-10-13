@@ -5,7 +5,7 @@
 
 // // Color system
 
-// $white:    #fff !default;
+$white:    #fff !default;
 // $gray-100: #f8f9fa !default;
 // $gray-200: #e9ecef !default;
 // $gray-300: #dee2e6 !default;
@@ -299,7 +299,7 @@ $font-size-base:                 1.125rem !default; // 16px * 1.125 = 18px
 // $font-weight-bolder:          bolder !default;
 
 // $font-weight-base:            $font-weight-normal !default;
-// $line-height-base:            1.5 !default;
+$line-height-base:            1.25 !default;
 
 $h1-font-size:                $font-size-base * 4 !default;
 $h2-font-size:                $font-size-base * 3 !default;
@@ -394,7 +394,7 @@ $display-line-height:         0.95 !default;
 
 // $input-btn-padding-y:         .375rem !default;
 // $input-btn-padding-x:         .75rem !default;
-// $input-btn-font-family:       null !default;
+$input-btn-font-family:       Martin !default;
 // $input-btn-font-size:         $font-size-base !default;
 // $input-btn-line-height:       $line-height-base !default;
 
@@ -450,7 +450,7 @@ $display-line-height:         0.95 !default;
 // $btn-block-spacing-y:         .5rem !default;
 
 // // Allows for customizing button radius independently from global border radius
-// $btn-border-radius:           $border-radius !default;
+$btn-border-radius:               0 !default;
 // $btn-border-radius-lg:        $border-radius-lg !default;
 // $btn-border-radius-sm:        $border-radius-sm !default;
 
@@ -1117,7 +1117,7 @@ $card-deck-margin:                  $card-group-margin !default;
 
 // $close-font-size:                   $font-size-base * 1.5 !default;
 // $close-font-weight:                 $font-weight-bold !default;
-// $close-color:                       $black !default;
+$close-color:                       $white !default;
 // $close-text-shadow:                 0 1px 0 $white !default;
 
 
