@@ -24,21 +24,21 @@ const IndexPage = () => {
       }
       issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500) {
+          fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
       }
       issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500) {
+          fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
       }
       issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500) {
+          fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
