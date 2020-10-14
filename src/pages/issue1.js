@@ -2,6 +2,7 @@ import React from "react"
 import { Row, Col } from "react-bootstrap"
 import { useStaticQuery, graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import ReactGA from 'react-ga';
 
 import Layout from "../components/layout"
 import Head from '../components/head'
@@ -69,7 +70,8 @@ const Issue1Page = () => {
   const allSources = issueContents.sources
   const sourcesLeft = allSources.slice(0, Math.ceil(allSources.length / 2))
   const sourcesRight = allSources.slice(Math.ceil(allSources.length / 2), allSources.length)
-  console.log(sourcesLeft)
+
+  ReactGA.pageview('/issue1');
 
   return (
     <Layout>

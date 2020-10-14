@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Layout from "../components/layout"
 import Head from '../components/head';
 import DocumentCard from '../components/document-card';
+import ReactGA from 'react-ga';
 
 import { graphql } from "gatsby"
 import { Container, Row, Col, Button, Modal } from "react-bootstrap"
@@ -9,6 +10,8 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap"
 import { slugify, dateFormat } from "../libs/helpers";
 
 const MethodologyPage = ({data}) => {
+  // Google Analytics Collector
+  ReactGA.pageview('/methodology');
 
   //Document Modal
   const [showDocumentModal, setShowDocumentModal] = useState(false);

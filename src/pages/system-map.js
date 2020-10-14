@@ -10,6 +10,7 @@ import StaticModal from "../components/system-map/static-modal"
 import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
 import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
+import ReactGA from 'react-ga';
 
 class SystemMapPage extends Component {
   scroller
@@ -247,6 +248,8 @@ class SystemMapPage extends Component {
   render() {
     return (
       <Layout>
+        {// Google Analytics Collector
+        ReactGA.pageview('/system-map')}
         <Head title="System Map" />
         <Container className="my-5 pt-5">
           {/* New Row */}
