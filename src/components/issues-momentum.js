@@ -90,7 +90,7 @@ class MomentumTabs extends React.Component {
                                 <div className="article-body">
                                   <b>{ doc.Title }</b>
                                   <p>{ doc.Momentum_Annotation }</p>
-                                  <a href="{ doc.URL }">Read More &raquo;</a>
+                                  <a href={ doc.URL } target="_blank">Read More &raquo;</a>
                                 </div>
                               </Tab.Pane>
                             </Tab.Content>
