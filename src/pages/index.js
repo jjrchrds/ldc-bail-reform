@@ -16,7 +16,7 @@ import ChevronDown from "../../static/assets/svg/chevron-down.svg"
 const IndexPage = () => {
   const data = useStaticQuery(graphql `
     query {
-      homeHero: file(relativePath: { eq: "images/home_hero.jpg" }) {
+      homeHero: file(relativePath: { eq: "images/home_hero.png" }) {
         childImageSharp {
           fluid(quality: 90, maxWidth: 2000) {
             ...GatsbyImageSharpFluid
@@ -52,15 +52,24 @@ const IndexPage = () => {
       <Head title="Home" />
       <Jumbotron className="hero pt-5" fluid>
         <BackgroundImage
+          className="hero-img"
           fluid={data.homeHero.childImageSharp.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
-          <Container className="pt-4">
+          <Container className="pt-5 beta-sticker-wrap">
+            <div className="beta-sticker text-light bg-green">
+              <h3>This is a beta!</h3>
+              <p>We'd love your feedback, lorem ipsum dolor sit amet.</p>
+              <Button as={Link} to="/cta" className="bg-pink">
+                <h4>Get in Touch</h4>
+              </Button>
+            </div>
+
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
-                <HomeLogo width={200} fill='#fff' className="mt-5 mb-5"/>
-                <h1 className="display-2 mt-4 mb-0 text-rust uppercase">According to the Auditor General</h1>
+                <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
+                <h1 className="display-2 mt-4 mb-0 text-dark uppercase">According to the Auditor General</h1>
                 <h1 className="display-1 mb-5 text-rust uppercase">70% of people held in Ontario jails are <span className="hero-em">legally innocent</span></h1>
                 <p className="display-3 pt-4 mb-3">Why?</p>
                 <p>
