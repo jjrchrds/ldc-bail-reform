@@ -15,7 +15,7 @@ const Head = ({title}) => {
   `);
 
   // Google Analytics Setup
-  ReactGA.initialize('UA-180594039-1');
+  ReactGA.initialize('UA-86908754-3');
 
   return (
     <Helmet 
