@@ -114,6 +114,7 @@ class SystemMapPage extends Component {
 
   handleResize = () => {
     console.log("resize")
+    console.log(window.innerWidth)
     // console.log(this.steps)
     // console.log(this.systemMap)
 
@@ -125,11 +126,9 @@ class SystemMapPage extends Component {
       .style("top", (window.innerHeight * 0.2) / 2 + "px")
 
     // Vertically centering the svg when it becomes sticky
-    D3.select("#svg-wrapper").style(
-      "top",
-      d => `${(window.innerHeight * 0.2) / 2}px`
-    )
-    .style("height", `${window.innerHeight * 0.8}px`)
+    D3.select("#svg-wrapper")
+      .style("top", d => `${(window.innerHeight * 0.2) / 2}px`)
+      .style("height", `${window.innerHeight * 0.8}px`)
 
     this.scroller.resize()
   }
@@ -165,12 +164,13 @@ class SystemMapPage extends Component {
     // setup resize event
     window.addEventListener("resize", this.scroller.resize)
     // Probably the way to resize, below
-    window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize)
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
       const viewBoxWidth = 1400 // svg container width
       const viewBoxHeight = 600 // svg container height. Needs to be the same as height for svg-wrapper specified in SCSS
+      const scaleFactor = 1.4
 
       // Storing a selection of the root node for the imported SVG
       let svgMap = D3.select(smSvg).select("svg").node()
@@ -200,6 +200,8 @@ class SystemMapPage extends Component {
       D3.selectAll("#cog-click").style("opacity", 0)
       D3.selectAll("#zap-click").style("opacity", 0)
 
+      
+
       D3.select("#base")
         .selectAll("image")
         .on("click", function () {
@@ -217,24 +219,34 @@ class SystemMapPage extends Component {
       D3.select("#cog-click")
         .selectAll("rect")
         // Test to make symbols bigger on hover
-        // .on("mouseover", function (d, i, n) {
-        //   // D3.select(`#${this.id}-symbol`).node().classList.add("test1")
-        //   let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
-        //   console.log(bbox)
-        //   // D3.select(`#${this.id}-symbol`).node().style.transform = "translate(-250, -25)"
-        //   // D3.select(`#${this.id}-symbol`).node().style.transform = "translate(100, 100) rotate(7deg) scale(1.2)"
-        //   D3.select(`#${this.id}-symbol`).node().setAttribute('transform',`translate(-${bbox.x}, -${bbox.y}) scale(1.1)`)
-        //   // D3.select(`#${this.id}-symbol`).node().setAttribute('transform','scale(1.1)')
-        //   console.log(D3.select(`#${this.id}-symbol`).node())
-
-
-        //   D3.select(`#${this.id}-symbol`)
-        //     .node()
-        //     // .style("transform", `translate(-${bbox.width / 2}, -${bbox.height / 2})`)
-        //     // .attr("transform", `translate(-${50 / 2}, -${50 / 2})`)
-
-        //     // .attr("transform", "scale(1.5)")
-        // })
+        .on("mouseover", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Making cogs bigger - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${(1 - scaleFactor) * (bbox.x + bbox.width / 2)}, ${
+                (1 - scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(${scaleFactor})`
+            )
+        })
+        .on("mouseout", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Cogs back to original size - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${
+                (1 - 1 / scaleFactor) * (bbox.x + bbox.width / 2)
+              }, ${
+                (1 - 1 / scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(1/${scaleFactor})`
+            )
+        })
         .on("click", function (d) {
           console.log(this.id)
           self.modalX = D3.event.clientX + "px"
@@ -248,6 +260,34 @@ class SystemMapPage extends Component {
       // Adding event listeners: layer 2 (zaps)
       D3.select("#zap-click")
         .selectAll("rect")
+        .on("mouseover", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Making zaps bigger - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${(1 - scaleFactor) * (bbox.x + bbox.width / 2)}, ${
+                (1 - scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(${scaleFactor})`
+            )
+        })
+        .on("mouseout", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Zaps back to original size - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${
+                (1 - 1 / scaleFactor) * (bbox.x + bbox.width / 2)
+              }, ${
+                (1 - 1 / scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(1/${scaleFactor})`
+            )
+        })
         .on("click", function () {
           console.log(this)
           // console.log(self)
@@ -259,6 +299,40 @@ class SystemMapPage extends Component {
           self.setState({ zapModalActiveContent: this.id })
         })
     })
+    // .then(d => {
+
+    //   if (window.innerWidth <= 768) {
+
+    //     console.log(D3.select("#cogs")
+    //     .selectAll("g")
+    //     .nodes())
+
+    //     let arr = []; 
+    //     D3.select("#cogs")
+    //     .selectAll("g")
+    //     .nodes().forEach(d => arr.push(d.getBBox()))
+
+    //     console.log(arr)
+
+    //     D3.select("#cogs")
+    //       .selectAll("g")
+    //       .nodes().forEach(d=>d.setAttribute("transform", "scale(1)")
+          
+    //       // .setAttribute("transform", "scale(1.5)"
+    //       // function(d) {
+    //       //   // let bbox = d.getBBox();
+    //       //   // console.log(bbox)
+    //       //   // return `translate(${(1 - 10) * (bbox.x + bbox.width / 2)}, ${
+    //       //   //   (1 - 10) * (bbox.y + bbox.height / 2)
+    //       //   // }) scale(${10})`
+    //       //   // return `translate(${(1 - 10) * (100 + 50 / 2)}, ${
+    //       //   //   (1 - 10) * (200 + 50 / 2)
+    //       //   // }) scale(${10})`
+    //       //   return "scale(1.1)"
+    //       // }
+    //       )
+    //   }
+    // })
   }
 
   componentWillUnmount() {
