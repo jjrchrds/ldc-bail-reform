@@ -1,33 +1,71 @@
 .timeline-wrapper {
-  border-right: 2px solid $dark;
+  &:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 2px;
+    background: $dark;
+    left: 15%;
+  }
+  @include media-breakpoint-up(lg) {
+    &:before {
+      content: none;
+    }
+    border-right: 2px solid $dark;
+  }
 }
 
 .timeline-year-content-header {
   position: relative;
-  border-bottom: 2px solid $dark;
-
+  @include media-breakpoint-up(lg) {
+    border-bottom: 2px solid $dark;
+  }
 }
 
 .timeline-year-indicators {
-  position: absolute;
-  bottom: 10px;
-  width: 100%;
+  display: inline-block;
+  width: 75%;
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+  }
 }
 
 .timeline-card-indicator {
-  position: absolute;
-  bottom: -10px;
+  
+  
   width: 20px;
   height: 20px;
   text-indent: -9999px;
   line-height: 0;
-  // pointer-events: none;
+  margin-right: 6px;
+  
   background-color: hsl(211, 100%, 67%);
-  transform: scale(.5);
   transition: .35s all;
+  border: none;
+  @include media-breakpoint-down(lg) {
+    left: auto !important;
+  }
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    bottom: -10px;
+    transform: scale(.5);
+  }
   &.disabled {
     opacity: .5 !important;
     pointer-events: none !important;
+  }
+  &.timeline-card-indicator-lg {
+    width: 15%;
+    padding-bottom: 15%;
+    height: 0;
+    margin-right: 6.1%;
+    margin-bottom: 4%;
+    &:nth-child(5n) {
+      margin-right: 0;
+    }
   }
 }
 
@@ -47,7 +85,7 @@
   position: relative;
   // overflow: hidden;
   min-height: 300px;
-  margin-bottom: 10vh;
+  margin-bottom: 3rem;
   
   .card {
     position: absolute;
@@ -74,19 +112,27 @@
 .timeline-year {
 
   .timeline-year-label {
+    font-size: 2rem;
     transition: .35s all;
-    color: $dark;
+    line-height: 1;
+    padding-top: .3rem;
+    padding-bottom:.35rem;
+    width: 20%;
+    display: inline-block;
   }
 
-  &.active {
-    .timeline-year-label {
-      color: $rust;
-    }
-    .timeline-card-indicator {
-      background-color: #007bff;
-      opacity: 1;
-      pointer-events: all;
-      transform: scale(1);
+  @include media-breakpoint-up(lg) {
+
+    &.active {
+      .timeline-year-label {
+        color: $rust;
+      }
+      .timeline-card-indicator {
+        background-color: #007bff;
+        opacity: 1;
+        pointer-events: all;
+        transform: scale(1);
+      }
     }
   }
 }
@@ -158,4 +204,41 @@
   height: 12px;
   display: inline-block;
   margin-right: 8px;
+}
+
+.methodology-title {
+  font-weight: 500;
+}
+
+.modal-page {
+  z-index: 1030;
+  .modal-dialog {
+    margin: 0;
+    top: 58px;
+    height: calc(100% - 58px);
+  }
+  .modal-content {
+    height: 100%;
+    border-radius: 0;
+    border: none;
+  }
+  
+  &.fade .modal-dialog {
+    transform: translate(0, 50px);
+  }
+  &.show .modal-dialog {
+    transform: none;
+  }
+}
+
+.modal-document {
+  .modal-title {
+    font-family: "Martin"
+  }
+  .modal-header .close {
+    font-size: 2rem;
+    opacity: 1;
+    text-shadow: none;
+    font-weight: 400;
+  }
 }

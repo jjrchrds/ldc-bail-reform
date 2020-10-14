@@ -50,6 +50,7 @@
 @import "animations";
 @import "methodology";
 @import "system-map";
+@import "issues";
 
 // --- Debug CSS ---
 // .display-1 {
@@ -69,10 +70,10 @@
 
 // --- Transitions ---------
 @mixin transition-300 {
-  -webkit-transition: all 300s ease-out;
-  -moz-transition: all 300s ease-out;
-  -o-transition: all 300s ease-out;
-  transition: all 300s ease-out;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
 }
 
 // --- Typography ---------
@@ -99,11 +100,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-dropdown {
-  .dropdown-item.active {
+  .dropdown-menu {
+    background: $dark !important;
+  }
+
+  .dropdown-item, .dropdown-item:active {
     display: block;
     width: auto;
-    background: $dark;
+    background: $dark !important;
     padding: 0.6rem 1.2 rem;
+  }
+
+  .dropdown-item:focus, .dropdown-item:hover {
+    background: $rust !important;
+    color: $light !important;
   }
 }
 

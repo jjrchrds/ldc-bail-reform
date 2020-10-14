@@ -108,6 +108,10 @@ module.exports = {
           {
             baseId: 'appToqMlXxkmbbwTr',
             tableName: 'Interactive Bibliography'
+          },
+          {
+            baseId: 'appToqMlXxkmbbwTr',
+            tableName: 'Colours'
           }
         ]
       }
