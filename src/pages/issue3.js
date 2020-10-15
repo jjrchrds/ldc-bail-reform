@@ -70,12 +70,11 @@ const Issue3Page = () => {
   const allSources = issueContents.sources
   const sourcesLeft = allSources.slice(0, Math.ceil(allSources.length / 2))
   const sourcesRight = allSources.slice(Math.ceil(allSources.length / 2), allSources.length)
-  
-  ReactGA.pageview('/issue3');
 
   return (
     <Layout>
       <Head title="Issues"/>
+      {ReactGA.pageview('/issue3');}
       <IssuesHero 
         issueName={ issueContents.issueName } 
         issueImg={ data.issue3.childImageSharp.fluid }

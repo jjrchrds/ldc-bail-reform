@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "gatsby"
+import ReactGA from 'react-ga';
 
 import Layout from "../components/layout";
 import Head from '../components/head';
@@ -7,6 +8,7 @@ import Head from '../components/head';
 const NotFound = () => {
   return (
     <Layout>
+      {ReactGA.pageview('/')}
       <Head title="Page not found"/>
       <h1>Page not found</h1>
       <p><Link to="/">Head home</Link></p>

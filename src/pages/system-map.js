@@ -248,8 +248,7 @@ class SystemMapPage extends Component {
   render() {
     return (
       <Layout>
-        {// Google Analytics Collector
-        ReactGA.pageview('/system-map')}
+        {ReactGA.pageview('/system-map')}
         <Head title="System Map" />
         <Container className="my-5 pt-5">
           {/* New Row */}

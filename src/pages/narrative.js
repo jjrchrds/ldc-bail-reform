@@ -11,8 +11,7 @@ import ReactGA from 'react-ga';
 const NarrativePage = () => {
   return (
     <Layout>
-      {// Google Analytics Collector
-      ReactGA.pageview('/narrative')}
+      {ReactGA.pageview('/narrative')}
       <Head title="Narrative" />
       <StaticQuery
           query={graphql`

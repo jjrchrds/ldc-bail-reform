@@ -51,7 +51,7 @@ const IndexPage = () => {
   return (
     <Layout>
       <Head title="Home" />
-      {ReactGA.pageview('/homepage')}
+      {ReactGA.pageview('/')}
       <Jumbotron className="hero pt-5" fluid>
         <BackgroundImage
           className="hero-img"

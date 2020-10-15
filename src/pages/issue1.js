@@ -71,10 +71,9 @@ const Issue1Page = () => {
   const sourcesLeft = allSources.slice(0, Math.ceil(allSources.length / 2))
   const sourcesRight = allSources.slice(Math.ceil(allSources.length / 2), allSources.length)
 
-  ReactGA.pageview('/issue1');
-
   return (
     <Layout>
+      {ReactGA.pageview('/issue1');}
       <Head title="Issues"/>
       <IssuesHero 
         issueName={ issueContents.issueName } 
