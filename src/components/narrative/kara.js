@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import "intersection-observer"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
@@ -57,7 +58,7 @@ class KaraNarrative extends Component {
         return query.filter(edge => edge.node.slideNumber === slideNumber)[0]
           .node.slideImage.fluid.src
       default:
-        //no default
+      //no default
     }
   }
 
@@ -71,10 +72,10 @@ class KaraNarrative extends Component {
           RichTextOptions
         )
       case "image":
-        return query.filter(edge => edge.node.modalId === id)[0].node.image.fluid
-          .src
+        return query.filter(edge => edge.node.modalId === id)[0].node.image
+          .fluid.src
       default:
-        //no default
+      //no default
     }
   }
 
@@ -129,7 +130,7 @@ class KaraNarrative extends Component {
           return (
             <div id="narrative-kara">
               <div className="narrative-step meet-kara">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
                     <Col className="d-flex flex-column justify-content-center">
                       <h1>
@@ -137,29 +138,24 @@ class KaraNarrative extends Component {
                       </h1>
                       {this.querySlideContent(narrativeContent, 1, "body")}
                     </Col>
-                    <Col
-                      md="auto"
-                      className="d-flex flex-column justify-content-center"
-                    >
+                    <Col xs="auto" className="d-flex align-items-center">
                       <img
                         src="./assets/kara.png"
-                        width="100%"
                         className="kara-portrait-img"
                         alt=""
                       />
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step contacting-family">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
                     <Col className="d-flex justify-content-between">
                       <Card className="kara-phone-card">
                         <Card.Body className="kara-phone-card-content">
-                          <img src="./assets/avatar.svg" 
-                          alt=""/>
+                          <img src="./assets/avatar.svg" alt="" />
                           <div>
                             <p>Jason M.</p>
                             <p>905-225-0101</p>
@@ -168,8 +164,7 @@ class KaraNarrative extends Component {
                       </Card>
                       <Card className="kara-phone-card">
                         <Card.Body className="kara-phone-card-content">
-                          <img src="./assets/avatar.svg" 
-                          alt=""/>
+                          <img src="./assets/avatar.svg" alt="" />
                           <div>
                             <p>Mark R.</p>
                             <p>418-543-0901</p>
@@ -178,8 +173,7 @@ class KaraNarrative extends Component {
                       </Card>
                       <Card className="kara-phone-card">
                         <Card.Body className="kara-phone-card-content">
-                          <img src="./assets/avatar.svg" 
-                          alt=""/>
+                          <img src="./assets/avatar.svg" alt="" />
                           <div>
                             <p>Amy Z.</p>
                             <p>905-555-0123</p>
@@ -196,13 +190,13 @@ class KaraNarrative extends Component {
                       {this.querySlideContent(narrativeContent, 2, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step family-or-money">
-                <div className="relative-content" id="kara-choice-slide">
+                <Container className="relative-content" id="kara-choice-slide">
                   <Row className="justify-content-center">
-                    <Col>
+                    <Col className="d-flex flex-column">
                       <h1>
                         {this.querySlideContent(narrativeContent, 3, "heading")}
                       </h1>
@@ -288,45 +282,46 @@ class KaraNarrative extends Component {
                       </Row>
                     </Modal.Body>
                   </Modal>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step life-in-jail">
-                <div className="relative-content">
-                  <Row>
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col className="d-flex flex-column justify-content-end">
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 4, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 4, "body")}
+                    </Col>
                     <Col>
-                      <div className="life-in-jail-text">
-                        <h1>
-                          {this.querySlideContent(
-                            narrativeContent,
-                            4,
-                            "heading"
-                          )}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 4, "body")}
-                      </div>
+                      <img
+                        src="./assets/lightbulb.png"
+                        className="lightbulb-img"
+                        alt=""
+                      />
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step opportunity-for-bail">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
-                    <Col>
+                    <Col className="d-flex flex-column">
                       <h1>
                         {this.querySlideContent(narrativeContent, 5, "heading")}
                       </h1>
                       {this.querySlideContent(narrativeContent, 5, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step opportunity-for-bail-cards">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
-                    <Col>
+                    <Col className="d-flex flex-column align-items-center">
                       <Card className="kara-card monique">
                         <Card.Body className="kara-card-content">
                           <span>Monique</span>
@@ -346,7 +341,7 @@ class KaraNarrative extends Component {
                         </Card.Body>
                       </Card>
                     </Col>
-                    <Col>
+                    <Col className="d-flex flex-column align-items-center">
                       <Card className="kara-card alex">
                         <Card.Body className="kara-card-content">
                           <span>Alex</span>
@@ -370,17 +365,21 @@ class KaraNarrative extends Component {
                   <Row className="justify-content-center none-fits-requirements-text">
                     <p>None fits the requirements</p>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step phone-call">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
-                    <Col 
+                    <Col
                       md="auto"
                       className="d-flex flex-column justify-content-center"
                     >
-                      <img src="./assets/mobile.png" className="cell-phone-img" alt=""/>
+                      <img
+                        src="./assets/mobile.png"
+                        className="cell-phone-img"
+                        alt=""
+                      />
                     </Col>
                     <Col className="d-flex flex-column justify-content-center">
                       <h1>
@@ -389,11 +388,11 @@ class KaraNarrative extends Component {
                       {this.querySlideContent(narrativeContent, 7, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step what-happend-next">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-md-center">
                     <Col>
                       <h1>
@@ -402,7 +401,7 @@ class KaraNarrative extends Component {
                       {this.querySlideContent(narrativeContent, 8, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
             </div>
           )

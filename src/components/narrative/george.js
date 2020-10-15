@@ -2,10 +2,11 @@ import React, { Component } from "react"
 import "intersection-observer"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import { StaticQuery, graphql } from "gatsby"
-import { BLOCKS } from "@contentful/rich-text-types"
+import { BLOCKS, CONTAINERS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const Text = ({ children }) => <p>{children}</p>
@@ -136,10 +137,10 @@ class GeorgeNarrative extends Component {
           return (
             <div id="narrative-george">
               <div className="narrative-step meet-george">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
                     <Col
-                      md="auto"
+                      xs="auto"
                       className="d-flex flex-column justify-content-center"
                     >
                       <img
@@ -154,11 +155,11 @@ class GeorgeNarrative extends Component {
                       {this.querySlideContent(narrativeContent, 1, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step conditions">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
                     <Col>
                       <div>
@@ -173,11 +174,11 @@ class GeorgeNarrative extends Component {
                       </div>
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step out-on-bail">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
                     <Col className="d-flex flex-column justify-content-end">
                       <h1>
@@ -185,7 +186,7 @@ class GeorgeNarrative extends Component {
                       </h1>
                       {this.querySlideContent(narrativeContent, 3, "body")}
                     </Col>
-                    <Col md="auto">
+                    <Col xs="auto">
                       <img
                         src={this.querySlideContent(
                           narrativeContent,
@@ -197,11 +198,11 @@ class GeorgeNarrative extends Component {
                       />
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step working-while-on-bail">
-                <div className="relative-content" id="george-choice-slide">
+                <Container className="relative-content" id="george-choice-slide">
                   <Row className="justify-content-center">
                     <Col>
                       <h1>
@@ -227,7 +228,7 @@ class GeorgeNarrative extends Component {
                       Go Home
                     </Button>
                   </Row>
-                </div>
+                </Container>
 
                 <Modal
                   show={georgeModal1}
@@ -276,13 +277,13 @@ class GeorgeNarrative extends Component {
               </div>
 
               <div className="narrative-step police-check">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row
                     className="justify-content-md-center"
                     id="george-police-check"
                   >
                     <Col
-                      md="auto"
+                      xs="auto"
                     >
                       <img
                         src={this.querySlideContent(
@@ -303,11 +304,11 @@ class GeorgeNarrative extends Component {
                       {this.querySlideContent(narrativeContent, 5, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
 
               <div className="narrative-step what-happend-next">
-                <div className="relative-content">
+                <Container className="relative-content">
                   <Row className="justify-content-center">
                     <Col>
                       <h1>
@@ -316,7 +317,7 @@ class GeorgeNarrative extends Component {
                       {this.querySlideContent(narrativeContent, 6, "body")}
                     </Col>
                   </Row>
-                </div>
+                </Container>
               </div>
             </div>
           )

@@ -20,6 +20,7 @@ import "./narrative-body.scss"
 //(a way to avoid magic numbers)
 const NATHAN_NARRATIVE_SLIDES = [1, 6]
 
+//maybe obtain this dynamcially 
 const LAST_SLIDE_INDEX = 21
 
 class NarrativeSection extends Component {
