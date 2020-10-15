@@ -3,13 +3,14 @@ import Layout from "../components/layout"
 import Head from '../components/head';
 
 import { graphql } from "gatsby"
-import { Container, Row, Col, Button, Modal } from "react-bootstrap"
+import { Container, Row, Col, Button, Carousel, Modal } from "react-bootstrap"
 
-import { slugify, dateFormat } from "../libs/helpers";
+import { slugify, dateFormat, chunkArray} from "../libs/helpers";
 
 const MethodologyPage = ({data}) => {
 
   //Document Modal
+  const documentModal = useRef(null);
   const [showDocumentModal, setShowDocumentModal] = useState(false);
   const [documentCard, setDocumentCard] = useState({
     bg: '',
@@ -29,19 +30,20 @@ const MethodologyPage = ({data}) => {
   const handleDocumentModalShow = (doc, bg, e) => {
     let rect = e.target.getBoundingClientRect();
     let modalWidth = 500;
-    let offsetLeft = rect.left - (vpWidth/2 - modalWidth/2)
+    let offsetLeft = rect.left - (viewport.width/2 - modalWidth/2)
+    let offsetTop = rect.top;
     let center = true;
 
-    if (vpWidth > 992) {
+    if (viewport.width > 992) {
       center = false;
     }
-
-    if (modalWidth + rect.left > vpWidth) {
+    //adjust positioning
+    if (modalWidth + rect.left > viewport.width) {
       offsetLeft = (offsetLeft - modalWidth + 20);
     }
-    console.log(vpWidth);
-    console.log(rect.top, rect.right, rect.bottom, rect.left);
-    console.log(modalWidth + rect.left);
+    // if (modalHeight + rect.top > viewport.height) {
+    //   offsetTop = rect.top - 
+    // }
 
     setDocumentCard( prevState => {
       return {
@@ -53,33 +55,37 @@ const MethodologyPage = ({data}) => {
         quote: doc.data.Biblio_Annotation,
         url: doc.data.URL,
         links: linkedByRecordId[doc.recordId],
-        top: !center ? rect.top : 0,
+        top: !center ? offsetTop : 0,
         left: !center ? offsetLeft : 0,
         center: center
       }
     })
     setShowDocumentModal(true);
+
+    console.log(documentModal)
+
   }
 
   //Year Modal
   const [showYearModal, setShowYearModal] = useState(false);
   const [methodologyCard, setMethodologyCardData] = useState({
     year: '',
-    sortedDocs: [],
+    chunkedDocs: [],
     events: []
   });
 
   const handleYearModalClose = () => setShowYearModal(false);
   const handleYearModalShow = (year) => {
-    console.log(data.allContentfulTimelineYear)
     const sortedDocs = [ ...dataByYear[year] ];
     sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
-              
+    const chunkedDocs = chunkArray(sortedDocs, 7);
+    console.log(chunkedDocs);
+
     setMethodologyCardData( prevState => {
       return {
         ...prevState,
         year: year,
-        sortedDocs: sortedDocs,
+        chunkedDocs: chunkedDocs,
         
       }
     })
@@ -132,12 +138,6 @@ const MethodologyPage = ({data}) => {
   // scroller
   const timeline = useRef(null);
 
-  const [state, setState] = useState({
-    data: 0,
-    steps: [10, 20, 30],
-    progress: 0
-  });
-
   const [filter, setFilter] = useState({})
 
   //build data objects, once
@@ -168,47 +168,6 @@ const MethodologyPage = ({data}) => {
     })
 
   }, []); 
-
-  //Handle Scrollama
-  const handleScrollStepEnter = ({element, index, direction}) => {
-    const data = state.steps[index];
-    element.classList.add('active');
-    setState({data});
-  }
-
-  const handleScrollStepExit = ({element, index, direction}) => {
-    element.classList.remove('active');
-  }
-
-  const handleProgress = ({progress}) => {
-    setState({progress});
-  }
-
-  useEffect(()=> {
-    if (typeof window === 'undefined') return;
-
-    const scrollama = require('scrollama')
-    const scrollThreshold = 4;
-    const scrollOffset = 0.3;
-    const scroller = scrollama()
-
-    scroller.setup({
-      step: '.timeline-year',
-      threshold: scrollThreshold,
-      progress: true,
-      offset: scrollOffset
-    })
-    .onStepEnter(handleScrollStepEnter)
-    .onStepExit(handleScrollStepExit)
-    .onStepProgress(handleProgress)
-
-    // setup resize event
-    window.addEventListener("resize", scroller.resize);
-    return () => {
-      scroller.destroy();
-      window.removeEventListener('resize', scroller.resize)
-    };
-  }, [])
 
   const resetFilters = () => {
     Object.keys(filter).forEach( (key, index) => {
@@ -264,11 +223,13 @@ const MethodologyPage = ({data}) => {
   }, [filter])
 
   //get viewport width
-  const [vpWidth, setVpWidth] = useState(typeof window === 'undefined' ? 0 : window.innerWidth);
+  const [viewport, setViewport] = useState(typeof window === 'undefined' ? {width: 0, height: 0} : {width: window.innerWidth, height: window.innerHeight});
 
   useEffect(()=>{
     if (typeof window === 'undefined') return;
-    const handleWindowResize = () => setVpWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setViewport({width: window.innerWidth, height: window.innerHeight});
+    }
     window.addEventListener("resize", handleWindowResize);
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
@@ -278,6 +239,7 @@ const MethodologyPage = ({data}) => {
       <Head title="Methodology"/>
 
       <Modal
+        ref={documentModal}
         show={showDocumentModal} 
         onHide={handleDocumentModalClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -327,25 +289,45 @@ const MethodologyPage = ({data}) => {
       >
         <Modal.Body>
           <h1 className="text-center text-rust">{ methodologyCard.year }</h1>
-          <p>Click on a square to expand the resource’s details!</p>
-          <div className="indicators-lg mb-3">
-          { methodologyCard.sortedDocs.map((doc, index) => {
-                        
-            const cat = slugify(doc.data.Type_of_Content);
-            const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888'; 
-            
+
+          <Carousel
+            interval={null}
+            controls={false}
+            className="mb-3"
+          >
+          { methodologyCard.chunkedDocs.map((docs, index) => {
+                      
             return (
-              <button 
-                key={index} 
-                className="timeline-card-indicator timeline-card-indicator-lg" 
-                style={{ backgroundColor: bg}}
-                onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
-              >
-                {methodologyCard.year}-document-{index}
-              </button>
+              <Carousel.Item key={index}>
+                <ul className="list-unstyled">
+                  { docs.map( (doc, index) => {
+                    const cat = slugify(doc.data.Type_of_Content);
+                    const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888'; 
+                    return(
+                      <li
+                        key={index} 
+                        className="mb-2 d-flex text-left align-items-center"
+                        onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
+                      >
+               
+                        <div 
+                          className="d-inline-block modal-card-indicator mr-2"
+                          style={{ backgroundColor: bg}}
+                        ></div>
+                        <div className="d-inline-block modal-card-link text-rust truncate">
+                        { doc.data.Title }
+                        </div>
+                       
+                      </li>
+                    )
+                  })}
+                </ul>
+              </Carousel.Item>
             )
           })}
-          </div>
+          </Carousel>
+          
+          <h2 className="h5 text-uppercase">Legend</h2>
 
           <ul className="list-legend list-unstyled list-inline mb-2">
             { Object.keys(categories).map((category, index) => {
@@ -356,7 +338,7 @@ const MethodologyPage = ({data}) => {
                 <li
                   key={`category-${index}`}
                   className="mb-1 mr-2 list-inline-item">
-                    <div className="d-flex align-items-center text-grey mr-2">
+                    <div className="d-flex align-items-center text-grey">
                       <span
                       className="d-inline-block legend-card-indicator mr-1 pt-1 pb-1"
                       style={{ background: bg }}/> { category }
@@ -370,7 +352,7 @@ const MethodologyPage = ({data}) => {
           
           { yearMeta[methodologyCard.year] ? 
             <div className="timeline-year-header-meta mt-4 pr-2 pr-md-5 pb-3">
-              <h2 className="h4 text-uppercase">Relevant events</h2>
+              <h2 className="h5 text-uppercase">Relevant events</h2>
               <ul className="list-unstyled">
               { yearMeta[methodologyCard.year].events ? yearMeta[methodologyCard.year].events.map((event, index) => {
                 console.log(event);
@@ -379,7 +361,7 @@ const MethodologyPage = ({data}) => {
                     <div className="d-inline-block w-25">
                       { event.eventDate ? <strong className="text-pink text-uppercase text-heading mr-2">{dateFormat.format(new Date(event.eventDate))}</strong> : ''} 
                     </div>
-                    <div className="d-inline-block w-75">
+                    <div className="d-inline-block w-75 ">
                       {event.eventTitle}
                     </div>
                   </li>
@@ -410,7 +392,7 @@ const MethodologyPage = ({data}) => {
           <Col md="3" className="d-none d-lg-block">
             
             <ul className="legend list-unstyled">
-              <li className="mb-4">
+              <li className="mb-5">
                 <h2 className="text-uppercase h5 mb-2">Legend</h2>
                 <ul className="list-unstyled list-inline mb-2">
                   { Object.keys(categories).map((category, index) => {
@@ -452,16 +434,28 @@ const MethodologyPage = ({data}) => {
             </ul>
 
           </Col>
-          <Col md="9" className="h-100">
+          <Col md="8" className="h-100">
             
             <div ref={timeline} className="timeline-wrapper position-relative mr-md-5">
               
             { Object.entries(dataByYear).sort().reverse().map(yearData => {
               // console.log(yearData);
+              // console.log(yearData);
               const year = yearData[0];
               const sortedDocs = [ ...dataByYear[year] ];
               sortedDocs.sort((a,b) => (a.data.Publish__or_Start_Date_ > b.data.Publish__or_Start_Date_) ? 1 : ((b.data.Publish__or_Start_Date_ > a.data.Publish__or_Start_Date_) ? -1 : 0));
               
+              
+              let sortedEvents = [];
+              if (yearMeta[year] && yearMeta[year].events ) {
+                sortedEvents = [ ...yearMeta[year].events ]
+              }
+
+              sortedEvents.sort((a,b) => (a.eventDate > b.eventDate) ? 1 : ((b.eventDate > a.eventDate) ? -1 : 0)).reverse();
+
+              console.log(sortedEvents);
+
+
               return (
                 
               <div key={year} className="timeline-year mb-3" data-index={year}>
@@ -481,8 +475,6 @@ const MethodologyPage = ({data}) => {
                       { sortedDocs.map((doc, index) => {
                         
                         const offsetLeft = (index * .05) * 100 ;
-                        // console.log(doc.data.Type_of_Content);
-                        // console.log(offsetLeft);
                         const cat = slugify(doc.data.Type_of_Content);
                         const bg =  categoryColours[cat] ? categoryColours[ cat ] : '#888'; 
                         
@@ -495,8 +487,6 @@ const MethodologyPage = ({data}) => {
                           
                             style={{ left: offsetLeft + '%', backgroundColor: bg}}
                             onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
-
-                            // onClick={ indicatorClickHandler }
                           >
                             {year}-document-{index}
                           </button>
@@ -504,20 +494,27 @@ const MethodologyPage = ({data}) => {
                       })}
                     </div>
                   </div>
-                  {/* <div className="timeline-year-events">
-                  { item.node.events.map((event, index) => {
-
-                    const month = parseFloat(event.eventDate.split('-')[1]) - 1;
-                    const offsetTop = (month / 12) * 100;
-
-                    return (
-                      <div key={index} className="timeline-event" style={{top: offsetTop + "%"}}>
-                        <h6 className="timeline-event-title text-rust mb-0">{event.eventDate}</h6>
-                        <p>{event.eventTitle}</p>
-                      </div>
-                    )
-                  })}
-                  </div> */}
+                  { sortedEvents ? 
+                  <div className="timeline-year-events d-none d-lg-flex align-items-end">
+                    <ul className="list-unstyled mb-0">
+                    { sortedEvents.map((event, index) => {
+                      // console.log(event);
+                      return (
+                        <li key={index} className="event-year mt-2">
+                        { event.eventDate ?
+                          <div>
+                             <small><strong className="text-pink text-uppercase text-heading mr-2">{dateFormat.format(new Date(event.eventDate))}</strong></small> 
+                          </div>
+                        : ''} 
+                          <div className="event-title">
+                            <small>{event.eventTitle}</small>
+                          </div>
+                        </li>
+                      )
+                        })}
+                    </ul>
+                  </div>
+                : '' }
 
                 </div>
               </div>
