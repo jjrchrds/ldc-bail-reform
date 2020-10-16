@@ -7,6 +7,8 @@ import { Container, Row, Col, Button, Carousel, Modal } from "react-bootstrap"
 
 import { slugify, dateFormat, chunkArray} from "../libs/helpers";
 
+import Fade from 'react-reveal/Fade';
+
 const MethodologyPage = ({data}) => {
 
   //Document Modal
@@ -162,7 +164,7 @@ const MethodologyPage = ({data}) => {
       setFilter( prevState => {
         return {
           ...prevState,
-          [id] : false
+          [id] : true
         }
       })
     })
@@ -174,14 +176,14 @@ const MethodologyPage = ({data}) => {
       setFilter(prevState => {
         return {
           ...prevState,
-          [key] : false
+          [key] : true
         }
       });
     });
   }
 
   const updateActiveCategories = (id) => {
-    console.log(filter);
+    // console.log(filter);
 
     setFilter(prevState => {
       return {
@@ -195,6 +197,7 @@ const MethodologyPage = ({data}) => {
   useEffect(()=> {
     const indicators = timeline.current.querySelectorAll('.timeline-card-indicator');
     let filterActive = false;
+    console.log(filter);
 
     Object.keys(filter).forEach( (key, index) => {
       if ( filter[key] ) {
@@ -216,7 +219,7 @@ const MethodologyPage = ({data}) => {
       
     }  else {
       for (const indicator of indicators) {
-        indicator.classList.remove('disabled');
+        indicator.classList.add('disabled');
       }
     }
 
@@ -355,7 +358,7 @@ const MethodologyPage = ({data}) => {
               <h2 className="h5 text-uppercase">Relevant events</h2>
               <ul className="list-unstyled">
               { yearMeta[methodologyCard.year].events ? yearMeta[methodologyCard.year].events.map((event, index) => {
-                console.log(event);
+                // console.log(event);
                 return (
                   <li key={index} className="mb-1">
                     <div className="d-inline-block w-25">
@@ -453,14 +456,14 @@ const MethodologyPage = ({data}) => {
 
               sortedEvents.sort((a,b) => (a.eventDate > b.eventDate) ? 1 : ((b.eventDate > a.eventDate) ? -1 : 0)).reverse();
 
-              console.log(sortedEvents);
+              // console.log(sortedEvents);
 
 
               return (
                 
               <div key={year} className="timeline-year mb-3" data-index={year}>
                 <div className="anchor" id={`year-${ year }`}></div>
-
+                <Fade bottom>
                 <div className="timeline-year-content position-relative">
                   <div className="timeline-year-content-header d-flex align-items-center">
                     <Button
@@ -517,6 +520,7 @@ const MethodologyPage = ({data}) => {
                 : '' }
 
                 </div>
+                </Fade>
               </div>
               
             )})
