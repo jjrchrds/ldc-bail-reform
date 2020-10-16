@@ -64,9 +64,32 @@ const MethodologyPage = ({data}) => {
     })
     setShowDocumentModal(true);
 
-    console.log(documentModal)
-
   }
+
+  //get the modal height after it's been built/displayed
+  useEffect( ()=> {
+
+    if (typeof document !== 'undefined') {
+      const modal = document.getElementById('modal-document')
+      const rect = modal ? modal.getBoundingClientRect() : null;
+      if (rect) {
+        let offsetTop = documentCard.top + rect.height + 60;
+        console.log(rect);
+        console.log(offsetTop, viewport.height);
+
+        if ( offsetTop > viewport.height ) {
+          console.log('too tall');
+          setDocumentCard( prevState => {
+            return {
+              ...prevState,
+              top: !documentCard.center ? (documentCard.top - rect.height - 34) : 0
+            }
+          })
+        }
+      }
+    }
+
+  }, [showDocumentModal]);
 
   //Year Modal
   const [showYearModal, setShowYearModal] = useState(false);
@@ -249,6 +272,7 @@ const MethodologyPage = ({data}) => {
         className="modal-document"
         centered={ documentCard.center }
         backdropClassName="modal-backdrop-xs"
+        id="modal-document"
         // backdrop={ documentCard.center }
         style={{ top: documentCard.top, left: documentCard.left }}
       >

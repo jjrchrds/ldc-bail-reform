@@ -271,18 +271,20 @@
     font-weight: 400;
     font-size: 1.6rem;
   }
+
   .modal-header  {
     padding-top: .6rem;
     padding-bottom: .75rem;
-  .close {
-    font-size: 2rem;
-    opacity: 1;
-    text-shadow: none;
-    font-weight: 400;
-    padding-top: .6rem;
-    padding-bottom: .75rem;
+
+    .close {
+      font-size: 2rem;
+      opacity: 1;
+      text-shadow: none;
+      font-weight: 400;
+      padding-top: .6rem;
+      padding-bottom: .75rem;
+    }
   }
-}
 }
 
 .btn-rotate {
