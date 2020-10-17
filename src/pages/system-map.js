@@ -5,7 +5,8 @@ import Head from "../components/head"
 import { graphql, StaticQuery } from "gatsby"
 import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
-import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
+// import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
+import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
 import StaticModal from "../components/system-map/static-modal"
 import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
@@ -84,7 +85,7 @@ class SystemMapPage extends Component {
       D3.select("#prompt-1").text(
         "Click on the icons to see what happens at each decision point. Keep scrolling!"
       )
-      D3.select(".sm-layer__title").text("System map - layer 2")
+      D3.select(".sm-layer__title").text("Key Decisions")
       D3.select(".sm-legend__third-item").style("visibility", "visible")
       D3.select("#cog-legend").style("display", "block")
       D3.select("#zap-legend").style("display", "none")
@@ -97,7 +98,7 @@ class SystemMapPage extends Component {
       D3.select("#prompt-1").text(
         "Click on the icons to know more about lorem ipsum dolor."
       )
-      D3.select(".sm-layer__title").text("System map - layer 3")
+      D3.select(".sm-layer__title").text("How the system fails")
       D3.select(".sm-legend__third-item").style("visibility", "visible")
       D3.select("#cog-legend").style("display", "none")
       D3.select("#zap-legend").style("display", "block")
@@ -115,6 +116,7 @@ class SystemMapPage extends Component {
 
   handleResize = () => {
     // console.log("resize")
+    // console.log(window.innerWidth)
     // console.log(this.steps)
     // console.log(this.systemMap)
 
@@ -126,10 +128,9 @@ class SystemMapPage extends Component {
       .style("top", (window.innerHeight * 0.2) / 2 + "px")
 
     // Vertically centering the svg when it becomes sticky
-    D3.select("#svg-wrapper").style(
-      "top",
-      d => `${(window.innerHeight * 0.2) / 2}px`
-    )
+    D3.select("#svg-wrapper")
+      .style("top", d => `${(window.innerHeight * 0.2) / 2}px`)
+      .style("height", `${window.innerHeight * 0.8}px`)
 
     this.scroller.resize()
   }
@@ -137,7 +138,7 @@ class SystemMapPage extends Component {
   componentDidMount() {
     // Storing the global "this" object to later reference it in D3 event functions
     const self = this
-    console.log(this.state)
+    // console.log(this.state)
 
     // Storing a selection of the steps element
     this.layerSteps = D3.select("#step-wrapper").selectAll(".step-layer")
@@ -166,12 +167,13 @@ class SystemMapPage extends Component {
     // setup resize event
     window.addEventListener("resize", this.scroller.resize)
     // Probably the way to resize, below
-    // window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize);
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
       const viewBoxWidth = 1400 // svg container width
       const viewBoxHeight = 600 // svg container height. Needs to be the same as height for svg-wrapper specified in SCSS
+      const scaleFactor = 1.4
 
       // Storing a selection of the root node for the imported SVG
       let svgMap = D3.select(smSvg).select("svg").node()
@@ -217,6 +219,35 @@ class SystemMapPage extends Component {
       // Adding event listeners: layer 1 (cogs)
       D3.select("#cog-click")
         .selectAll("rect")
+        // Test to make symbols bigger on hover
+        .on("mouseover", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Making cogs bigger - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${(1 - scaleFactor) * (bbox.x + bbox.width / 2)}, ${
+                (1 - scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(${scaleFactor})`
+            )
+        })
+        .on("mouseout", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Cogs back to original size - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${
+                (1 - 1 / scaleFactor) * (bbox.x + bbox.width / 2)
+              }, ${
+                (1 - 1 / scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(1/${scaleFactor})`
+            )
+        })
         .on("click", function (d) {
           console.log(this.id)
           self.modalX = D3.event.clientX + "px"
@@ -230,6 +261,34 @@ class SystemMapPage extends Component {
       // Adding event listeners: layer 2 (zaps)
       D3.select("#zap-click")
         .selectAll("rect")
+        .on("mouseover", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Making zaps bigger - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${(1 - scaleFactor) * (bbox.x + bbox.width / 2)}, ${
+                (1 - scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(${scaleFactor})`
+            )
+        })
+        .on("mouseout", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Zaps back to original size - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${
+                (1 - 1 / scaleFactor) * (bbox.x + bbox.width / 2)
+              }, ${
+                (1 - 1 / scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(1/${scaleFactor})`
+            )
+        })
         .on("click", function () {
           console.log(this)
           // console.log(self)
@@ -241,6 +300,40 @@ class SystemMapPage extends Component {
           self.setState({ zapModalActiveContent: this.id })
         })
     })
+    // .then(d => {
+
+    //   if (window.innerWidth <= 768) {
+
+    //     console.log(D3.select("#cogs")
+    //     .selectAll("g")
+    //     .nodes())
+
+    //     let arr = []; 
+    //     D3.select("#cogs")
+    //     .selectAll("g")
+    //     .nodes().forEach(d => arr.push(d.getBBox()))
+
+    //     console.log(arr)
+
+    //     D3.select("#cogs")
+    //       .selectAll("g")
+    //       .nodes().forEach(d=>d.setAttribute("transform", "scale(1)")
+          
+    //       // .setAttribute("transform", "scale(1.5)"
+    //       // function(d) {
+    //       //   // let bbox = d.getBBox();
+    //       //   // console.log(bbox)
+    //       //   // return `translate(${(1 - 10) * (bbox.x + bbox.width / 2)}, ${
+    //       //   //   (1 - 10) * (bbox.y + bbox.height / 2)
+    //       //   // }) scale(${10})`
+    //       //   // return `translate(${(1 - 10) * (100 + 50 / 2)}, ${
+    //       //   //   (1 - 10) * (200 + 50 / 2)
+    //       //   // }) scale(${10})`
+    //       //   return "scale(1.1)"
+    //       // }
+    //       )
+    //   }
+    // })
   }
 
   componentWillUnmount() {
@@ -293,7 +386,6 @@ class SystemMapPage extends Component {
                 <Container id="characters__wrapper" className="stepx">
                   <Row>
                     {data.allContentfulSystemMapCharacters.edges.map(edge => {
-                      // console.log(edge.node.characterName)
                       return (
                         <Col
                           key={edge.node.id}
@@ -303,9 +395,11 @@ class SystemMapPage extends Component {
                           lg={4}
                           className="mb-5 card-custom-column"
                         >
-                          <Accordion className="accordion-characters" style={{position: "relative"}}>
+                          <Accordion
+                            className="accordion-characters"
+                            style={{ position: "relative" }}
+                          >
                             <Card className="bg-dark text-light card-custom-dark">
-                         
                               <Accordion.Toggle
                                 as={Card.Header}
                                 variant="link"
@@ -316,9 +410,14 @@ class SystemMapPage extends Component {
                                 </Card.Title>
                                 {this.state.windowWidth < 650 && <p>Test</p>}
                               </Accordion.Toggle>
-                            
+
                               <Accordion.Collapse eventKey="0">
-                                <Card.Body className="character-card__body" style={{padding: "0 1.25rem 1.25rem 1.25rem"}}>
+                                <Card.Body
+                                  className="character-card__body"
+                                  style={{
+                                    padding: "0 1.25rem 1.25rem 1.25rem",
+                                  }}
+                                >
                                   <Card.Text id="character-card__text">
                                     {edge.node.characterDescription
                                       ? edge.node.characterDescription
@@ -389,23 +488,6 @@ class SystemMapPage extends Component {
                       >
                         <path
                           d="M61.7071 8.70711C62.0976 8.31658 62.0976 7.68342 61.7071 7.29289L55.3431 0.928932C54.9526 0.538408 54.3195 0.538408 53.9289 0.928932C53.5384 1.31946 53.5384 1.95262 53.9289 2.34315L59.5858 8L53.9289 13.6569C53.5384 14.0474 53.5384 14.6805 53.9289 15.0711C54.3195 15.4616 54.9526 15.4616 55.3431 15.0711L61.7071 8.70711ZM0 9H61V7H0V9Z"
-                          fill="black"
-                        />
-                      </svg>
-                    </div>
-                    <p>Lorem ipsum dolor</p>
-                  </div>
-                  <div className="sm-legend__item">
-                    <div className="sm-legend__symbol">
-                      <svg
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 62 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M61.3536 8.35355C61.5488 8.15829 61.5488 7.84171 61.3536 7.64645L58.1716 4.46447C57.9763 4.2692 57.6597 4.2692 57.4645 4.46447C57.2692 4.65973 57.2692 4.97631 57.4645 5.17157L60.2929 8L57.4645 10.8284C57.2692 11.0237 57.2692 11.3403 57.4645 11.5355C57.6597 11.7308 57.9763 11.7308 58.1716 11.5355L61.3536 8.35355ZM0 8.5H1.90625V7.5H0V8.5ZM5.71875 8.5H9.53125V7.5H5.71875V8.5ZM13.3438 8.5H17.1562V7.5H13.3438V8.5ZM20.9688 8.5H24.7812V7.5H20.9688V8.5ZM28.5938 8.5H32.4062V7.5H28.5938V8.5ZM36.2188 8.5H40.0312V7.5H36.2188V8.5ZM43.8438 8.5H47.6562V7.5H43.8438V8.5ZM51.4688 8.5H55.2812V7.5H51.4688V8.5ZM59.0938 8.5H61V7.5H59.0938V8.5ZM61.7071 8.70711C62.0976 8.31658 62.0976 7.68342 61.7071 7.29289L55.3431 0.928932C54.9526 0.538408 54.3195 0.538408 53.9289 0.928932C53.5384 1.31946 53.5384 1.95262 53.9289 2.34315L59.5858 8L53.9289 13.6569C53.5384 14.0474 53.5384 14.6805 53.9289 15.0711C54.3195 15.4616 54.9526 15.4616 55.3431 15.0711L61.7071 8.70711ZM0 9H1.90625V7H0V9ZM5.71875 9H9.53125V7H5.71875V9ZM13.3438 9H17.1562V7H13.3438V9ZM20.9688 9H24.7812V7H20.9688V9ZM28.5938 9H32.4062V7H28.5938V9ZM36.2188 9H40.0312V7H36.2188V9ZM43.8438 9H47.6562V7H43.8438V9ZM51.4688 9H55.2812V7H51.4688V9ZM59.0938 9H61V7H59.0938V9Z"
                           fill="black"
                         />
                       </svg>
