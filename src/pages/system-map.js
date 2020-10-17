@@ -30,7 +30,6 @@ class SystemMapPage extends Component {
     staticModalActiveContent: "",
     cogModalActiveContent: "",
     zapModalActiveContent: "",
-    windowWidth: window.innerWidth,
   }
 
   setShow = ({ isVisible }) => {
@@ -408,7 +407,6 @@ class SystemMapPage extends Component {
                                 <Card.Title className="character-card__title">
                                   {edge.node.characterName}
                                 </Card.Title>
-                                {this.state.windowWidth < 650 && <p>Test</p>}
                               </Accordion.Toggle>
 
                               <Accordion.Collapse eventKey="0">
