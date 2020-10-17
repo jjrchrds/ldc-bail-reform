@@ -266,6 +266,16 @@
 }
 
 .modal-document {
+
+  @include media-breakpoint-up(lg) {
+    height: auto;
+    width: auto;
+    
+    .modal-dialog {
+      margin: 0;
+    }
+  }
+
   .modal-title {
     font-family: "Martin";
     font-weight: 400;
@@ -366,4 +376,14 @@
 }
 .event-title {
   line-height: 1;
+}
+
+.list-related {
+  font-size: 1rem;
+  line-height: 1.1rem;
+  li:last-child {
+    a {
+      margin-bottom: 0 !important;
+    }
+  }
 }

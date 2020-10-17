@@ -11,6 +11,17 @@ import Fade from 'react-reveal/Fade';
 
 const MethodologyPage = ({data}) => {
 
+  //Preview Modal
+  const [ showPreviewModal, setShowPreviewModal ] = useState(false);
+
+  const handlePreviewModalShow = (e) => {
+
+  }
+
+  const handlePreviewModalClose = (e) => {
+
+  }
+
   //Document Modal
   const documentModal = useRef(null);
   const [showDocumentModal, setShowDocumentModal] = useState(false);
@@ -28,12 +39,19 @@ const MethodologyPage = ({data}) => {
     center: true
   })
 
-  const handleDocumentModalClose = () => setShowDocumentModal(false);
+  const handleDocumentModalClose = () => {
+    console.log('handleDocumentModalClose called');
+    setShowDocumentModal(false);
+  }
+
   const handleDocumentModalShow = (doc, bg, e) => {
+    console.log('handleDocumentModalShow called');
+
     let rect = e.target.getBoundingClientRect();
     let modalWidth = 500;
-    let offsetLeft = rect.left - (viewport.width/2 - modalWidth/2)
-    let offsetTop = rect.top;
+
+    let offsetLeft = rect.left;
+    let offsetTop = rect.top + 30;
     let center = true;
 
     if (viewport.width > 992) {
@@ -46,7 +64,7 @@ const MethodologyPage = ({data}) => {
     // if (modalHeight + rect.top > viewport.height) {
     //   offsetTop = rect.top - 
     // }
-
+  
     setDocumentCard( prevState => {
       return {
         ...prevState,
@@ -63,6 +81,9 @@ const MethodologyPage = ({data}) => {
       }
     })
     setShowDocumentModal(true);
+  }
+
+  const handleDocumentModalMouseOver = () => {
 
   }
 
@@ -73,16 +94,13 @@ const MethodologyPage = ({data}) => {
       const modal = document.getElementById('modal-document')
       const rect = modal ? modal.getBoundingClientRect() : null;
       if (rect) {
-        let offsetTop = documentCard.top + rect.height + 60;
-        console.log(rect);
-        console.log(offsetTop, viewport.height);
+        let offsetTop = documentCard.top + rect.height + 50;
 
         if ( offsetTop > viewport.height ) {
-          console.log('too tall');
           setDocumentCard( prevState => {
             return {
               ...prevState,
-              top: !documentCard.center ? (documentCard.top - rect.height - 34) : 0
+              top: !documentCard.center ? (documentCard.top - rect.height - 40) : 0
             }
           })
         }
@@ -272,6 +290,7 @@ const MethodologyPage = ({data}) => {
         className="modal-document"
         centered={ documentCard.center }
         backdropClassName="modal-backdrop-xs"
+        backdrop={ false }
         id="modal-document"
         // backdrop={ documentCard.center }
         style={{ top: documentCard.top, left: documentCard.left }}
@@ -286,19 +305,19 @@ const MethodologyPage = ({data}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          { documentCard.author ? <p>{documentCard.author}</p> : ''}
+          { documentCard.author ? <p className="mb-2">{documentCard.author}</p> : ''}
           { documentCard.title ? <a href={documentCard.url} target="_blank" className="d-block mb-3" rel="noreferrer">{documentCard.title}</a> : ''}
           { documentCard.quote ? <p><em>"{documentCard.quote}"</em></p> : ''}
           { documentCard.links ? 
           <>
           <h2 className="h5 my-2 text-uppercase">Related Documents</h2>
-          <ul className="mb-0 list-unstyled">
+          <ul className="mb-0 list-unstyled list-related">
             {
               documentCard.links.map( (linkedDocument , idx) => {
                 // console.log(linkedDocument);
                 return (
                   <li key={ linkedDocument.recordId }>
-                    <a target="_blank" href={ linkedDocument.data.URL } className="d-block btn-link mb-1" rel="noreferrer">{ linkedDocument.data.Title }</a>
+                    <a target="_blank" href={ linkedDocument.data.URL } className="d-block btn-link mb-2" rel="noreferrer">{ linkedDocument.data.Title }</a>
                   </li>
                 )
               })
@@ -514,6 +533,8 @@ const MethodologyPage = ({data}) => {
                           
                             style={{ left: offsetLeft + '%', backgroundColor: bg}}
                             onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
+                            onMouseEnter={ (e)=> handleDocumentModalShow(doc, bg, e) }
+                            onMouseLeave={ null }
                           >
                             {year}-document-{index}
                           </button>
