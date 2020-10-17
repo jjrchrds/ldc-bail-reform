@@ -299,23 +299,24 @@ class SystemMapPage extends Component {
                           key={edge.node.id}
                           xs={10}
                           sm={10}
-                          md={4}
+                          md={6}
+                          lg={4}
                           className="mb-5 card-custom-column"
                         >
-                          <Accordion style={{position: "relative"}}>
+                          <Accordion className="accordion-characters" style={{position: "relative"}}>
                             <Card className="bg-dark text-light card-custom-dark">
-                              <Card.Header style={{borderBottom: "none"}}>
-                                <Accordion.Toggle
-                                  as={Card.Header}
-                                  variant="link"
-                                  eventKey="0"
-                                >
-                                  <Card.Title className="character-card__title">
-                                    {edge.node.characterName}
-                                  </Card.Title>
-                                  {this.state.windowWidth < 650 && <p>Test</p>}
-                                </Accordion.Toggle>
-                              </Card.Header>
+                         
+                              <Accordion.Toggle
+                                as={Card.Header}
+                                variant="link"
+                                eventKey="0"
+                              >
+                                <Card.Title className="character-card__title">
+                                  {edge.node.characterName}
+                                </Card.Title>
+                                {this.state.windowWidth < 650 && <p>Test</p>}
+                              </Accordion.Toggle>
+                            
                               <Accordion.Collapse eventKey="0">
                                 <Card.Body className="character-card__body" style={{padding: "0 1.25rem 1.25rem 1.25rem"}}>
                                   <Card.Text id="character-card__text">

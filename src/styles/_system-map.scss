@@ -174,3 +174,21 @@
 // #sidebar-col {
 //   background: yellow;
 // }
+
+.accordion-characters { 
+  .collapse, .collapsing {
+    
+    @include media-breakpoint-up(md) {
+      display: block !important;
+      height: auto !important;
+    }
+  }
+  .card-body {
+    @include media-breakpoint-up(md) {
+      min-height: 250px;
+    }
+    @include media-breakpoint-up(lg) {
+      min-height: 300px;
+    }
+  }
+}
