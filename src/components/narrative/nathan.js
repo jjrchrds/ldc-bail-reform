@@ -1,25 +1,65 @@
 import React, { Component } from "react"
 import "intersection-observer"
+import clsx from "clsx"
+
+import { Parallax, Background } from "react-parallax"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import Container from "react-bootstrap/Container"
+// import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import { StaticQuery, graphql } from "gatsby"
 import { BLOCKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
-const RichTextOptions = {
+// https://png-pixel.com/
+//1x1 transparent png
+const transparentPixel =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
 
+const RichTextOptions = {
   renderNode: {
-    [BLOCKS.PARAGRAPH]: (node, children) => <p>{children}</p>
+    [BLOCKS.PARAGRAPH]: (node, children) => <p>{children}</p>,
   },
 }
 
 class NathanNarrative extends Component {
+  //no need for explicit constructor anymore
+  //https://hackernoon.com/the-constructor-is-dead-long-live-the-constructor-c10871bea599
+  constructor(props) {
+    super(props)
+    this.nathanRef = React.createRef()
+    this.nathanMeetTextRef = React.createRef()
+    this.nathanPortraitRef = React.createRef()
+    this.nathanMeetTextElm = null
+    this.policeCarImgRef = React.createRef()
+  }
+
   state = {
     nathanModal2: false,
     nathanModal1: false,
   }
+
+  componentDidMount() {
+    this.props.attachNathanRef(this.nathanRef)
+    // console.log(this.nathanRef.current.querySelector('.meet-nathan').offsetHeight)
+
+    this.meetNathanSlideHeight = this.nathanRef.current.querySelector(
+      ".meet-nathan"
+    ).offsetHeight
+
+    // this.meetNathanSlideHeight =
+    //   this.nathanRef.current.querySelector('.meet-nathan').offsetHeight;
+
+    try {
+      this.nathanMeetTextElm = this.nathanMeetTextRef.current
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {}
 
   handleNathanModal1Show = () => {
     this.setState({
@@ -54,6 +94,8 @@ class NathanNarrative extends Component {
       case "image":
         return query.filter(edge => edge.node.slideNumber === slideNumber)[0]
           .node.slideImage.fluid.src
+      default:
+      //no default
     }
   }
 
@@ -67,33 +109,22 @@ class NathanNarrative extends Component {
           RichTextOptions
         )
       case "image":
-        return query.filter(edge => edge.node.modalId === id)[0].node.image.fluid.src
+        return query.filter(edge => edge.node.modalId === id)[0].node.image
+          .fluid.src
+      default:
+      //no default
     }
   }
 
   scrollHeight = () => {
     return {
-      height: "100vh"
+      height: "100vh",
     }
   }
 
   render() {
     const { nathanModal1, nathanModal2 } = this.state
-
-    var nathan1Style = () => {
-      console.log(this.props.allContentfulNarrativePageTemplatestep)
-      if (this.props.step <= 1) {
-        return {
-          position: "sticky",
-          top: 0
-        }
-      } else {
-        return {
-          position: "relative"
-        }
-      }
-
-    }
+    const { progress } = this.props
 
     return (
       <StaticQuery
@@ -142,203 +173,283 @@ class NathanNarrative extends Component {
           const narrativeContent = data.allContentfulNarrativePageTemplate.edges
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
 
+          //decide on standard -- put px in 
+          //place where vbl is being used 
+          const nathanPortraitTotalDist = 125
+          const nathanPortraitOffset = `${
+            (1 - progress) * nathanPortraitTotalDist
+          }px`
+            
+            const CAR_IMG_MAX_PROGRESS = .54;
+            const offsetFraction = 
+              Math.min(progress, CAR_IMG_MAX_PROGRESS);
+            const policeCarImgOffset = 
+              this.policeCarImgRef.current != null ? 
+              Math.round(
+                (offsetFraction * window.innerWidth) - 
+                  (this.policeCarImgRef.current.offsetWidth/2)
+              ) : 0;
+          
           return (
-            <div id="narrative-nathan">
-              <div className="narrative-step">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={5}>
-                        <img
-                          src={this.querySlideContent(narrativeContent, 1, "image")}
-                          width="100%"
-                        />
-                      </Col>
-                      <Col md={5} className="narrative-text-container">
-                        <span>
-                          <h1>
-                            {this.querySlideContent(narrativeContent, 1, "heading")}
-                          </h1>
-                        
-                            {this.querySlideContent(narrativeContent, 1, "body")}
-                          
-                        </span>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div style={this.scrollHeight("100vh")}></div>
-              </div>
-
-              <div className="narrative-step ">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <img
-                      src={this.querySlideContent(narrativeContent, 2, "image")}
-                      id="police-car-image"
-                    />
-                    <Row className="justify-content-md-center">
-                      <Col md={9}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 2, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 2, "body")}
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-
-              <div className="narrative-step " >
-                <div className="sticky" >
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={4}>
-                        <img
-                          src={this.querySlideContent(narrativeContent, 3, "image")}
-                          width="100%"
-                        />
-                      </Col>
-                      <Col md={6} style={{ position: "relative" }}>
-                        <span>
-                          <h1>
-                            {this.querySlideContent(narrativeContent, 3, "heading")}
-                          </h1>
-                          
-                          {this.querySlideContent(narrativeContent, 3, "body")}
-                          
-                        </span>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-              <div className="narrative-step " >
-                <div className="sticky" id="nathan-choice-slide">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={8}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 4, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 4, "body")}
-                        <div style={{ display: "flex", justifyContent: "center" }}>
-                          <Button
-                            size="lg"
-                            onClick={this.handleNathanModal1Show}
-                            className="narrative-button-left"
-                          >
-                            Speak Up
-                      </Button>
-                          <Button
-                            size="lg"
-                            onClick={this.handleNathanModal2Show}
-                            className="narrative-button-right"
-                          >
-                            Wait
-                      </Button>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                  <div style={this.scrollHeight("100vh")}></div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-              <Modal
-                show={nathanModal1}
-                onHide={this.handleModalClose}
-                animation={false}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title className="narrative-modal-title">
-                    <h1>
-                      {this.queryModalContent(modalContent, 1, "heading")}
-                    </h1>
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Row>
-                    <Col md={9}>
-                      {this.queryModalContent(modalContent, 1, "body")}
-                    </Col>
-                    <Col md={2}>
+            <div id="narrative-nathan" ref={this.nathanRef}>
+              <div className="narrative-step meet-nathan">
+                <Container>
+                  <Row className="relative-content justify-content-center">
+                    <Col xs="auto" className="d-flex align-items-center">
                       <img
-                        src={this.queryModalContent(modalContent, 1, "image")}
-                        height="200px"
+                        src={this.querySlideContent(
+                          narrativeContent,
+                          1,
+                          "image"
+                        )}
+                        className="nathan-portrait-img"
+                        ref={this.nathanPortraitRef}
+                        alt=""
+                        style={{
+                          // position: "relative",
+                          // bottom: nathanPortraitOffset,
+                          transform: `translate3d(0, ${nathanPortraitOffset}, 0)`,
+                        }}
+                      />
+                    </Col>
+                    <Col className="d-flex flex-column justify-content-center">
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 1, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 1, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+              {/* sort of working for parallax */}
+              {/* <div className="narrative-step arrest">
+                <Container className="relative-content">
+                  <Row>
+                    <Col>
+                      <Parallax
+                        bgImage={transparentPixel}
+                        renderLayer={percentage => (
+                          <div>
+                            <img
+                              className="police-car-img"
+                              src={this.querySlideContent(
+                                narrativeContent,
+                                2,
+                                "image"
+                              )}
+                              alt=""
+                              style={{
+                                position: "fixed",
+                                top: 50,
+                                // left: `${(percentage * 100) - 50}%`,
+                                transform: `translateX(${(percentage * 200) - 100}%)`
+                              }}
+                            />
+                          </div>
+                        )}
+                      >
+                        <div style={{height: 500}}/>
+                      </Parallax>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 2, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 2, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div> */}
+
+              {/* a different parallax plugin  */}
+              <div className="narrative-step arrest">
+                <Container className="relative-content">
+                  <Row>
+                    <Col style={{ marginBottom: 500 }}>
+                      <img
+                        ref={this.policeCarImgRef}
+                        className={clsx(
+                          "police-car-img",
+                          offsetFraction < CAR_IMG_MAX_PROGRESS && "max-offset"
+                        )} 
+                        src={this.querySlideContent(
+                          narrativeContent,
+                          2,
+                          "image"
+                        )}
+                        alt=""
+                        style={{
+                          position: "fixed",
+                          transform: `rotate(1.79deg) translate3d(${policeCarImgOffset}px, 0, 0)`,
+                          opacity: offsetFraction < CAR_IMG_MAX_PROGRESS ?
+                            1 : .15
+                        }}
                       />
                     </Col>
                   </Row>
-                </Modal.Body>
-              </Modal>
-
-              <Modal
-                show={nathanModal2}
-                onHide={this.handleModalClose}
-                animation={false}
-                id="nathan-wait-modal"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title className="narrative-modal-title">
-                    <h1> {this.queryModalContent(modalContent, 2, "heading")}</h1>
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
                   <Row>
-                    <Col md={8}>
-                      {this.queryModalContent(modalContent, 2, "body")}
-                    </Col>
                     <Col>
-                      <img src={this.queryModalContent(modalContent, 2, "image")} width="200px" />
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 2, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 2, "body")}
                     </Col>
                   </Row>
-                </Modal.Body>
-              </Modal>
-
-              <div className="narrative-step" >
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={4}>
-                        <img
-                          src={this.querySlideContent(narrativeContent, 5, "image")}
-                          width="100%"
-                        />
-                      </Col>
-                      <Col md={6} style={{ position: "relative" }}>
-                        <span>
-                          <h1>
-                            {this.querySlideContent(narrativeContent, 5, "heading")}
-                          </h1>
-                          
-                            {this.querySlideContent(narrativeContent, 5, "body")}
-                          
-                        </span>
-                      </Col>
-                    </Row>
-                  </div>
-                  <div style={this.scrollHeight("100vh")}></div>
-                </div>
-                <div className="scroll-height"></div>
+                </Container>
               </div>
 
-              <div className="narrative-step" >
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={8}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 6, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 6, "body")}
+              <div className="narrative-step police-station-intro">
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col xs="auto" className="d-flex align-items-end">
+                      <img
+                        className="payphone-img"
+                        src={this.querySlideContent(
+                          narrativeContent,
+                          3,
+                          "image"
+                        )}
+                        alt=""
+                      />
+                    </Col>
+                    <Col className="d-flex flex-column justify-content-end police-station-intro-text">
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 3, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 3, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+              {/*  police station choice */}
+              <div className="narrative-step ">
+                <Container
+                  className="relative-content police-station-choice"
+                  id="nathan-choice-slide"
+                >
+                  <Row className="justify-content-center">
+                    <Col>
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 4, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 4, "body")}
+                      <div className="narrative-btns-container">
+                        <Button
+                          size="lg"
+                          onClick={this.handleNathanModal1Show}
+                          className="narrative-btn left"
+                        >
+                          Speak Up
+                        </Button>
+                        <Button
+                          size="lg"
+                          onClick={this.handleNathanModal2Show}
+                          className="narrative-btn right"
+                        >
+                          Wait
+                        </Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+                <Modal
+                  show={nathanModal1}
+                  onHide={this.handleModalClose}
+                  animation={false}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title className="narrative-modal-title">
+                      <h1>
+                        {this.queryModalContent(modalContent, 1, "heading")}
+                      </h1>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Row>
+                      <Col md={9}>
+                        {this.queryModalContent(modalContent, 1, "body")}
+                      </Col>
+                      <Col md={2}>
+                        <img
+                          src={this.queryModalContent(modalContent, 1, "image")}
+                          height="200px"
+                          alt=""
+                        />
                       </Col>
                     </Row>
-                  </div>
-                  <div style={this.scrollHeight("100vh")}></div>
-                </div>
-                <div className="scroll-height"></div>
+                  </Modal.Body>
+                </Modal>
+
+                <Modal
+                  show={nathanModal2}
+                  onHide={this.handleModalClose}
+                  animation={false}
+                  id="nathan-wait-modal"
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title className="narrative-modal-title">
+                      <h1>
+                        {" "}
+                        {this.queryModalContent(modalContent, 2, "heading")}
+                      </h1>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Row>
+                      <Col md={8}>
+                        {this.queryModalContent(modalContent, 2, "body")}
+                      </Col>
+                      <Col>
+                        <img
+                          src={this.queryModalContent(modalContent, 2, "image")}
+                          width="200px"
+                          alt=""
+                        />
+                      </Col>
+                    </Row>
+                  </Modal.Body>
+                </Modal>
+              </div>
+
+              <div className="narrative-step the-court">
+                <Container className="relative-content the-court">
+                  <Row className="justify-content-center">
+                    <Col xs="auto" className="d-flex align-items-center">
+                      <img
+                        className="calendar-img"
+                        src={this.querySlideContent(
+                          narrativeContent,
+                          5,
+                          "image"
+                        )}
+                        alt=""
+                      />
+                    </Col>
+                    <Col className="d-flex flex-column justify-content-center">
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 5, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 5, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+              <div className="narrative-step what-happened-next">
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col>
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 6, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 6, "body")}
+                    </Col>
+                  </Row>
+                </Container>
               </div>
             </div>
           )
