@@ -62,7 +62,7 @@ const IndexPage = () => {
 
       <Jumbotron className="hero" fluid>
         <BackgroundImage
-          className="hero-img"
+          className="hero-img row justify-content-center"
           fluid={data.homeHero.childImageSharp.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
