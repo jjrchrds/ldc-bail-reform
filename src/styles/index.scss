@@ -128,6 +128,10 @@ h1, h2, h3, h4, h5, h6 {
   -o-transform: rotate(1.33deg);
   -ms-transform: rotate(1.33deg);
   transform: rotate(1.33deg);
+
+  &.modal {
+    z-index: 1;
+  }
   
   .modal-content, .modal-header, .modal-footer {
     border-radius: 0;
@@ -154,10 +158,6 @@ h1, h2, h3, h4, h5, h6 {
 // --- Modifying Layout Components ---------
 body.modal-open {
   overflow: auto !important;
-}
-
-.modal {
-  z-index: 1 !important;
 }
 
 .align-contents-bottom {
