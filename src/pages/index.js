@@ -50,7 +50,7 @@ const IndexPage = () => {
   return (
     <Layout>
       <Head title="Home" />
-      <Jumbotron className="hero pt-5" fluid>
+      <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"
           fluid={data.homeHero.childImageSharp.fluid}

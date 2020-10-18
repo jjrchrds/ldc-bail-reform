@@ -1,15 +1,15 @@
 import React from "react"
 import { Link } from "gatsby"
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
+import { Navbar, Nav, Container, NavDropdown, Modal, Button } from "react-bootstrap"
 import headerStyles from "./header.module.scss"
 
-/* Import SVG Components */
 import Logo from "../../static/assets/svg/logo_navbar.svg";
+import BetaSticker from "../components/beta-sticker"
 
 const Header = () => {
   
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+    <Navbar className="beta-sticker-wrap" collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/" aria-label="Go to homepage">
           <Logo width={200}/>
@@ -29,6 +29,8 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+
+      <BetaSticker />
     </Navbar>
   )
 }

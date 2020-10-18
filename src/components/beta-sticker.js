@@ -1,17 +1,25 @@
 import React from "react"
-import { Button, Modal, Row, Col } from "react-bootstrap"
+import { Button, Modal } from "react-bootstrap"
 import { Link } from "gatsby"
 
 class BetaSticker extends React.Component {
   render(){
     return (
-      <Modal className="beta-sticker text-light bg-green">
-        <h3>This is a beta!</h3>
-        <p>We'd love your feedback, lorem ipsum dolor sit amet.</p>
-        <Button as={Link} to="/cta" className="bg-pink">
-          <h4>Get in Touch</h4>
-        </Button>
-      </Modal>
+      <Modal.Dialog className="beta-sticker text-light">
+        <Modal.Header closeButton>
+          <Modal.Title><h2>This is a beta!</h2></Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body >
+          <p className="display-4">We'd love your feedback, lorem ipsum dolor sit amet.</p>
+        </Modal.Body>
+
+        <Modal.Footer className="justify-content-center">
+          <Button as={Link} to="/cta" variant="pink" className="text-light">
+            <h4 className="uppercase">Get in Touch</h4>
+          </Button>
+        </Modal.Footer>
+      </Modal.Dialog>
     )
   }
 }
