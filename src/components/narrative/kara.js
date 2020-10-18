@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import "intersection-observer"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
@@ -57,8 +56,6 @@ class KaraNarrative extends Component {
       case "image":
         return query.filter(edge => edge.node.slideNumber === slideNumber)[0]
           .node.slideImage.fluid.src
-      default:
-      //no default
     }
   }
 
@@ -72,10 +69,8 @@ class KaraNarrative extends Component {
           RichTextOptions
         )
       case "image":
-        return query.filter(edge => edge.node.modalId === id)[0].node.image
-          .fluid.src
-      default:
-      //no default
+        return query.filter(edge => edge.node.modalId == id)[0].node.image.fluid
+          .src
     }
   }
 
@@ -129,279 +124,299 @@ class KaraNarrative extends Component {
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
           return (
             <div id="narrative-kara">
-              <div className="narrative-step meet-kara">
-                <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col className="d-flex flex-column justify-content-center">
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 1, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 1, "body")}
-                    </Col>
-                    <Col xs="auto" className="d-flex align-items-center">
-                      <img
-                        src="./assets/kara.png"
-                        className="kara-portrait-img"
-                        alt=""
-                      />
-                    </Col>
-                  </Row>
-                </Container>
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center">
+                      <Col md={5} className="narrative-text-container">
+                        <span>
+                          <h1>
+                            {this.querySlideContent(narrativeContent, 1, "heading")}
+                          </h1>
+                          {this.querySlideContent(narrativeContent, 1, "body")}
+                        </span>
+                      </Col>
+                      <Col md={4}>
+                        <img src="./assets/kara.png" width="100%" />
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
+
+
               </div>
 
-              <div className="narrative-step contacting-family">
-                <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col className="d-flex justify-content-between">
-                      <Card className="kara-phone-card">
-                        <Card.Body className="kara-phone-card-content">
-                          <img src="./assets/avatar.svg" alt="" />
-                          <div>
-                            <p>Jason M.</p>
-                            <p>905-225-0101</p>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                      <Card className="kara-phone-card">
-                        <Card.Body className="kara-phone-card-content">
-                          <img src="./assets/avatar.svg" alt="" />
-                          <div>
-                            <p>Mark R.</p>
-                            <p>418-543-0901</p>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                      <Card className="kara-phone-card">
-                        <Card.Body className="kara-phone-card-content">
-                          <img src="./assets/avatar.svg" alt="" />
-                          <div>
-                            <p>Amy Z.</p>
-                            <p>905-555-0123</p>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </Row>
-                  <Row className="justify-content-center contacting-family-text">
-                    <Col>
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 2, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 2, "body")}
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-
-              <div className="narrative-step family-or-money">
-                <Container className="relative-content" id="kara-choice-slide">
-                  <Row className="justify-content-center">
-                    <Col className="d-flex flex-column">
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 3, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 3, "body")}
-                      <div className="narrative-btns-container">
-                        <Button
-                          size="lg"
-                          onClick={this.handleKaraModal1Show}
-                          className="narrative-btn left"
-                        >
-                          Buy Landline
-                        </Button>
-                        <Button
-                          size="lg"
-                          onClick={this.handleKaraModal2Show}
-                          className="narrative-btn right"
-                        >
-                          Call Amy
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Modal
-                    show={karaModal1}
-                    onHide={this.handleModalClose}
-                    animation={false}
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title className="narrative-modal-title">
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center" md={4}>
+                      <Col>
+                        <Card className="kara-phone-card">
+                          <Card.Body className="kara-phone-card-content">
+                            <Row className="justify-content-md-center">
+                              <Col md={5}>
+                                <img src="./assets/avatar.svg" width="100%" />
+                              </Col>
+                              <Col md={7}>
+                                <p>Jason M.</p>
+                                <p>905-225-0101</p>
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                      <Col>
+                        <Card className="kara-phone-card">
+                          <Card.Body className="kara-phone-card-content">
+                            <Row className="justify-content-md-center">
+                              <Col md={5}>
+                                <img src="./assets/avatar.svg" width="100%" />
+                              </Col>
+                              <Col md={7}>
+                                <p>Mark R.</p>
+                                <p>418-543-0901</p>
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                      <Col>
+                        <Card className="kara-phone-card">
+                          <Card.Body className="kara-phone-card-content">
+                            <Row className="justify-content-md-center">
+                              <Col md={5}>
+                                <img src="./assets/avatar.svg" width="100%" />
+                              </Col>
+                              <Col md={7}>
+                                <p>Amy Z.</p>
+                                <p>905-555-0123</p>
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                      <Col md={9}>
                         <h1>
-                          {this.queryModalContent(modalContent, 3, "heading")}
+                          {this.querySlideContent(narrativeContent, 2, "heading")}
                         </h1>
-                      </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Row>
-                        <Col md={9}>
-                          {this.queryModalContent(modalContent, 3, "body")}
-                        </Col>
-                        <Col md={2}>
-                          <img
-                            src={this.queryModalContent(
-                              modalContent,
-                              3,
-                              "image"
-                            )}
-                            height="200px"
-                            alt=""
-                          />
-                        </Col>
-                      </Row>
-                    </Modal.Body>
-                  </Modal>
+                        {this.querySlideContent(narrativeContent, 2, "body")}
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
 
-                  <Modal
-                    show={karaModal2}
-                    onHide={this.handleModalClose}
-                    animation={false}
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title className="narrative-modal-title">
+              </div>
+
+              <div className="narrative-step">
+                <div className="sticky" id="kara-choice-slide">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center">
+                      <Col md={8}>
                         <h1>
-                          {this.queryModalContent(modalContent, 4, "heading")}
+                          {this.querySlideContent(narrativeContent, 3, "heading")}
                         </h1>
-                      </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Row>
-                        <Col md={9}>
-                          {this.queryModalContent(modalContent, 4, "body")}
-                        </Col>
-                        <Col>
-                          <img
-                            src={this.queryModalContent(
-                              modalContent,
-                              4,
-                              "image"
-                            )}
-                            width="125px"
-                            alt=""
-                          />
-                        </Col>
-                      </Row>
-                    </Modal.Body>
-                  </Modal>
-                </Container>
+                        {this.querySlideContent(narrativeContent, 3, "body")}
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                          <Button
+                            size="lg"
+                            onClick={this.handleKaraModal1Show}
+                            className="narrative-button-left"
+                          >
+                            Buy Landline
+                      </Button>
+                          <Button
+                            size="lg"
+                            onClick={this.handleKaraModal2Show}
+                            className="narrative-button-right"
+                          >
+                            Call Amy
+                      </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
               </div>
 
-              <div className="narrative-step life-in-jail">
-                <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col className="d-flex flex-column justify-content-end">
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 4, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 4, "body")}
+              <Modal
+                show={karaModal1}
+                onHide={this.handleModalClose}
+                animation={false}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title className="narrative-modal-title">
+                    <h1>
+                      {this.queryModalContent(modalContent, 3, "heading")}
+                    </h1>
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Row>
+                    <Col md={9}>
+                      {this.queryModalContent(modalContent, 3, "body")}
                     </Col>
-                    <Col>
+                    <Col md={2}>
                       <img
-                        src="./assets/lightbulb.png"
-                        className="lightbulb-img"
-                        alt=""
+                        src={this.queryModalContent(modalContent, 3, "image")}
+                        height="200px"
                       />
                     </Col>
                   </Row>
-                </Container>
-              </div>
+                </Modal.Body>
+              </Modal>
 
-              <div className="narrative-step opportunity-for-bail">
-                <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col className="d-flex flex-column">
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 5, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 5, "body")}
+              <Modal
+                show={karaModal2}
+                onHide={this.handleModalClose}
+                animation={false}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title className="narrative-modal-title">
+                    <h1>
+                      {this.queryModalContent(modalContent, 4, "heading")}
+                    </h1>
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Row>
+                    <Col md={9}>
+                      {this.queryModalContent(modalContent, 4, "body")}
                     </Col>
-                  </Row>
-                </Container>
-              </div>
-
-              <div className="narrative-step opportunity-for-bail-cards">
-                <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col className="d-flex flex-column align-items-center">
-                      <Card className="kara-card monique">
-                        <Card.Body className="kara-card-content">
-                          <span>Monique</span>
-                          <ul>
-                            <li>Recently lost her job as a bank teller</li>
-                            <li>Instacart worker</li>
-                          </ul>
-                        </Card.Body>
-                      </Card>
-                      <Card className="kara-card lisa">
-                        <Card.Body className="kara-card-content">
-                          <span>Lisa</span>
-                          <ul>
-                            <li>Home-care worker</li>
-                            <li>Lives with employer</li>
-                          </ul>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                    <Col className="d-flex flex-column align-items-center">
-                      <Card className="kara-card alex">
-                        <Card.Body className="kara-card-content">
-                          <span>Alex</span>
-                          <ul>
-                            <li>Uber driver</li>
-                          </ul>
-                        </Card.Body>
-                      </Card>
-                      <Card className="kara-card mike">
-                        <Card.Body className="kara-card-content">
-                          <span>Mike</span>
-                          <ul>
-                            <li>Starbucks barista</li>
-                            <li>Night shift janitor</li>
-                            <li>Has a kid entering university</li>
-                          </ul>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </Row>
-                  <Row className="justify-content-center none-fits-requirements-text">
-                    <p>None fits the requirements</p>
-                  </Row>
-                </Container>
-              </div>
-
-              <div className="narrative-step phone-call">
-                <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col
-                      md="auto"
-                      className="d-flex flex-column justify-content-center"
-                    >
+                    <Col>
                       <img
-                        src="./assets/mobile.png"
-                        className="cell-phone-img"
-                        alt=""
+                        src={this.queryModalContent(modalContent, 4, "image")}
+                        width="125px"
                       />
                     </Col>
-                    <Col className="d-flex flex-column justify-content-center">
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 7, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 7, "body")}
-                    </Col>
                   </Row>
-                </Container>
+                </Modal.Body>
+              </Modal>
+
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center">
+                      <Col md={8}>
+                        <h1>
+                          {this.querySlideContent(narrativeContent, 4, "heading")}
+                        </h1>
+                        {this.querySlideContent(narrativeContent, 4, "body")}
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
+
               </div>
 
-              <div className="narrative-step what-happend-next">
-                <Container className="relative-content">
-                  <Row className="justify-content-md-center">
-                    <Col>
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 8, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 8, "body")}
-                    </Col>
-                  </Row>
-                </Container>
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center">
+                      <Col md={8}>
+                        <h1>
+                          {this.querySlideContent(narrativeContent, 5, "heading")}
+                        </h1>
+                        {this.querySlideContent(narrativeContent, 5, "body")}
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
+              </div>
+
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center" >
+                      <Col>
+                        <Card className="kara-card">
+                          <Card.Body className="kara-card-content">
+                            <h1>Monique</h1>
+                            <ul>
+                              <li>Recently lost her job as a bank teller</li>
+                              <li>Instacart worker</li>
+                            </ul>
+                          </Card.Body>
+                        </Card>
+                        <Card className="kara-card">
+                          <Card.Body className="kara-card-content">
+                            <h1>Lisa</h1>
+                            <ul>
+                              <li>Home-care worker</li>
+                              <li>Lives with employer</li>
+                            </ul>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                      <Col>
+                        <Card className="kara-card">
+                          <Card.Body className="kara-card-content">
+                            <h1>Alex</h1>
+                            <ul>
+                              <li>Uber driver</li>
+                            </ul>
+                          </Card.Body>
+                        </Card>
+                        <Card className="kara-card">
+                          <Card.Body className="kara-card-content">
+                            <h1>Mike</h1>
+                            <ul>
+                              <li>Starbucks barista</li>
+                              <li>Night shift janitor</li>
+                              <li>Has a kid entering university</li>
+                            </ul>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                      <h1>None fits the requirements</h1>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
+              </div>
+
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center">
+                      <Col md={3}>
+                        <img src="./assets/mobile.png" width="80%" />
+                      </Col>
+                      <Col md={5}>
+                        <h1>
+                          {this.querySlideContent(narrativeContent, 7, "heading")}
+                        </h1>
+                        {this.querySlideContent(narrativeContent, 7, "body")}
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
+
+              </div>
+
+              <div className="narrative-step">
+                <div className="sticky">
+                  <div className="narrative-content">
+                    <Row className="justify-content-md-center">
+                      <Col md={7}>
+                        <h1>
+                          {this.querySlideContent(narrativeContent, 8, "heading")}
+                        </h1>
+                        {this.querySlideContent(narrativeContent, 8, "body")}
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="scroll-height"></div>
               </div>
             </div>
           )
