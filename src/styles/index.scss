@@ -117,53 +117,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.beta-sticker-wrap {
-  position: relative;
-}
-
-.beta-sticker {
-  position: absolute;
-  width: 392px;
-  top: 3.5rem;
-  left: 5%;
-  padding: 1rem;
-  -moz-transform: rotate(1.33deg);
-  -webkit-transform: rotate(1.33deg);
-  -o-transform: rotate(1.33deg);
-  -ms-transform: rotate(1.33deg);
-  transform: rotate(1.33deg);
-
-  &.modal {
-    z-index: 1;
-  }
-  
-  .modal-content, .modal-header, .modal-footer {
-    border-radius: 0;
-    border: none;
-    background: $green;
-  }
-
-  .modal-header {
-    padding: 0.5rem 1rem 0;
-  }
-
-  .modal-body {
-    padding: 0.25rem 1rem;
-    top: -1px;
-  }
-
-  .modal-footer {
-    padding-top: 0;
-    top: -2px;
-  }
-  
-}
-
 // --- Modifying Layout Components ---------
-body.modal-open {
-  overflow: auto !important;
-}
-
 .align-contents-bottom {
   display: flex;
   flex-direction: column;

@@ -1,181 +1,548 @@
-.narrative-step{
-  padding-top: 0;
-  padding-left: 10vw;
-  padding-right: 10vw;
-  padding-bottom: 50vh;
-  font-size: 1.3em;
-  color: white;
-  z-index: -999;
-}
+// @import "~bootstrap/scss/bootstrap";
+$footerHeight: 62px;
+$navbarHeight: 64px;
+
 .gradient-background {
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  margin: 0;
-  width: 100%;
-  height: 100vh;
+  // margin: 0;
+  // width: 100%;
+  // height: 100vh;
   position: fixed;
   z-index: -1;
-  max-width: 100%;
-  background-image: linear-gradient(
-    rgba($color: #000000, $alpha: 0),
-    rgba($color: #000000, $alpha: 1)
-  );
+  // max-width: 100%;
+  background-image: linear-gradient(rgba($color: #000000, $alpha: 0),
+      rgba($color: #000000, $alpha: 1));
 }
 
-#police-car-image {
-  position: absolute;
-  top: -35vh;
-  width: 40vw;
+.narrative-modal-title h1 {
+  font-family: MARTIN, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 56px;
+  line-height: 38px;
+  /* identical to box height, or 68% */
+
+  /* rust */
+
+  color: #E5521D;
 }
 
-#nathan-choice-slide {
-  height: 75vh;
-}
+#narrative-page {
+  #narrative-scroll {
+    font-size: 30px;
+    line-height: 41px;
+    color: #FFFDFB;
 
-#kara-choice-slide {
-  height: 75vh;
-}
+    .quote {
+      font-style: italic;
+    }
 
-.sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-}
 
-.narrative-content {
-  position: absolute;
-  bottom: 0;
-}
 
-.narrative-intro-background {
-    width: 100%;
-    height: 100vh;
-}
+    h1,
+    h2 {
+      color: #FFFDFB;
+    }
 
-.narrative-background {
-  top: 0;
-  left: 0;
-  margin: 0;
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  position: fixed;
-  z-index: -2;
-  max-width: 100%;
-}
-
-.justify-content-md-center {
-  align-items: center;
-}
-
-/* This puts all CSS mods that may have a global impact (due to its name) into a local scope (by selecting the #narrative-scroll parent container) */
-#narrative-scroll {
-  .quote {
-    font-style: italic;
+    #nathan-wait-modal {
+      min-width: 590px;
+    }
   }
 
-  .narrative-modal-title h1 {
-    color: orangered;
+  .narrative-step {
+    visibility: hidden;
+
+    &.active {
+      visibility: visible;
+    }
   }
 
-  h1,
-  h2 {
-    color: white;
+  .relative-content {
+    position: relative;
+    top: -65vh;
+    // padding-left: 461px;
+    // padding-right: 463px;
   }
 
-  #nathan-wait-modal {
-    min-width: 590px;
+  .fixed-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
-}
 
-.kara-phone-card {
-  margin: 10px;
-  border-radius: 0;
-  margin-bottom: 70px;
-}
+  .narrative-btns-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 43px;
+  }
 
-.kara-phone-card-content {
-  color: black;
-  padding: 5px;
-  font-size: 0.75em;
-}
+  .narrative-btn,
+  .narrative-btn:active,
+  .narrative-btn:focus {
+    box-shadow: none;
+    font-family: MARTIN, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 60px;
+    line-height: 69px;
+    /* identical to box height */
+    text-align: center;
+    /* BG */
+    color: #FFFDFB !important;
+    width: 287px;
+    height: 97px;
+    /* pink */
+    background-color: #F08FDB !important;
+    transform: rotate(0.66deg);
+    border-radius: 0;
+    text-transform: uppercase;
+    border-style: none;
+    outline: 0;
 
-.kara-card {
-  margin: 15px;
-  color: black;
-  border-radius: 0;
-}
+    &.left {
+      transform: rotate(0.66deg);
+      margin-right: 45px;
+    }
 
-.kara-card h1 {
-  color: orangered;
-}
+    &.right {
+      transform: rotate(-1.94deg);
+    }
+  }
 
-.kara-card-content {
-  padding: 10px;
-}
 
-#george-conditions ol {
-  list-style: none;
-  counter-reset: my-awesome-counter;
-}
+  #narrative-intro,
+  #narrative-ending {
+    //arbitrary 1px added so that .narrative-step
+    //progress at top starts at < 1 (to allow 
+    //scrollama to transition into next step 
+    //immediately upon scroll down)
+    height: calc(100vh + 1px);
 
-#george-conditions li:not(.x) {
-  counter-increment: my-awesome-counter;
-}
-#george-conditions ol li::before {
-  content: counter(my-awesome-counter) "  ";
-  color: #f08fdb;
-  font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
-    BlinkMacSystemFont, sans-serif;
-  font-size: 2em;
-  font-weight: bold;
-  transform: rotate(30deg);
-}
+    .fixed-content {
+      //force fixed contnet to start at bottom
+      //of viewport
+      top: auto;
+      // display: flex;
+      // flex-direction: column;
+      // justify-content: end;
+    }
 
-#george-conditions ul li::before {
-  content: none;
-}
+    .main-heading {
+      font-family: MARTIN, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 110px;
+      line-height: 126px;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      /* pink */
+      color: #F08FDB !important;
+    }
 
-#george-police-check {
-  align-items: flex-end;
-  justify-content: center;
-}
+    .kicker {
+      font-family: Crimson Text, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 30px;
+      line-height: 38px;
+      text-align: center;
+      /* BG */
+      color: #FFFDFB;
+      width: 1000px;
+      margin: 0 auto 37px;
+    }
 
-#george-choice-slide {
-  height: 85vh;
-}
-#nathan-police-station {
-  align-items: flex-end;
-}
+    .scroll-down-instructions {
+      // text-align: center;
+      margin-bottom: 81px;
 
-.scroll-height {
-  height: 140vh;
-}
+      >* {
+        display: block;
+        margin: auto;
+      }
+    }
 
-.narrative-button-left {
-  margin: 10px;
-  background-color: #f08fdb;
-  border-radius: 0;
-  border-color: white;
-  transform: rotate(3deg);
-  font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
-    BlinkMacSystemFont, sans-serif;
-  font-size: 1.5em;
-  text-transform: uppercase;
-  padding-left: 50px;
-  padding-right: 50px;
-}
+    .action-text {
+      font-family: Crimson Text, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 33px;
+      /* identical to box height */
+      text-align: center;
+      /* BG */
+      color: #FFFDFB;
+      margin-bottom: 16px;
+    }
+  }
 
-.narrative-button-right {
-  margin: 10px;
-  background-color: #f08fdb;
-  border-radius: 0;
-  border-color: white;
-  transform: rotate(-4deg);
-  font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
-    BlinkMacSystemFont, sans-serif;
-  font-size: 1.5em;
-  text-transform: uppercase;
-  padding-left: 50px;
-  padding-right: 50px;
+  #narrative-intro {
+    height: calc(100vh + 1px);
+  }
+
+  #narrative-ending {
+    height: 1px;
+
+    p {
+      font-family: Crimson Text, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 30px;
+      line-height: 38px;
+      /* BG */
+      color: #FFFDFB;
+      width: 1000px;
+      margin: 0 auto 37px;
+    }
+
+    .call-to-action {
+      font-family: MARTIN;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 75px;
+      line-height: 86px;
+      text-align: center;
+      text-transform: uppercase;
+      /* BG */
+      color: #FFFDFB;
+    }
+  }
+
+
+  #narrative-nathan {
+    // .meet-nathan .relative-content {
+    //   padding-left: 360px;
+    //   padding-right: 460px;
+    // }
+
+    // scroll-behavior: smooth;
+
+    .nathan-portrait-img {
+      position: relative;
+      width: 535px;
+    }
+
+    .meet-nathan.css-anim {
+      .nathan-portrait-img {
+        position: absolute;
+        width: 535px;
+        opacity: 0;
+        bottom: 50%;
+        transition: none;
+
+        // visibility: hidden;
+      }
+
+      &.active .nathan-portrait-img {
+        opacity: 1;
+        bottom: 60%;
+        transition: opacity 1s, bottom 5s;
+        transform: translateY(50%);
+
+
+        // visibility: visible;
+
+
+      }
+    }
+
+    .police-car-img {
+      width: 775px;
+      top: calc(#{$navbarHeight} + 3px);
+      position: fixed;
+      left: 0;
+      transition: opacity .5s;
+    }
+
+    // .police-station-intro .relative-content {
+    //   padding-left: 241px;
+    //   padding-right: 463px;
+    // }
+
+    .payphone-img {
+      width: 382px;
+    }
+
+    .police-station-intro-text {
+      margin-bottom: 33px;
+    }
+
+    // .the-court .relative-content {
+    //   padding-left: 439px;
+    // }
+
+    .calendar-img {
+      width: 440px;
+    }
+  }
+
+  #narrative-kara {
+    .kara-portrait-img {
+      width: 535px;
+    }
+
+    .kara-phone-card {
+      // margin: 10px;
+      border-radius: 0;
+      // margin-bottom: 70px;
+      font-family: Crimson Text, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 38px;
+      color: #89969F;
+      padding: 0;
+
+      .kara-phone-card-content {
+        // filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.25));
+        display: flex;
+        align-items: center;
+        padding: 9px 16px 11px 21px;
+
+        img {
+          margin-right: 15px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .contacting-family-text {
+      margin-top: 62 px;
+    }
+
+    // .life-in-jail-text {
+    //   width: 626px;
+    // }
+
+    .kara-card {
+      // margin: 15px;
+      font-family: Crimson Text, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 30px;
+      line-height: 41px;
+      color: #000;
+
+      border-radius: 0;
+      background: #FFFDFB;
+      /* shadow */
+      filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.25));
+
+      &.highlighted {
+        border: 1px solid #E5521D;
+      }
+
+      .kara-card-content {
+        padding: 0 22px 18px 10px;
+
+        // used for name on each of kara's 
+        //contact cards
+        span {
+          font-family: MARTIN, sans-serif;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 56px;
+          line-height: 64px;
+          display: flex;
+          align-items: flex-end;
+          text-transform: uppercase;
+          /* pink */
+          color: #F08FDB;
+          display: block;
+        }
+      }
+
+      &.monique {
+        width: 424px;
+        transform: rotate(-1.14deg);
+        margin-bottom: 60px;
+
+        .kara-card-content {
+          transform: rotate(1.14deg);
+
+        }
+      }
+
+      &.lisa {
+        width: 421px;
+        transform: rotate(-0.21deg);
+
+        .kara-card-content {
+          transform: rotate(0.21deg);
+
+        }
+      }
+
+      &.alex {
+        width: 420px;
+        transform: rotate(0.19deg);
+        margin-bottom: 70px;
+
+        .kara-card-content {
+          transform: rotate(-0.19deg);
+
+        }
+      }
+
+      &.mike {
+        width: 423px;
+        transform: rotate(0.9deg);
+
+        .kara-card-content {
+          transform: rotate(-0.9deg);
+
+        }
+      }
+    }
+
+    .none-fits-requirements-text {
+      p {
+        margin-top: 34px;
+        font-family: MARTIN, sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 60px;
+        line-height: 69px;
+        /* identical to box height */
+        text-align: center;
+        /* rust */
+        color: #E5521D;
+        transform: rotate(-1.75deg);
+      }
+    }
+
+    .cell-phone-img {
+      width: 265.35px;
+      transform: rotate(4.43deg);
+    }
+
+    .lightbulb-img {
+      width: 174px;
+
+    }
+  }
+
+  #narrative-george {
+    .george-portrait-img {
+      width: 486px;
+    }
+
+    .conditions ol {
+      list-style: none;
+      counter-reset: my-awesome-counter;
+    }
+
+    .conditions li:not(.x) {
+      counter-increment: my-awesome-counter;
+    }
+
+    .conditions ol li::before {
+      content: counter(my-awesome-counter) "  ";
+      color: #f08fdb;
+      font-family: Martin, "Arial Condensed Black", Impact, -apple-system,
+        BlinkMacSystemFont, sans-serif;
+      font-size: 2em;
+      font-weight: bold;
+      transform: rotate(30deg);
+    }
+
+    .conditions ul li::before {
+      content: none;
+    }
+
+    .bail-keys-img {
+      width: 474px;
+      margin-bottom: 184px;
+    }
+
+    .appartment-buzzer-img {
+      width: 238px;
+    }
+  }
+
+  #narrative-ending {
+    height: 5px;
+
+    .fixed-content {
+      top: auto;
+    }
+
+    p {
+      font-family: Crimson Text, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 30px;
+      line-height: 38px;
+      /* or 127% */
+      /* BG */
+      color: #FFFDFB;
+      margin-bottom: 46px;
+    }
+
+    h2 {
+      font-family: MARTIN, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 75px;
+      line-height: 86px;
+      text-align: center;
+      text-transform: uppercase !important;
+      /* BG */
+      color: #FFFDFB;
+      margin-bottom: 30px;
+      text-align: center !important;
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin-bottom: calc(#{$footerHeight} + 127px);
+
+
+      >* {
+        outline: none;
+        text-decoration: none;
+        display: inline-block;
+        height: 100.31px;
+        padding: 15px 80px;
+        background-color: #E5521D;
+        font-family: MARTIN;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 60px;
+        line-height: 69px;
+        /* identical to box height */
+        text-align: center;
+        /* BG */
+        color: #FFFDFB;
+        text-transform: uppercase;
+
+        &:not(last-child) {
+          margin-right: 100.31px;
+        }
+      }
+    }
+  }
+
+  .narrative-background {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    // margin: 0;
+    // width: 100%;
+    // height: 100vh;
+    background-size: cover;
+    position: fixed;
+    z-index: -2;
+    // max-width: 100%;
+  }
 }

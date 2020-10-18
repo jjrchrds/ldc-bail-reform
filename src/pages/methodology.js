@@ -9,6 +9,7 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap"
 import { slugify, dateFormat } from "../libs/helpers";
 
 const MethodologyPage = ({data}) => {
+
   //Document Modal
   const [showDocumentModal, setShowDocumentModal] = useState(false);
   const [documentCard, setDocumentCard] = useState({

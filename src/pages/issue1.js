@@ -69,6 +69,7 @@ const Issue1Page = () => {
   const allSources = issueContents.sources
   const sourcesLeft = allSources.slice(0, Math.ceil(allSources.length / 2))
   const sourcesRight = allSources.slice(Math.ceil(allSources.length / 2), allSources.length)
+  console.log(sourcesLeft)
 
   return (
     <Layout>
