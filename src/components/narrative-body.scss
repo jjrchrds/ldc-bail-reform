@@ -2,47 +2,41 @@
 $footerHeight: 62px;
 $navbarHeight: 64px;
 
-.gradient-background {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  z-index: -1;
-  background-image: linear-gradient(rgba($color: #000000, $alpha: 0),
-      rgba($color: #000000, $alpha: 1));
-}
-
-.narrative-modal-title h1 {
-  font-family: MARTIN, sans-serif;
+#narrative-page {
   font-style: normal;
   font-weight: normal;
-  font-size: 56px;
-  line-height: 38px;
-  /* identical to box height, or 68% */
-  /* rust */
-  color: #E5521D;
-}
+  color: #FFFDFB;
+  font-size: 30px;
+  line-height: 41px;
 
-#narrative-page {
-  #narrative-scroll {
-    font-size: 30px;
-    line-height: 41px;
-    color: #FFFDFB;
-
-    .quote {
-      font-style: italic;
-    }
-
-    h1,
-    h2 {
-      color: #FFFDFB;
-    }
-
-    #nathan-wait-modal {
-      min-width: 590px;
-    }
+  .gradient-background {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    z-index: -1;
+    background-image: linear-gradient(rgba($color: #000000, $alpha: 0),
+        rgba($color: #000000, $alpha: 1));
   }
+
+  .narrative-modal-title h1 {
+    font-family: MARTIN, sans-serif;
+    font-size: 56px;
+    line-height: 38px;
+    /* identical to box height, or 68% */
+    /* rust */
+    color: #E5521D;
+  }
+
+  .quote {
+    font-style: italic;
+  }
+
+  #nathan-wait-modal {
+    min-width: 590px;
+  }
+
 
   .narrative-step {
     visibility: hidden;
@@ -76,8 +70,6 @@ $navbarHeight: 64px;
   .narrative-btn:focus {
     box-shadow: none;
     font-family: MARTIN, sans-serif;
-    font-style: normal;
-    font-weight: normal;
     font-size: 60px;
     line-height: 69px;
     /* identical to box height */
@@ -117,15 +109,10 @@ $navbarHeight: 64px;
       //force fixed contnet to start at bottom
       //of viewport
       top: auto;
-      // display: flex;
-      // flex-direction: column;
-      // justify-content: end;
     }
 
     .main-heading {
       font-family: MARTIN, sans-serif;
-      font-style: normal;
-      font-weight: normal;
       font-size: 110px;
       line-height: 126px;
       text-align: center;
@@ -137,14 +124,10 @@ $navbarHeight: 64px;
 
     .kicker {
       font-family: Crimson Text, sans-serif;
-      font-style: normal;
-      font-weight: normal;
       font-size: 30px;
       line-height: 38px;
       text-align: center;
-      /* BG */
-      color: #FFFDFB;
-      width: 1000px;
+      max-width: 1000px;
       margin: 0 auto 37px;
     }
 
@@ -160,14 +143,11 @@ $navbarHeight: 64px;
 
     .action-text {
       font-family: Crimson Text, sans-serif;
-      font-style: normal;
       font-weight: 600;
       font-size: 24px;
       line-height: 33px;
       /* identical to box height */
       text-align: center;
-      /* BG */
-      color: #FFFDFB;
       margin-bottom: 16px;
     }
   }
@@ -195,38 +175,22 @@ $navbarHeight: 64px;
 
     p {
       font-family: Crimson Text, sans-serif;
-      font-style: normal;
-      font-weight: normal;
       font-size: 30px;
       line-height: 38px;
-      /* BG */
-      color: #FFFDFB;
       width: 1000px;
       margin: 0 auto 37px;
     }
 
     .call-to-action {
-      font-family: MARTIN;
-      font-style: normal;
-      font-weight: normal;
+      font-family: MARTIN, sans-serif;
       font-size: 75px;
       line-height: 86px;
       text-align: center;
       text-transform: uppercase;
-      /* BG */
-      color: #FFFDFB;
     }
   }
 
-
   #narrative-nathan {
-    // .meet-nathan .relative-content {
-    //   padding-left: 360px;
-    //   padding-right: 460px;
-    // }
-
-    // scroll-behavior: smooth;
-
     .meet-nathan {
       min-height: 100vh;
 
@@ -244,43 +208,10 @@ $navbarHeight: 64px;
         }
       }
 
-      // &:not(.active) {
-      //   .nathan-portrait-img {
-      //     top: auto !important;
-      //     transform: translate3d(0) !important;
-      //   }
-      // }
-      // }
-
       .nathan-portrait-img {
         position: relative;
         width: 535px;
       }
-
-      // .meet-nathan.css-anim {
-      //   .nathan-portrait-img {
-      //     position: absolute;
-      //     width: 535px;
-      //     opacity: 0;
-      //     bottom: 50%;
-      //     transition: none;
-
-      //     // visibility: hidden;
-      //   }
-
-      //   &.active .nathan-portrait-img {
-      //     opacity: 1;
-      //     bottom: 60%;
-      //     transition: opacity 1s, bottom 5s;
-      //     transform: translateY(50%);
-
-
-      //     // visibility: visible;
-
-
-      //   }
-      // }
-
     }
 
     .police-car-img {
@@ -291,11 +222,6 @@ $navbarHeight: 64px;
       transition: opacity .5s;
     }
 
-    // .police-station-intro .relative-content {
-    //   padding-left: 241px;
-    //   padding-right: 463px;
-    // }
-
     .payphone-img {
       width: 382px;
     }
@@ -303,10 +229,6 @@ $navbarHeight: 64px;
     .police-station-intro-text {
       margin-bottom: 33px;
     }
-
-    // .the-court .relative-content {
-    //   padding-left: 439px;
-    // }
 
     .calendar-img {
       width: 440px;
@@ -319,11 +241,8 @@ $navbarHeight: 64px;
     }
 
     .kara-phone-card {
-      // margin: 10px;
       border-radius: 0;
-      // margin-bottom: 70px;
       font-family: Crimson Text, sans-serif;
-      font-style: normal;
       font-weight: 600;
       font-size: 28px;
       line-height: 38px;
@@ -331,7 +250,6 @@ $navbarHeight: 64px;
       padding: 0;
 
       .kara-phone-card-content {
-        // filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.25));
         display: flex;
         align-items: center;
         padding: 9px 16px 11px 21px;
@@ -350,21 +268,12 @@ $navbarHeight: 64px;
       margin-top: 62 px;
     }
 
-    // .life-in-jail-text {
-    //   width: 626px;
-    // }
-
     .kara-card {
-      // margin: 15px;
       font-family: Crimson Text, sans-serif;
-      font-style: normal;
-      font-weight: normal;
       font-size: 30px;
       line-height: 41px;
       color: #000;
-
       border-radius: 0;
-      background: #FFFDFB;
       /* shadow */
       filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.25));
 
@@ -379,8 +288,6 @@ $navbarHeight: 64px;
         //contact cards
         span {
           font-family: MARTIN, sans-serif;
-          font-style: normal;
-          font-weight: normal;
           font-size: 56px;
           line-height: 64px;
           display: flex;
@@ -399,7 +306,6 @@ $navbarHeight: 64px;
 
         .kara-card-content {
           transform: rotate(1.14deg);
-
         }
       }
 
@@ -430,7 +336,6 @@ $navbarHeight: 64px;
 
         .kara-card-content {
           transform: rotate(-0.9deg);
-
         }
       }
     }
@@ -439,8 +344,6 @@ $navbarHeight: 64px;
       p {
         margin-top: 34px;
         font-family: MARTIN, sans-serif;
-        font-style: normal;
-        font-weight: normal;
         font-size: 60px;
         line-height: 69px;
         /* identical to box height */
@@ -458,7 +361,6 @@ $navbarHeight: 64px;
 
     .lightbulb-img {
       width: 174px;
-
     }
   }
 
@@ -521,14 +423,10 @@ $navbarHeight: 64px;
 
     h2 {
       font-family: MARTIN, sans-serif;
-      font-style: normal;
-      font-weight: normal;
       font-size: 75px;
       line-height: 86px;
       text-align: center;
       text-transform: uppercase !important;
-      /* BG */
-      color: #FFFDFB;
       margin-bottom: 30px;
       text-align: center !important;
     }
@@ -537,15 +435,14 @@ $navbarHeight: 64px;
       text-align: center;
       margin-bottom: calc(#{$footerHeight} + 127px);
 
-
       >* {
         outline: none;
         text-decoration: none;
         display: inline-block;
-        height: 100.31px;
+        height: 100px;
         padding: 15px 80px;
         background-color: #E5521D;
-        font-family: MARTIN;
+        font-family: MARTIN, sans-serif;
         font-style: normal;
         font-weight: normal;
         font-size: 60px;
@@ -553,11 +450,10 @@ $navbarHeight: 64px;
         /* identical to box height */
         text-align: center;
         /* BG */
-        color: #FFFDFB;
         text-transform: uppercase;
 
         &:not(last-child) {
-          margin-right: 100.31px;
+          margin-right: 100px;
         }
       }
     }
@@ -568,12 +464,8 @@ $navbarHeight: 64px;
     right: 0;
     bottom: 0;
     left: 0;
-    // margin: 0;
-    // width: 100%;
-    // height: 100vh;
     background-size: cover;
     position: fixed;
     z-index: -2;
-    // max-width: 100%;
   }
 }

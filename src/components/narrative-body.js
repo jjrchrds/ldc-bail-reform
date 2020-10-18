@@ -153,11 +153,6 @@ class NarrativeSection extends Component {
     this.scroller.destroy()
   }
 
-  // scrollToRef = character => {
-  // console.log(character)
-  // window.scrollTo(0, this.karaRef.current.offsetTop)
-  // }
-
   render() {
     const {
       slide_elm_height,
@@ -168,9 +163,6 @@ class NarrativeSection extends Component {
       contentPosition,
       story_stp,
     } = this.state
-
-    //distance from offset to end of current slide
-    // var content_opacity = 1 - progress
 
     return (
       <>
@@ -273,7 +265,6 @@ class NarrativeSection extends Component {
                 on content inside here  */}
                 <div
                   id="narrative-scroll"
-                  // style={{ opacity: content_opacity }}
                   ref={this.narrativeRef}
                 >
                   <div>
