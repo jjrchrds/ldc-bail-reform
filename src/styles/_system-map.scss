@@ -114,6 +114,7 @@
 .card-custom-column {
   padding-left: 15px;
   padding-right: 15px;
+  margin: 0 auto;
 }
 
 .card-custom-dark {
@@ -137,7 +138,7 @@
   background: #e5521d;
   color: #322c2c;
   font-family: Martin;
-  font-size: 40px;
+  font-size: 30px;
   height: 50px;
   line-height: 44px;
   width: 50px;
@@ -162,6 +163,10 @@
   font-size: 1.2rem;
 }
 
+// .test1 {
+//   transform: translate(-25px, -25px)
+// }
+
 // #main-col {
 //   background: pink;
 // }
@@ -169,3 +174,28 @@
 // #sidebar-col {
 //   background: yellow;
 // }
+
+.accordion-characters { 
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+  }
+
+  .collapse, .collapsing {
+    @include media-breakpoint-up(md) {
+      display: block !important;
+      height: auto !important;
+    }
+  }
+  .card-body {
+    @include media-breakpoint-up(md) {
+      min-height: 220px;
+    }
+    @include media-breakpoint-up(lg) {
+      min-height: 220px;
+    }
+    @include media-breakpoint-up(xl) {
+      min-height: 195px;
+    }
+  }
+}
