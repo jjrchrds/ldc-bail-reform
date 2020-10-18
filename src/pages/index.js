@@ -58,14 +58,6 @@ const IndexPage = () => {
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
           <Container className="pt-5 beta-sticker-wrap">
-            <div className="beta-sticker text-light bg-green">
-              <h3>This is a beta!</h3>
-              <p>We'd love your feedback, lorem ipsum dolor sit amet.</p>
-              <Button as={Link} to="/cta" className="bg-pink">
-                <h4>Get in Touch</h4>
-              </Button>
-            </div>
-
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
                 <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
