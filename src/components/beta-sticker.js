@@ -3,9 +3,17 @@ import { Button, Modal } from "react-bootstrap"
 import { Link } from "gatsby"
 
 class BetaSticker extends React.Component {
+  closeSelf = () => {
+    this.setState({show: false})
+  }
+
   render(){
     return (
-      <Modal.Dialog className="beta-sticker text-light">
+      <Modal 
+        show={this.props.show} 
+        onHide={this.props.handleClose} 
+        backdrop={false}
+        className="beta-sticker text-light">
         <Modal.Header closeButton>
           <Modal.Title><h2>This is a beta!</h2></Modal.Title>
         </Modal.Header>
@@ -19,7 +27,7 @@ class BetaSticker extends React.Component {
             <h4 className="uppercase">Get in Touch</h4>
           </Button>
         </Modal.Footer>
-      </Modal.Dialog>
+      </Modal>
     )
   }
 }
