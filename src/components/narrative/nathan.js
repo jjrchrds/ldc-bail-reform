@@ -183,7 +183,9 @@ class NathanNarrative extends Component {
               <div className="narrative-step meet-nathan scroll-start">
                 <Container className="relative-content">
                   <Row className="justify-content-center">
-                    <Col xs="auto" className="d-flex align-itemss-center">
+                    <Col 
+                    xs="auto"  
+                    className="d-flex align-items-center">
                       <img
                         src={this.querySlideContent(
                           narrativeContent,
@@ -194,6 +196,7 @@ class NathanNarrative extends Component {
                         ref={this.nathanPortraitRef}
                         alt=""
                         style={{
+                          position: 'relative',
                           transform: `translate3d(0, ${nathanPortraitOffset}, 0)`,
                         }}
                       />
