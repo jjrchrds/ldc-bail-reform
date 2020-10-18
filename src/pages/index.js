@@ -53,7 +53,7 @@ const IndexPage = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <Layout className="pt-0">
+    <Layout className="pt-5">
       <Head title="Home" />
 
       <Jumbotron className="hero" fluid>
@@ -63,7 +63,7 @@ const IndexPage = () => {
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
-          <Container className="beta-sticker-wrap">
+          <Container className="mt-5 beta-sticker-wrap">
             <BetaSticker
               show={show}
               handleClose={handleClose} />
