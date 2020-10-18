@@ -53,21 +53,21 @@ const IndexPage = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <Layout>
+    <Layout className="pt-0">
       <Head title="Home" />
 
-      <BetaSticker
+      <Jumbotron className="hero beta-sticker-wrap" fluid>
+        <BetaSticker
         show={show}
         handleClose={handleClose} />
 
-      <Jumbotron className="hero" fluid>
         <BackgroundImage
-          className="hero-img row justify-content-center"
+          className="hero-img"
           fluid={data.homeHero.childImageSharp.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
-          <Container className="pt-5 beta-sticker-wrap">
+          <Container>
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
                 <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
