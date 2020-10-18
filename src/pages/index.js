@@ -8,12 +8,14 @@ import BackgroundImage from "gatsby-background-image"
 /* Import Layout Components */
 import Layout from "../components/layout"
 import Head from "../components/head"
+import BetaSticker from "../components/beta-sticker"
 
 /* Import graphics */
 import HomeLogo from "../../static/assets/svg/logo_homepage.svg"
 import ChevronDown from "../../static/assets/svg/chevron-down.svg"
 
 const IndexPage = () => {
+
   const data = useStaticQuery(graphql `
     query {
       homeHero: file(relativePath: { eq: "images/home_hero.png" }) {
@@ -47,9 +49,17 @@ const IndexPage = () => {
     }
   `)
 
+  const [show, setShow] = React.useState(true);
+  const handleClose = () => setShow(false);
+
   return (
     <Layout>
       <Head title="Home" />
+
+      <BetaSticker
+        show={show}
+        handleClose={handleClose} />
+
       <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"

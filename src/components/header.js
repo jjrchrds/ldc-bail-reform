@@ -4,23 +4,8 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import headerStyles from "./header.module.scss"
 
 import Logo from "../../static/assets/svg/logo_navbar.svg"
-import BetaSticker from "../components/beta-sticker"
 
 class Header extends React.Component {
-  state = {
-    showBeta: false
-  }
-
-  showBeta = () => {
-    this.setState({ showBeta: true });
-    console.log("Open modal")
-  };
-
-  hideBeta = () => {
-    this.setState({ showBeta: false });
-    console.log("Close modal")
-  };
-
   render() {
     return (
       <Navbar className="beta-sticker-wrap" collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
@@ -39,14 +24,10 @@ class Header extends React.Component {
                 <NavDropdown.Item href="/issue3">Culture of Fear</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link as={Link} activeClassName="active" to="/methodology">Methodology</Nav.Link>
-              <Nav.Link onClick={this.showBeta} className={headerStyles.ctaHover}><p className={headerStyles.cta}>About the Beta</p></Nav.Link>
+              <Nav.Link as={Link} to="/cta" className={headerStyles.ctaHover}><p className={headerStyles.cta}>About the Beta</p></Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
-
-        <BetaSticker 
-          show={this.state.showBeta} 
-          handleClose={this.hideBeta} />
       </Navbar>
     )
   }

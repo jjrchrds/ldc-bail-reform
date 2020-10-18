@@ -3,14 +3,11 @@ import { Button, Modal } from "react-bootstrap"
 import { Link } from "gatsby"
 
 class BetaSticker extends React.Component {
-  closeSelf = () => {
-    this.setState({show: false})
-  }
 
   render(){
     return (
       <Modal 
-        show={this.props.show} 
+        show={this.props.show}
         onHide={this.props.handleClose} 
         backdrop={false}
         className="beta-sticker text-light">
