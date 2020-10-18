@@ -105,6 +105,7 @@ class NarrativeSection extends Component {
       })
     }
   }
+
   handleScrollStepExit = ({ element, index, direction }) => {
     if (element.classList.contains("meet-nathan")) {
       if (direction === "up") {
@@ -124,9 +125,24 @@ class NarrativeSection extends Component {
     this.setState({ story_sect_stp: index })
     this.setState({ slide_elm: element })
     this.setState({ slide_elm_height: element.scrollHeight })
+
+    // if (
+    //   !element.classList.contains("intro-slide") &&
+    //   !element.classList.contains("ending-slide") &&
+    //   progress >= 0.5 &&
+    //   progress < 0.8
+    // ) {
+    //   element.classList.add("mid-progress")
+    // } else {
+    //   console.log("herehrehre")
+    //   element.classList.remove("mid-progress")
+    // }
   }
 
   componentDidMount() {
+    //potential technique to disable scroll based on slide progress
+    //https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
+
     const scrollama = require("scrollama")
     // const scrollThreshold = 1s
     this.scroller = scrollama()
@@ -153,7 +169,7 @@ class NarrativeSection extends Component {
     this.scroller.destroy()
   }
 
-  render() {
+   render() {
     const {
       slide_elm_height,
       progress,
@@ -263,10 +279,7 @@ class NarrativeSection extends Component {
 
                 {/* scrollama is intiated based 
                 on content inside here  */}
-                <div
-                  id="narrative-scroll"
-                  ref={this.narrativeRef}
-                >
+                <div id="narrative-scroll" ref={this.narrativeRef}>
                   <div>
                     <IntroNarrative
                       backgroundImg={data.intro_bg.childImageSharp.fluid.src}

@@ -17,7 +17,7 @@ class IntroNarrative extends Component {
         <Container
           className="relative-content d-flex justify-content-center"
           style={{
-            background: `linear-gradient(rgba(0,0,0,0),
+            backgroundImage: `linear-gradient(rgba(0,0,0,0),
       rgba(0,0,0,1)), url("${backgroundImg}")`,
           }}
         >

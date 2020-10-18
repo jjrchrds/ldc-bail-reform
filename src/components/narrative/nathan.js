@@ -164,9 +164,9 @@ class NathanNarrative extends Component {
           //decide on standard -- put px in
           //place where vbl is being used
           const nathanPortraitTotalDist = 125
-          const nathanPortraitOffset = `${
-            -(progress * nathanPortraitTotalDist)
-          }px`
+          const nathanPortraitOffset = `${-(
+            progress * nathanPortraitTotalDist
+          )}px`
 
           const CAR_IMG_MAX_PROGRESS = 0.54
           const offsetFraction = Math.min(progress, CAR_IMG_MAX_PROGRESS)
@@ -182,26 +182,18 @@ class NathanNarrative extends Component {
             <div id="narrative-nathan" ref={this.nathanRef}>
               <div className="narrative-step meet-nathan scroll-start">
                 <Container className="relative-content">
-                  <Row className="justify-content-center">
-                    <Col 
-                    xs="auto"  
-                    className="d-flex align-items-center">
-                      <img
-                        src={this.querySlideContent(
-                          narrativeContent,
-                          1,
-                          "image"
-                        )}
-                        className="nathan-portrait-img"
-                        ref={this.nathanPortraitRef}
-                        alt=""
-                        style={{
-                          position: 'relative',
-                          transform: `translate3d(0, ${nathanPortraitOffset}, 0)`,
-                        }}
-                      />
-                    </Col>
-                    <Col className="d-flex flex-column justify-content-center">
+                  <img
+                    src={this.querySlideContent(narrativeContent, 1, "image")}
+                    className="nathan-portrait-img"
+                    ref={this.nathanPortraitRef}
+                    alt=""
+                    // style={{
+                    //   position: 'relative',
+                    //   transform: `translate3d(0, ${nathanPortraitOffset}, 0)`,
+                    // }}
+                  />
+                  <Row>
+                    <Col className="col-6 offset-6">
                       <h1>
                         {this.querySlideContent(narrativeContent, 1, "heading")}
                       </h1>
@@ -213,29 +205,20 @@ class NathanNarrative extends Component {
 
               <div className="narrative-step arrest">
                 <Container className="relative-content">
-                  <Row>
-                    <Col style={{ marginBottom: 500 }}>
-                      <img
-                        ref={this.policeCarImgRef}
-                        className={clsx(
-                          "police-car-img",
-                          offsetFraction < CAR_IMG_MAX_PROGRESS && "max-offset"
-                        )}
-                        src={this.querySlideContent(
-                          narrativeContent,
-                          2,
-                          "image"
-                        )}
-                        alt=""
-                        style={{
-                          position: "fixed",
-                          transform: `rotate(1.79deg) translate3d(${policeCarImgOffset}px, 0, 0)`,
-                          opacity:
-                            offsetFraction < CAR_IMG_MAX_PROGRESS ? 1 : 0.15,
-                        }}
-                      />
-                    </Col>
-                  </Row>
+                  <img
+                    ref={this.policeCarImgRef}
+                    className={clsx(
+                      "police-car-img",
+                      offsetFraction < CAR_IMG_MAX_PROGRESS && "max-offset"
+                    )}
+                    src={this.querySlideContent(narrativeContent, 2, "image")}
+                    alt=""
+                    style={{
+                      position: "fixed",
+                      // transform: `rotate(1.79deg) translate3d(${policeCarImgOffset}px, 0, 0)`
+                      // opacity: offsetFraction < CAR_IMG_MAX_PROGRESS ? 1 : 0.15,
+                    }}
+                  />
                   <Row>
                     <Col>
                       <h1>

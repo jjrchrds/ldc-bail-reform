@@ -4,15 +4,19 @@
   // variables
   $footerHeight: 62px;
   $navbarHeight: 64px;
-  $color-offwhite:#FFFDFB;
-  $color-rust:#E5521D;
+  $color-offwhite: #FFFDFB;
+  $color-rust: #E5521D;
   //
 
   font-style: normal;
   font-weight: normal;
   color: $color-offwhite;
-  font-size: 30px;
-  line-height: 41px;
+  font-size: 24px;
+  line-height: 1.15;
+
+  // .mid-progress {
+  //   position: fixed;
+  // }
 
   .gradient-background {
     top: 0;
@@ -44,17 +48,23 @@
 
 
   .narrative-step {
+    height: 100vh;
     visibility: hidden;
 
     &.active {
       visibility: visible;
     }
+
+    p:nth-child(2) {
+      font-size: 30px;
+    }
   }
 
-  .relative-content {
-    position: relative;
-    top: -65vh;
-  }
+  // .relative-content {
+  //   position: relative;
+  //   // top: -65vh;
+  //   top: -25vh;
+  // }
 
   .fixed-content {
     position: fixed;
@@ -176,6 +186,9 @@
   }
 
   #narrative-ending {
+    //temp
+    visibility: hidden;
+
     height: 1px;
     color: $color-offwhite !important;
 
@@ -198,33 +211,55 @@
 
   #narrative-nathan {
     .meet-nathan {
-      min-height: 100vh;
+      // min-height: 100vh;
+
+      // &.scroll-start {
+      //   .relative-content {
+      //     position: fixed;
+      //     top: 35vh;
+      //     left: 0;
+      //     right: 0;
+      //     visibility: visible;
+      //   }
+
+      //   // .nathan-portrait-img {
+      //   //   transform: translate3d(0, 0, 0) !important;
+      //   // }
+      // }
 
       &.scroll-start {
-        .relative-content {
-          position: fixed;
-          top: 35vh;
-          left: 0;
-          right: 0;
-          visibility: visible;
-        }
-
-        .nathan-portrait-img {
-          transform: translate3d(0, 0, 0) !important;
-        }
+        visibility: visible;
       }
 
       .nathan-portrait-img {
         width: 535px;
+        position: fixed;
+        bottom: 0;
+      }
+
+      .relative-content {
+        position: relative;
+        top: -25vh;
       }
     }
 
-    .police-car-img {
-      width: 775px;
-      top: calc(#{$navbarHeight} + 3px);
-      position: fixed;
-      left: 0;
-      transition: opacity .5s;
+    .arrest {
+      .police-car-img {
+        width: 775px;
+        top: calc(#{$navbarHeight} + 3px);
+        position: fixed;
+        left: 0;
+        transform: rotate(1.79deg);
+        transition: 1s;  
+        transition-property: transform, left;
+      }
+
+      &.active {
+        .police-car-img {
+          left: 50%;
+          transform: rotate(1.79deg) translateX(-50%);
+        }
+      }
     }
 
     .payphone-img {
