@@ -10,6 +10,7 @@ class BetaSticker extends React.Component {
         show={this.props.show}
         onHide={this.props.handleClose} 
         backdrop={false}
+        enforceFocus={false}
         className="beta-sticker text-light">
         <Modal.Header closeButton>
           <Modal.Title><h2>This is a beta!</h2></Modal.Title>

@@ -152,6 +152,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // --- Modifying Layout Components ---------
+body.modal-open {
+  overflow: auto !important;
+}
+
+.modal {
+  z-index: 1 !important;
+}
+
 .align-contents-bottom {
   display: flex;
   flex-direction: column;
