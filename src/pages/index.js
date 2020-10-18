@@ -56,18 +56,18 @@ const IndexPage = () => {
     <Layout className="pt-0">
       <Head title="Home" />
 
-      <Jumbotron className="hero beta-sticker-wrap" fluid>
-        <BetaSticker
-        show={show}
-        handleClose={handleClose} />
-
+      <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"
           fluid={data.homeHero.childImageSharp.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
-          <Container>
+          <Container className="beta-sticker-wrap">
+            <BetaSticker
+              show={show}
+              handleClose={handleClose} />
+              
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
                 <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
