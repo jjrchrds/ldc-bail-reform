@@ -7,12 +7,8 @@ $navbarHeight: 64px;
   right: 0;
   bottom: 0;
   left: 0;
-  // margin: 0;
-  // width: 100%;
-  // height: 100vh;
   position: fixed;
   z-index: -1;
-  // max-width: 100%;
   background-image: linear-gradient(rgba($color: #000000, $alpha: 0),
       rgba($color: #000000, $alpha: 1));
 }
@@ -24,9 +20,7 @@ $navbarHeight: 64px;
   font-size: 56px;
   line-height: 38px;
   /* identical to box height, or 68% */
-
   /* rust */
-
   color: #E5521D;
 }
 
@@ -39,8 +33,6 @@ $navbarHeight: 64px;
     .quote {
       font-style: italic;
     }
-
-
 
     h1,
     h2 {
@@ -63,8 +55,6 @@ $navbarHeight: 64px;
   .relative-content {
     position: relative;
     top: -65vh;
-    // padding-left: 461px;
-    // padding-right: 463px;
   }
 
   .fixed-content {
@@ -183,7 +173,21 @@ $navbarHeight: 64px;
   }
 
   #narrative-intro {
-    height: calc(100vh + 1px);
+    height: 200vh;
+    position: relative;
+    z-index: 10;
+
+    .relative-content {
+      top: auto;
+      height: 100vh;
+      padding: 0;
+      margin: 0;
+      // width: 100%;
+      max-width: none;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
   }
 
   #narrative-ending {
@@ -223,33 +227,60 @@ $navbarHeight: 64px;
 
     // scroll-behavior: smooth;
 
-    .nathan-portrait-img {
-      position: relative;
-      width: 535px;
-    }
+    .meet-nathan {
+      min-height: 100vh;
 
-    .meet-nathan.css-anim {
+      &.scroll-start {
+        .relative-content {
+          position: fixed;
+          top: 35vh;
+          left: 0;
+          right: 0;
+          visibility: visible;
+        }
+
+        .nathan-portrait-img {
+          transform: translate3d(0, 0, 0) !important;
+        }
+      }
+
+      // &:not(.active) {
+      //   .nathan-portrait-img {
+      //     top: auto !important;
+      //     transform: translate3d(0) !important;
+      //   }
+      // }
+      // }
+
       .nathan-portrait-img {
-        position: absolute;
+        position: relative;
         width: 535px;
-        opacity: 0;
-        bottom: 50%;
-        transition: none;
-
-        // visibility: hidden;
       }
 
-      &.active .nathan-portrait-img {
-        opacity: 1;
-        bottom: 60%;
-        transition: opacity 1s, bottom 5s;
-        transform: translateY(50%);
+      // .meet-nathan.css-anim {
+      //   .nathan-portrait-img {
+      //     position: absolute;
+      //     width: 535px;
+      //     opacity: 0;
+      //     bottom: 50%;
+      //     transition: none;
+
+      //     // visibility: hidden;
+      //   }
+
+      //   &.active .nathan-portrait-img {
+      //     opacity: 1;
+      //     bottom: 60%;
+      //     transition: opacity 1s, bottom 5s;
+      //     transform: translateY(50%);
 
 
-        // visibility: visible;
+      //     // visibility: visible;
 
 
-      }
+      //   }
+      // }
+
     }
 
     .police-car-img {

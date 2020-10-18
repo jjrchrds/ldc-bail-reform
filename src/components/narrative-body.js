@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import "intersection-observer"
 import { graphql, StaticQuery } from "gatsby"
-// import Img from "gatsby-image"
-import { Parallax, Background } from "react-parallax"
 
 import NathanNarrative from "./narrative/nathan"
 import KaraNarrative from "./narrative/kara"
@@ -14,13 +12,13 @@ import ProgressBar from "./progress-bar/index"
 
 import "./narrative-body.scss"
 
-
 //set beginning/end overall_step indicies for
 //each narrative section
-//(a way to avoid magic numbers)
+//(a way to avoid magic numbers) -- not used
+//right now -- delete if will not be used
 const NATHAN_NARRATIVE_SLIDES = [1, 6]
 
-//maybe obtain this dynamcially 
+//maybe obtain this dynamcially
 const LAST_SLIDE_INDEX = 21
 
 class NarrativeSection extends Component {
@@ -64,6 +62,12 @@ class NarrativeSection extends Component {
   }
 
   handleScrollStepEnter = ({ element, index, direction }) => {
+    if (element.classList.contains("meet-nathan")) {
+      if (direction === "down") {
+        element.classList.remove("scroll-start")
+      }
+    }
+
     element.classList.add("active")
     this.setState({
       overall_step: index,
@@ -102,8 +106,13 @@ class NarrativeSection extends Component {
     }
   }
   handleScrollStepExit = ({ element, index, direction }) => {
-    if (index !== LAST_SLIDE_INDEX || 
-      direction === 'up') {
+    if (element.classList.contains("meet-nathan")) {
+      if (direction === "up") {
+        element.classList.add("scroll-start")
+      }
+    }
+
+    if (index !== LAST_SLIDE_INDEX || direction === "up") {
       element.classList.remove("active")
     }
   }
@@ -115,7 +124,7 @@ class NarrativeSection extends Component {
     this.setState({ story_sect_stp: index })
     this.setState({ slide_elm: element })
     this.setState({ slide_elm_height: element.scrollHeight })
- }
+  }
 
   componentDidMount() {
     const scrollama = require("scrollama")
@@ -145,8 +154,8 @@ class NarrativeSection extends Component {
   }
 
   // scrollToRef = character => {
-    // console.log(character)
-    // window.scrollTo(0, this.karaRef.current.offsetTop)
+  // console.log(character)
+  // window.scrollTo(0, this.karaRef.current.offsetTop)
   // }
 
   render() {
@@ -182,7 +191,6 @@ class NarrativeSection extends Component {
             },
           ]}
         />
-        <div className="gradient-background"></div>
 
         <StaticQuery
           query={graphql`
@@ -224,18 +232,19 @@ class NarrativeSection extends Component {
                 to the current story_stp will have 
                 opacity: 1, all the others will 
                 have opacity: 0 */}
-                <div
+                {/* <div
                   className="narrative-background"
                   style={{
                     backgroundImage: `url("${data.intro_bg.childImageSharp.fluid.src}")`,
                     opacity: story_stp === 0 ? 1 : 0,
                   }}
-                />
+                /> */}
+                <div className="gradient-background" />
                 <div
                   className="narrative-background"
                   style={{
                     backgroundImage: `url("${data.nathan_bg.childImageSharp.fluid.src}")`,
-                    opacity: story_stp === 1 ? 1 : 0,
+                    opacity: story_stp <= 1 ? 1 : 0,
                   }}
                 />
                 <div
@@ -268,7 +277,9 @@ class NarrativeSection extends Component {
                   ref={this.narrativeRef}
                 >
                   <div>
-                    <IntroNarrative />
+                    <IntroNarrative
+                      backgroundImg={data.intro_bg.childImageSharp.fluid.src}
+                    />
                   </div>
 
                   <div ref={this.nathanRef}>
