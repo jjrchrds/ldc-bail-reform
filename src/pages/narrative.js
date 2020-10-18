@@ -6,12 +6,10 @@ import Img from "gatsby-image"
 import Head from "../components/head"
 import NarrativeComponent from "../components/narrative-body"
 import "./narrative.scss"
-import ReactGA from 'react-ga';
 
 const NarrativePage = () => {
   return (
     <Layout>
-      {ReactGA.pageview('/narrative')}
       <Head title="Narrative" />
       <StaticQuery
           query={graphql`

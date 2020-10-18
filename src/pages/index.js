@@ -4,7 +4,6 @@ import { Link, useStaticQuery, graphql } from "gatsby"
 import { Row, Col, Jumbotron, Button, Container, Card } from "react-bootstrap"
 import Img from "gatsby-image"
 import BackgroundImage from "gatsby-background-image"
-import ReactGA from 'react-ga';
 
 /* Import Layout Components */
 import Layout from "../components/layout"
@@ -51,7 +50,6 @@ const IndexPage = () => {
   return (
     <Layout>
       <Head title="Home" />
-      {ReactGA.pageview('/')}
       <Jumbotron className="hero pt-5" fluid>
         <BackgroundImage
           className="hero-img"

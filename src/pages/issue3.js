@@ -2,7 +2,6 @@ import React from "react"
 import { Row, Col } from "react-bootstrap"
 import { useStaticQuery, graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import ReactGA from 'react-ga';
 
 import Layout from "../components/layout"
 import Head from '../components/head'
@@ -74,7 +73,6 @@ const Issue3Page = () => {
   return (
     <Layout>
       <Head title="Issues"/>
-      {ReactGA.pageview('/issue3');}
       <IssuesHero 
         issueName={ issueContents.issueName } 
         issueImg={ data.issue3.childImageSharp.fluid }
