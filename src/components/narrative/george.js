@@ -2,10 +2,11 @@ import React, { Component } from "react"
 import "intersection-observer"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import { StaticQuery, graphql } from "gatsby"
-import { BLOCKS } from "@contentful/rich-text-types"
+import { BLOCKS, CONTAINERS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const Text = ({ children }) => <p>{children}</p>
@@ -63,6 +64,8 @@ class GeorgeNarrative extends Component {
       case "image":
         return query.filter(edge => edge.node.slideNumber === slideNumber)[0]
           .node.slideImage.fluid.src
+      default: 
+          //no default
     }
   }
 
@@ -76,8 +79,10 @@ class GeorgeNarrative extends Component {
           RichTextOptions
         )
       case "image":
-        return query.filter(edge => edge.node.modalId === id)[0].node.image.fluid
-          .src
+        return query.filter(edge => edge.node.modalId === id)[0].node.image
+          .fluid.src
+      default: 
+          //no default
     }
   }
 
@@ -131,180 +136,188 @@ class GeorgeNarrative extends Component {
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
           return (
             <div id="narrative-george">
-              <div className="narrative-step">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={4}>
-                        <img src="./assets/george.png" width="100%" />
-                      </Col>
-                      <Col md={5}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 1, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 1, "body")}
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-
-              <div className="narrative-step">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={8}>
-                        <div id="george-conditions">
-                          <h1>
-                            {this.querySlideContent(narrativeContent, 2, "heading")}
-                          </h1>
-                          {this.querySlideContent(narrativeContent, 2, "body")}
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-
-              <div className="narrative-step">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={5}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 3, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 3, "body")}
-                      </Col>
-                      <Col md={5}>
-                        <img
-                          src={this.querySlideContent(narrativeContent, 3, "image")}
-                          width="100%"
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-
-              <div className="narrative-step">
-                <div className="sticky" id="george-choice-slide">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={6}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 4, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 4, "body")}
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-md-center">
-                      <Button
-                        size="lg"
-                        onClick={this.handleGeorgeModal1Show}
-                        className="narrative-button-left"
-                      >
-                        Work
-                  </Button>
-                      <Button
-                        size="lg"
-                        onClick={this.handleGeorgeModal2Show}
-                        className="narrative-button-right"
-                      >
-                        Go Home
-                  </Button>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
-              </div>
-
-              <Modal
-                show={georgeModal1}
-                onHide={this.handleModalClose}
-                animation={false}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title className="narrative-modal-title">
-                    <h1>
-                      {this.queryModalContent(modalContent, 5, "heading")}
-                    </h1>
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Row>
-                    <Col md={9}>
-                      {this.queryModalContent(modalContent, 5, "body")}
-                    </Col>
-                    <Col md={2}>
+              <div className="narrative-step meet-george">
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col
+                      xs="auto"
+                      className="d-flex flex-column justify-content-center"
+                    >
                       <img
-                        src={this.queryModalContent(modalContent, 5, "image")}
-                        height="200px"
+                        src="./assets/george.png"
+                        className="george-portrait-img" alt=""
+                      />
+                    </Col>
+                    <Col className="d-flex flex-column justify-content-center">
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 1, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 1, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+              <div className="narrative-step conditions">
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col>
+                      <div>
+                        <h1>
+                          {this.querySlideContent(
+                            narrativeContent,
+                            2,
+                            "heading"
+                          )}
+                        </h1>
+                        {this.querySlideContent(narrativeContent, 2, "body")}
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+              <div className="narrative-step out-on-bail">
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col className="d-flex flex-column justify-content-end">
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 3, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 3, "body")}
+                    </Col>
+                    <Col xs="auto">
+                      <img
+                        src={this.querySlideContent(
+                          narrativeContent,
+                          3,
+                          "image"
+                        )}
+                        alt=""
+                        className="bail-keys-img"
                       />
                     </Col>
                   </Row>
-                </Modal.Body>
-              </Modal>
-
-              <Modal
-                show={georgeModal2}
-                onHide={this.handleModalClose}
-                animation={false}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title className="narrative-modal-title">
-                    <h1>
-                      {this.queryModalContent(modalContent, 6, "heading")}
-                    </h1>
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {this.queryModalContent(modalContent, 6, "body")}
-                </Modal.Body>
-              </Modal>
-
-              <div className="narrative-step">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row
-                      className="justify-content-md-center"
-                      id="george-police-check"
-                    >
-                      <Col md={2}>
-                        <img
-                          src={this.querySlideContent(narrativeContent, 5, "image")}
-                          width="100%"
-                        />
-                      </Col>
-                      <Col md={5}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 5, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 5, "body")}
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
+                </Container>
               </div>
 
-              <div className="narrative-step">
-                <div className="sticky">
-                  <div className="narrative-content">
-                    <Row className="justify-content-md-center">
-                      <Col md={7}>
-                        <h1>
-                          {this.querySlideContent(narrativeContent, 6, "heading")}
-                        </h1>
-                        {this.querySlideContent(narrativeContent, 6, "body")}
+              <div className="narrative-step working-while-on-bail">
+                <Container className="relative-content" id="george-choice-slide">
+                  <Row className="justify-content-center">
+                    <Col>
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 4, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 4, "body")}
+                    </Col>
+                  </Row>
+                  <Row className="narrative-btns-container"
+                  >
+                    <Button
+                      // size="lg"
+                      onClick={this.handleGeorgeModal1Show}
+                      className="narrative-btn left"
+                    >
+                      Work
+                    </Button>
+                    <Button
+                      // size="lg"
+                      onClick={this.handleGeorgeModal2Show}
+                      className="narrative-btn right"
+                    >
+                      Go Home
+                    </Button>
+                  </Row>
+                </Container>
+
+                <Modal
+                  show={georgeModal1}
+                  onHide={this.handleModalClose}
+                  animation={false}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title className="narrative-modal-title">
+                      <h1>
+                        {this.queryModalContent(modalContent, 5, "heading")}
+                      </h1>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Row>
+                      <Col md={9}>
+                        {this.queryModalContent(modalContent, 5, "body")}
+                      </Col>
+                      <Col md={2}>
+                        <img
+                          src={this.queryModalContent(modalContent, 5, "image")}
+                          height="200px"
+                          alt=""
+                        />
                       </Col>
                     </Row>
-                  </div>
-                </div>
-                <div className="scroll-height"></div>
+                  </Modal.Body>
+                </Modal>
+
+                <Modal
+                  show={georgeModal2}
+                  onHide={this.handleModalClose}
+                  animation={false}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title className="narrative-modal-title">
+                      <h1>
+                        {this.queryModalContent(modalContent, 6, "heading")}
+                      </h1>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {this.queryModalContent(modalContent, 6, "body")}
+                  </Modal.Body>
+                </Modal>
+              </div>
+
+              <div className="narrative-step police-check">
+                <Container className="relative-content">
+                  <Row
+                    className="justify-content-md-center"
+                    id="george-police-check"
+                  >
+                    <Col
+                      xs="auto"
+                    >
+                      <img
+                        src={this.querySlideContent(
+                          narrativeContent,
+                          5,
+                          "image"
+                        )}
+                        className="appartment-buzzer-img"
+                        alt=""
+                      />
+                    </Col>
+                    <Col
+                      className="d-flex flex-column justify-content-end"
+                    >
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 5, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 5, "body")}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+
+              <div className="narrative-step what-happend-next">
+                <Container className="relative-content">
+                  <Row className="justify-content-center">
+                    <Col>
+                      <h1>
+                        {this.querySlideContent(narrativeContent, 6, "heading")}
+                      </h1>
+                      {this.querySlideContent(narrativeContent, 6, "body")}
+                    </Col>
+                  </Row>
+                </Container>
               </div>
             </div>
           )
