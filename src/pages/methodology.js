@@ -10,16 +10,55 @@ import { slugify, dateFormat, chunkArray} from "../libs/helpers";
 import Fade from 'react-reveal/Fade';
 
 const MethodologyPage = ({data}) => {
-
   //Preview Modal
   const [ showPreviewModal, setShowPreviewModal ] = useState(false);
+  const [ isPreview, setIsPreview ] = useState(false);
+  const [ previewCard, setPreviewCard ] = useState({
+    bg: '',
+    date: '',
+    title: ''
+  })
 
-  const handlePreviewModalShow = (e) => {
+  const handlePreviewModalShow = (doc, bg, e) => {
 
+    let rect = e.target.getBoundingClientRect();
+    let modalWidth = 500;
+
+    let offsetLeft = rect.left;
+    let offsetTop = rect.top + 30;
+    let center = true;
+
+    if (viewport.width > 992) {
+      center = false;
+    }
+    //adjust positioning
+    if (modalWidth + rect.left > viewport.width) {
+      offsetLeft = (offsetLeft - modalWidth + 20);
+    }
+    // if (modalHeight + rect.top > viewport.height) {
+    //   offsetTop = rect.top - 
+    // }
+  
+    setPreviewCard( prevState => {
+      return {
+        ...prevState,
+        bg: bg,
+        date: dateFormat.format(new Date(doc.data.Publish__or_Start_Date_)),
+        // author: doc.data.Author_s_,
+        title: doc.data.Title,
+        // quote: doc.data.Biblio_Annotation,
+        // url: doc.data.URL,
+        // links: linkedByRecordId[doc.recordId],
+        top: !center ? offsetTop : 0,
+        left: !center ? offsetLeft : 0,
+        center: center
+      }
+    })
+    setShowPreviewModal(true);
   }
 
-  const handlePreviewModalClose = (e) => {
-
+  const handlePreviewModalClose = () => {
+    setShowPreviewModal(false);
   }
 
   //Document Modal
@@ -45,7 +84,6 @@ const MethodologyPage = ({data}) => {
   }
 
   const handleDocumentModalShow = (doc, bg, e) => {
-    console.log('handleDocumentModalShow called');
 
     let rect = e.target.getBoundingClientRect();
     let modalWidth = 500;
@@ -83,9 +121,6 @@ const MethodologyPage = ({data}) => {
     setShowDocumentModal(true);
   }
 
-  const handleDocumentModalMouseOver = () => {
-
-  }
 
   //get the modal height after it's been built/displayed
   useEffect( ()=> {
@@ -290,7 +325,7 @@ const MethodologyPage = ({data}) => {
         className="modal-document"
         centered={ documentCard.center }
         backdropClassName="modal-backdrop-xs"
-        backdrop={ false }
+        backdrop={ !isPreview }
         id="modal-document"
         // backdrop={ documentCard.center }
         style={{ top: documentCard.top, left: documentCard.left }}
@@ -324,6 +359,25 @@ const MethodologyPage = ({data}) => {
             } 
           </ul>
           </> : ''}
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showPreviewModal}
+        onHide={handlePreviewModalClose}
+        backdrop={false}
+        className="modal-document"
+        style={{ top: previewCard.top, left: previewCard.left }}
+      >
+        <Modal.Header 
+          style={{ backgroundColor: previewCard.bg }}
+        >
+          <Modal.Title className="text-white text-uppercase lh-1" id="contained-modal-title-vcenter">
+            { previewCard.date }
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          { previewCard.title ? <a href={previewCard.url} target="_blank" className="d-block mb-3" rel="noreferrer">{previewCard.title}</a> : ''}
         </Modal.Body>
       </Modal>
 
@@ -530,11 +584,10 @@ const MethodologyPage = ({data}) => {
                             className="timeline-card-indicator" 
                             data-id={`${year}-card-${index}`} 
                             data-cat={doc.data.Type_of_Content ?  slugify(doc.data.Type_of_Content) : ''}
-                          
                             style={{ left: offsetLeft + '%', backgroundColor: bg}}
-                            onClick={ (e)=> handleDocumentModalShow(doc, bg, e) }
-                            onMouseEnter={ (e)=> handleDocumentModalShow(doc, bg, e) }
-                            onMouseLeave={ null }
+                            onClick={ (e) => handleDocumentModalShow(doc, bg, e) } 
+                            onMouseEnter={ (e)=> handlePreviewModalShow(doc, bg, e)}
+                            onMouseLeave={ handlePreviewModalClose }
                           >
                             {year}-document-{index}
                           </button>
