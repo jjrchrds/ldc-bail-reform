@@ -90,6 +90,7 @@ const MethodologyPage = ({data}) => {
     bg: '',
     date: '',
     author: '',
+    org: '',
     title: '',
     quote: '',
     url: '',
@@ -131,6 +132,7 @@ const MethodologyPage = ({data}) => {
         bg: bg,
         date: dateFormat.format(new Date(doc.data.Publish__or_Start_Date_)),
         author: doc.data.Author_s_,
+        org: doc.data.Parent_Org___Publication,
         title: doc.data.Title,
         quote: doc.data.Biblio_Annotation,
         url: doc.data.URL,
@@ -362,9 +364,11 @@ const MethodologyPage = ({data}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          { documentCard.author ? <p className="mb-2">{documentCard.author}</p> : ''}
+          { documentCard.author || documentCard.org ? 
+            <p className="mb-2">{documentCard.author}{documentCard.author && documentCard.org ? ' - ' : ''}{documentCard.org}</p>
+          : ''}
           { documentCard.title ? <a href={documentCard.url} target="_blank" className="d-block mb-3" rel="noreferrer">{documentCard.title}</a> : ''}
-          { documentCard.quote ? <p><em>"{documentCard.quote}"</em></p> : ''}
+          { documentCard.quote ? <p>{documentCard.quote}</p> : ''}
           { documentCard.links ? 
           <>
           <h2 className="h5 my-2 text-uppercase">Related Documents</h2>
@@ -696,6 +700,7 @@ query {
       data {
         Title
         Author_s_
+        Parent_Org___Publication
         Publish__or_Start_Date_
         Biblio_Annotation
         Type_of_Content
@@ -717,9 +722,7 @@ query {
     nodes {
       data {
         Title
-        Author_s_
         Publish__or_Start_Date_
-        Biblio_Annotation
         Type_of_Content
         Include_in_Interactive_Bibliography
         Tag
