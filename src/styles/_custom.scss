@@ -48,7 +48,7 @@ $gray-700: #495057 !default;
 $purple:        #7100AD;
 $rust:          #e5521d !default; // Bail Reform Color: Rust
 $pink:          #F08FDB !default; // Bail Reform Color: Pink
-$blue:          #A7D6CC !default; // Bail Reform: Cog Blue
+$green:          #1D8673 !default; // Bail Reform Color: Green
 $yellow:        #EDC80F !default; // Bail Reform: Zap Yellow
 $red:           #FE2E00 !default; // Bail Reform: Zap Red
 $light:         #FFFDFB; // Bail Reform Color: BG (Off-White)
@@ -82,7 +82,7 @@ $theme-colors: map-merge(
     // "primary":      $rust,
     "rust":         $rust,
     "pink":         $pink,
-    "blue":         $blue,
+    "green":         $green,
     "yellow":       $yellow,
     "red":          $red,
     "light":        $light,
@@ -289,7 +289,7 @@ $font-family-headings:         Martin, "Arial Condensed Black", Impact, -apple-s
 // // stylelint-enable value-keyword-case
 
 
-$font-size-base:              1.125rem !default; // Slightly bigger than the browser default since Crimson Text has a smaller x-height - typically 18px
+$font-size-base:                 1.125rem !default; // 16px * 1.125 = 18px
 // $font-size-lg:                $font-size-base * 1.25 !default;
 // $font-size-sm:                $font-size-base * .875 !default;
 
@@ -300,7 +300,7 @@ $font-size-base:              1.125rem !default; // Slightly bigger than the bro
 // $font-weight-bolder:          bolder !default;
 
 // $font-weight-base:            $font-weight-normal !default;
-$line-height-base:            1.25 !default;
+$line-height-base:            1.4 !default;
 
 $h1-font-size:                $font-size-base * 4 !default;
 $h2-font-size:                $font-size-base * 3 !default;

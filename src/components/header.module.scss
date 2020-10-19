@@ -7,10 +7,11 @@
 .cta {
     position: relative;
     z-index: 2;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
     font-family: $font-family-headings;
-    text-transform: uppercase;
-    color: $dark;
+    font-weight: 400;
+    color: $light;
     margin-bottom: 0;
     line-height: 2rem;
 
@@ -22,7 +23,7 @@
         left: -5%;
         height: 2rem;
         width: 110%;
-        background: $pink;
+        background: #1D8673;
         transform: rotate(-2deg);
         transition: background-color 200ms ease-out;
     }
@@ -31,7 +32,7 @@
 .ctaHover {
     &:hover {
         .cta:before {
-            background: $rust;
+            background: $pink;
         }
     }
 }

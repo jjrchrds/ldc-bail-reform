@@ -1,23 +1,20 @@
 import React from "react";
-import Layout from "../components/layout"
-import Head from '../components/head';
-
-// import {Link, graphql, useStaticQuery} from "gatsby"
 import { Container } from "react-bootstrap"
 
-// import blogStyles from "./blog.module.scss"
+import Layout from "../components/layout";
+import Head from '../components/head';
 
-
-const CTAPage = () => {
+const CTA = () => {
   return (
     <Layout>
-      <Head title="CTA"/>
-      <Container className="mt-4">
-        <h1>CTA</h1> 
-        <p>Posts will show up here.</p>
+      <Head title="Get in Touch"/>
+
+      <Container className="mt-5">
+        <h1 className="text-center">Get in Touch</h1>
+        <p className="text-center">Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
       </Container>
     </Layout>
   )
 }
 
-export default CTAPage
+export default CTA;

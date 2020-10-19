@@ -7,16 +7,18 @@ import BackgroundImage from "gatsby-background-image"
 
 /* Import Layout Components */
 import Layout from "../components/layout"
-import Head from "../components/head";
+import Head from "../components/head"
+import BetaSticker from "../components/beta-sticker"
 
 /* Import graphics */
-import ChevronDown from "../../static/assets/svg/chevron-down.svg";
-import HomeLogo from "../../static/assets/svg/logo_homepage.svg";
+import HomeLogo from "../../static/assets/svg/logo_homepage.svg"
+import ChevronDown from "../../static/assets/svg/chevron-down.svg"
 
 const IndexPage = () => {
+
   const data = useStaticQuery(graphql `
     query {
-      homeHero: file(relativePath: { eq: "images/home_hero.jpg" }) {
+      homeHero: file(relativePath: { eq: "images/home_hero.png" }) {
         childImageSharp {
           fluid(quality: 90, maxWidth: 2000) {
             ...GatsbyImageSharpFluid
@@ -25,21 +27,21 @@ const IndexPage = () => {
       }
       issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500) {
+          fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
       }
       issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500) {
+          fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
       }
       issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500) {
+          fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
@@ -47,20 +49,29 @@ const IndexPage = () => {
     }
   `)
 
+  const [show, setShow] = React.useState(true);
+  const handleClose = () => setShow(false);
+
   return (
-    <Layout>
+    <Layout className="pt-5">
       <Head title="Home" />
+
       <Jumbotron className="hero" fluid>
         <BackgroundImage
+          className="hero-img"
           fluid={data.homeHero.childImageSharp.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
-          <Container>
+          <Container className="mt-5 beta-sticker-wrap">
+            <BetaSticker
+              show={show}
+              handleClose={handleClose} />
+              
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
-                <HomeLogo width={200} fill='#fff' className="mt-5 mb-5"/>
-                <h1 className="display-2 mt-4 mb-0 text-rust uppercase">According to the Auditor General</h1>
+                <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
+                <h1 className="display-2 mt-4 mb-0 text-dark uppercase">According to the Auditor General</h1>
                 <h1 className="display-1 mb-5 text-rust uppercase">70% of people held in Ontario jails are <span className="hero-em">legally innocent</span></h1>
                 <p className="display-3 pt-4 mb-3">Why?</p>
                 <p>
@@ -79,17 +90,17 @@ const IndexPage = () => {
       <Container>
         <Row id="main" className="justify-content-md-center pt-5 mb-4">
           <Col className="mt-4" md="10">
-            <p><strong>If we have a bail system that is supposed to release people from jail, with the assurance that they show up for trial, and they aren’t a risk to public safety, then why does this issue exist?</strong></p>
-            <p>We’ve created some resources to try and help you answer this question:</p>
+            <p className="display-4"><b>If we have a bail system that is supposed to release people from jail, with the assurance that they show up for trial, and they aren’t a risk to public safety, then why does this issue exist?</b></p>
+            <p className="display-4">We’ve created some resources to try and help you answer this question:</p>
           </Col>
         </Row>
 
         <Row className="justify-content-between mb-5 pb-5">
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
-              <Card className="bg-dark text-dark">
+              <Card className="bg-dark text-light text-left">
                 <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom">
+                <Card.ImgOverlay className="align-contents-bottom bg-dark">
                   <Card.Title><h3 className="text-white">The Bail System</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     How bail is supposed to work and when it doesn’t.
@@ -101,9 +112,9 @@ const IndexPage = () => {
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
-              <Card className="bg-dark text-dark">
+              <Card className="bg-dark text-light text-left">
                 <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom">
+                <Card.ImgOverlay className="align-contents-bottom bg-dark">
                   <Card.Title><h3 className="text-white mb-0">The Human Experience</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     Hear stories about the human cost of bail.
@@ -115,9 +126,9 @@ const IndexPage = () => {
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/methodology">
-              <Card className="bg-dark text-dark">
+              <Card className="bg-dark text-light text-left">
                 <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom">
+                <Card.ImgOverlay className="align-contents-bottom bg-dark">
                   <Card.Title><h3 className="text-white">Timeline</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     The human cost of bail.
@@ -130,7 +141,7 @@ const IndexPage = () => {
 
         <Row className="justify-content-md-center mb-4 text-center">
           <Col sm="12" md="10">
-            <h2 className="uppercase">Why are innocent people in jail?</h2>
+            <h2 className="uppercase text-dark">Why are innocent people in jail?</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada eget sit rhoncus sagittis. Sollicitudin in nisl, congue posuere nullam ut scelerisque. Suscipit elementum vitae laoreet dignissim. Id blandit neque est, non habitant. Nunc cras congue purus dolor facilisi. Non tempus diam condimentum mattis morbi nisl vel, ultrices.</p>
           </Col>
         </Row>
