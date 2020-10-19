@@ -11,8 +11,8 @@ $white:    #fff !default;
 // $gray-300: #dee2e6 !default;
 // $gray-400: #ced4da !default;
 // $gray-500: #adb5bd !default;
-// $gray-600: #6c757d !default;
-// $gray-700: #495057 !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
 // $gray-800: #343a40 !default;
 // $gray-900: #212529 !default;
 // $black:    #000 !default;
@@ -87,7 +87,8 @@ $theme-colors: map-merge(
     "red":          $red,
     "light":        $light,
     "dark":         $dark,
-    "purple":       $purple
+    "purple":       $purple,
+    "grey":         $gray-600
   ),
   $theme-colors
 );
@@ -229,7 +230,7 @@ $emphasized-link-hover-darken-percentage: 15% !default;
 // // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:                12 !default;
-$grid-gutter-width:           60px !default;
+$grid-gutter-width:           30px !default;
 $grid-row-columns:            6 !default;
 
 
@@ -243,9 +244,9 @@ $grid-row-columns:            6 !default;
 // $border-width:                1px !default;
 // $border-color:                $gray-300 !default;
 
-// $border-radius:               .25rem !default;
-// $border-radius-lg:            .3rem !default;
-// $border-radius-sm:            .2rem !default;
+$border-radius:               0 !default;
+$border-radius-lg:            0 !default;
+$border-radius-sm:            0 !default;
 
 // $rounded-pill:                50rem !default;
 
@@ -395,8 +396,8 @@ $display-line-height:         0.95 !default;
 // $input-btn-padding-y:         .375rem !default;
 // $input-btn-padding-x:         .75rem !default;
 $input-btn-font-family:       Martin !default;
-// $input-btn-font-size:         $font-size-base !default;
-// $input-btn-line-height:       $line-height-base !default;
+$input-btn-font-size:         1.5rem !default;
+$input-btn-line-height:       1 !default;
 
 // $input-btn-focus-width:       .2rem !default;
 // $input-btn-focus-color:       rgba($component-active-bg, .25) !default;

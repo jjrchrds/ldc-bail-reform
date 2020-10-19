@@ -5,11 +5,16 @@
     height: 100%;
     width: 2px;
     background: $dark;
-    left: 15%;
+    left: 10%;
   }
   @include media-breakpoint-up(lg) {
     &:before {
-      content: none;
+      left: calc(100% - 6px);
+      top: 0px;
+      width: 13px;
+      height: 13px;
+      background: white;
+      border: 2px solid $dark;
     }
     border-right: 2px solid $dark;
   }
@@ -28,33 +33,31 @@
 
   @include media-breakpoint-up(lg) {
     position: absolute;
-    bottom: 10px;
+    bottom: 0px;
     width: 100%;
   }
 }
 
 .timeline-card-indicator {
-  
-  
   width: 20px;
   height: 20px;
   text-indent: -9999px;
-  line-height: 0;
   margin-right: 6px;
-  
   background-color: hsl(211, 100%, 67%);
   transition: .35s all;
   border: none;
+  display: inline-block;
+  padding: 0;
   @include media-breakpoint-down(lg) {
+    pointer-events: none;
     left: auto !important;
   }
   @include media-breakpoint-up(lg) {
     position: absolute;
     bottom: -10px;
-    transform: scale(.5);
   }
   &.disabled {
-    opacity: .5 !important;
+    background-color: #ddd !important;
     pointer-events: none !important;
   }
   &.timeline-card-indicator-lg {
@@ -73,11 +76,9 @@
   position: absolute;
   left: 100%;
   top: 0;
-  border-left: 2px solid $dark;
   height: 100%;
   width: 16.67%;
   margin-left: 10px;
-  padding-left: 10px;
 }
 
 .timeline-year-docs {
@@ -112,29 +113,28 @@
 .timeline-year {
 
   .timeline-year-label {
-    font-size: 2rem;
+    font-size: 1.6rem;
     transition: .35s all;
-    line-height: 1;
     padding-top: .3rem;
     padding-bottom:.35rem;
     width: 20%;
     display: inline-block;
-  }
+    margin-right: 5%;
+    text-align: center;
 
-  @include media-breakpoint-up(lg) {
-
-    &.active {
-      .timeline-year-label {
-        color: $rust;
-      }
-      .timeline-card-indicator {
-        background-color: #007bff;
-        opacity: 1;
-        pointer-events: all;
-        transform: scale(1);
-      }
+    @include media-breakpoint-up(lg) {
+      width: auto;
+      background: none;
+      color: $rust;
+      pointer-events: none;
+      border: none;
+      font-size: 5rem;
+      line-height: 1;
+      padding: 4rem 0 0;
+      margin-bottom: 1rem;
     }
   }
+
 }
 
 .react-reveal {
@@ -159,7 +159,7 @@
 .anchor {
   display: block;
   position: relative;
-  top: -90px;
+  top: -40px;
   visibility: hidden;
 }
 
@@ -222,6 +222,14 @@
     border-radius: 0;
     border: none;
   }
+  .modal-body {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .timeline-card-indicator {
+    pointer-events: all;
+  }
   
   &.fade .modal-dialog {
     transform: translate(0, 50px);
@@ -229,16 +237,153 @@
   &.show .modal-dialog {
     transform: none;
   }
+  .carousel-inner {
+    padding-bottom: 30px;
+    min-height: 260px;
+    @media(min-width: 375px) {
+      min-height: 310px;
+    }
+  }
+  .carousel-indicators {
+    margin-top: 0;
+    margin-bottom: 0;
+    li {
+      background: #bbb;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      border: none;
+      margin: 10px 5px;
+
+    }
+  }
+}
+
+.text-heading {
+  font-family: "Martin", sans-serif;
+  font-size: 112%;
+  font-weight: 400;
 }
 
 .modal-document {
-  .modal-title {
-    font-family: "Martin"
+
+  @include media-breakpoint-up(lg) {
+    height: auto;
+    width: auto;
+    
+    .modal-dialog {
+      margin: 0;
+    }
   }
-  .modal-header .close {
-    font-size: 2rem;
-    opacity: 1;
-    text-shadow: none;
+
+  .modal-title {
+    font-family: "Martin";
     font-weight: 400;
+    font-size: 1.6rem;
+  }
+
+  .modal-header  {
+    padding-top: .6rem;
+    padding-bottom: .75rem;
+
+    .close {
+      font-size: 2rem;
+      opacity: 1;
+      text-shadow: none;
+      font-weight: 400;
+      padding-top: .6rem;
+      padding-bottom: .75rem;
+    }
+  }
+}
+
+.btn-rotate {
+  transform: rotate(-4deg);
+  span {
+    display: inline-block;
+    transform: rotate(4deg);
+  }
+}
+
+.category-indicator {
+  cursor: pointer;
+  position: relative;
+  span {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    box-shadow: 0 0 0 2px inset rgba(0,0,0,.4)
+  }
+  &.active {
+    
+      &:before {
+        content: '\2713';
+        color: white;
+        position: absolute;
+        left: 3px;
+        transform: rotate(8deg);
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, .4);
+      }
+    
+  }
+}
+
+.list-legend {
+  font-size: 1rem;
+}
+.legend-card-indicator {
+  width: 16px;
+  height: 16px;
+}
+
+.modal-card-indicator {
+  width: 8%;
+  padding-bottom: 8%;
+  margin-right: 2%;
+}
+.modal-card-link {
+  width: 88%;
+}
+
+.modal-backdrop-xs {
+  &.show {
+    @include media-breakpoint-up(lg) {
+      opacity: 0;
+    }
+  }
+}
+
+
+.truncate {
+  // width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-year {
+  position: relative;
+  &:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: $dark;
+    position: absolute;
+    transform: rotate(45deg);
+    left: -13px;
+    top: 9px;
+  }
+}
+.event-title {
+  line-height: 1;
+}
+
+.list-related {
+  font-size: 1rem;
+  line-height: 1.1rem;
+  li:last-child {
+    a {
+      margin-bottom: 0 !important;
+    }
   }
 }
