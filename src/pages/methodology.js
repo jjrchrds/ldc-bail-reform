@@ -61,6 +61,28 @@ const MethodologyPage = ({data}) => {
     setShowPreviewModal(false);
   }
 
+    //get the modal height after it's been built/displayed
+    useEffect( ()=> {
+
+      if (typeof document !== 'undefined') {
+        const modal = document.getElementById('modal-preview')
+        const rect = modal ? modal.getBoundingClientRect() : null;
+        if (rect) {
+          let offsetTop = previewCard.top + rect.height + 50;
+  
+          if ( offsetTop > viewport.height ) {
+            setPreviewCard( prevState => {
+              return {
+                ...prevState,
+                top: !previewCard.center ? (previewCard.top - rect.height - 40) : 0
+              }
+            })
+          }
+        }
+      }
+  
+    }, [showPreviewModal]);
+
   //Document Modal
   const documentModal = useRef(null);
   const [showDocumentModal, setShowDocumentModal] = useState(false);
@@ -368,6 +390,7 @@ const MethodologyPage = ({data}) => {
         backdrop={false}
         className="modal-document"
         style={{ top: previewCard.top, left: previewCard.left }}
+        id="modal-preview"
       >
         <Modal.Header 
           style={{ backgroundColor: previewCard.bg }}
@@ -377,7 +400,7 @@ const MethodologyPage = ({data}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          { previewCard.title ? <a href={previewCard.url} target="_blank" className="d-block mb-3" rel="noreferrer">{previewCard.title}</a> : ''}
+          { previewCard.title ? <p className="mb-0">{previewCard.title}</p> : ''}
         </Modal.Body>
       </Modal>
 
