@@ -23,7 +23,7 @@ class Header extends React.Component {
                 <NavDropdown.Item href="/theme2">Denying Dignity</NavDropdown.Item>
                 <NavDropdown.Item href="/theme3">Culture of Fear</NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link as={Link} activeClassName="active" to="/methodology">Timeline</Nav.Link>
+              <Nav.Link as={Link} activeClassName="active" to="/timeline">Timeline</Nav.Link>
               <Nav.Link as={Link} to="/cta" className={headerStyles.ctaHover}><p className={headerStyles.cta}>About the Beta</p></Nav.Link>
             </Nav>
           </Navbar.Collapse>
