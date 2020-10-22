@@ -1,6 +1,6 @@
 #system-map {
   display: inline-block;
-  margin-bottom: 200px;
+  // margin-bottom: 200px;
   width: 100%;
 }
 
@@ -175,13 +175,87 @@
 //   background: yellow;
 // }
 
-.accordion-characters { 
+.system-map-ending {
+  margin-top: 100px;
+  margin-bottom: 100px;
+
+  .call-to-action {
+    font-family: MARTIN;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 52px;
+    line-height: 86px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+    > * {
+      position: relative;
+      margin: 0 36px;
+      outline: none;
+      text-decoration: none;
+      display: inline-block;
+      height: 70px;
+      padding: 0px 50px;
+      font-family: MARTIN;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 40px;
+      line-height: 64px;
+      text-align: center;
+      color: #fffdfb;
+      text-transform: uppercase;
+
+      &::before {
+        content: "";
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: absolute;
+        background: #e5521d;
+        transform: rotate(1deg);
+        z-index: -1;
+      }
+
+      &:last-child {
+        &::before {
+          content: "";
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          position: absolute;
+          background: #e5521d;
+          transform: rotate(-1deg);
+          z-index: -1;
+        }
+      }
+
+      &:hover {
+        color: #fffdfb;
+
+        &::before {
+          background: #F08FDB;
+        }
+      }
+    }
+  }
+}
+
+.accordion-characters {
   .card-header {
     padding: 1.25rem 1.5rem;
     border-bottom: none;
   }
 
-  .collapse, .collapsing {
+  .collapse,
+  .collapsing {
     @include media-breakpoint-up(md) {
       display: block !important;
       height: auto !important;

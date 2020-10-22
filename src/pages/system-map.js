@@ -12,6 +12,8 @@ import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
 import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
 import Accordion from "react-bootstrap/Accordion"
+import { Link } from "gatsby"
+
 
 class SystemMapPage extends Component {
   scroller
@@ -502,6 +504,14 @@ class SystemMapPage extends Component {
               </div>
             </Col>
           </Row>
+          <div className="system-map-ending">
+            <h2 className="call-to-action">keep exploring!</h2>
+            <div className="action-buttons">
+              <Link to="/issue1">THEMES</Link>
+              <Link to="/methodology">TIMELINE</Link>
+            </div>
+          </div>
+          
         </Container>
 
         <StaticModal
