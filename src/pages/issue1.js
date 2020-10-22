@@ -72,7 +72,7 @@ const Issue1Page = () => {
 
   return (
     <Layout>
-      <Head title="Issues"/>
+      <Head title={"Theme: " + issueContents.issueName}/>
       <IssuesHero 
         issueName={ issueContents.issueName } 
         issueImg={ data.issue1.childImageSharp.fluid }
