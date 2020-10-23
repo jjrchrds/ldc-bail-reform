@@ -31,6 +31,7 @@ class MomentumTabs extends React.Component {
 
     // Sort tabs in order
     const docsByTabSorted = docsByTabArray.sort();
+    // console.log(docsByTabSorted[0].docs[0].Image[0].url);
     
     return (
       <Row className="justify-content-center mt-3 mb-5 momentum">
@@ -58,7 +59,7 @@ class MomentumTabs extends React.Component {
                           <Nav variant="link" className="pl-0 pt-0 pr-4">
                           {item.docs.map(function(doc, index) {
                             return (
-                            <Nav.Item key={ index } className="article-item">
+                            <Nav.Item key={ index } className="article-item" >
                               <Nav.Link eventKey={ index } className="article-heading align-items-center">
                                 { doc.Title }
                               </Nav.Link>
