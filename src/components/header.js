@@ -12,7 +12,7 @@ const Header = () => {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/" aria-label="Go to homepage">
-          <Logo width={200}/>
+          <Logo height={35}/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className={headerStyles.nav}>
