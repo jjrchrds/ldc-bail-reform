@@ -109,7 +109,7 @@ const IndexPage = () => {
       <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"
-          fluid={content.heroImage.fluid}
+          fluid={data.homeHero.childImageSharp.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
@@ -198,17 +198,17 @@ const IndexPage = () => {
         <Row className="justify-content-md-center mb-5 pb-5">
           <Col xs="12" md="4" className="text-center">
             <Link to="issue1" aria-label={content.theme1ImgAlt}>
-              <Img fluid={content.theme1Img.fluid}  className="mb-4" alt={content.theme1ImgAlt}/>
+              <Img fluid={data.issue1.childImageSharp.fluid} className="mb-4" alt={content.theme1ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
             <Link to="issue2" aria-label={content.theme2ImgAlt}>
-              <Img fluid={content.theme2Img.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
+              <Img fluid={data.issue2.childImageSharp.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
             <Link to="issue3" aria-label={content.theme3ImgAlt}>
-              <Img fluid={content.theme3Img.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
+              <Img fluid={data.issue3.childImageSharp.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
             </Link>
           </Col>
         </Row>
