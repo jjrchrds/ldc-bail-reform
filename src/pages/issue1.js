@@ -23,9 +23,6 @@ const Issue1Page = () => {
         filter: {
           data: { 
             Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions", nin : "maybe?" }
-            // Publish__or_Start_Date_: { ne: null }
-            // Momentum_Annotation: { ne: null }
-            // Image: { elemMatch: { url: { ne: null } } }
           }
         }
       ) {

@@ -23,8 +23,6 @@ const Issue2Page = () => {
         filter: {
           data: { 
             Momentum_Theme: { in : "Theme 2 - Deny Dignity & Rights" }
-            Publish__or_Start_Date_: { ne: null }
-            Momentum_Annotation: { ne: null }
           }
         }
       ) {

@@ -23,8 +23,6 @@ const Issue3Page = () => {
         filter: {
           data: { 
             Momentum_Theme: { in : "Theme 3 - Culture built on Fear" }
-            Publish__or_Start_Date_: { ne: null }
-            Momentum_Annotation: { ne: null }
           }
         }
       ) {
