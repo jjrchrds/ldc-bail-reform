@@ -25,7 +25,7 @@ class MomentumTabs extends React.Component {
       });
     }
 
-    console.log(docsByTab);
+    // console.log(docsByTab);
 
     // Map objects to final results array
     const docsByTabArray = Object.keys(docsByTab).map(function(key) {
