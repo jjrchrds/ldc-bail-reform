@@ -21,10 +21,11 @@ const Issue2Page = () => {
       }
       documents: allAirtable(
         filter: {
-          data: { 
-            Momentum_Theme: { in: "Theme 2 - Deny Dignity & Rights", nin: "maybe?" }
+          data: { Momentum_Theme: { 
+            in: "Theme 1 [Publish]"}
           }
         }
+        sort: { fields: data___Momentum_Tab, order: ASC}
       ) {
         nodes {
           data {

@@ -21,10 +21,11 @@ const Issue3Page = () => {
       }
       documents: allAirtable(
         filter: {
-          data: { 
-            Momentum_Theme: { in: "Theme 3 - Culture built on Fear", nin: "maybe?" }
+          data: { Momentum_Theme: { 
+            in: "Theme 1 [Publish]"}
           }
         }
+        sort: { fields: data___Momentum_Tab, order: ASC}
       ) {
         nodes {
           data {
