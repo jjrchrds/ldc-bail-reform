@@ -22,7 +22,7 @@ const Issue2Page = () => {
       documents: allAirtable(
         filter: {
           data: { 
-            Momentum_Theme: { in : "Theme 2 - Deny Dignity & Rights" }
+            Momentum_Theme: { in: "Theme 2 - Deny Dignity & Rights", nin: "maybe?" }
           }
         }
       ) {

@@ -22,7 +22,7 @@ const Issue3Page = () => {
       documents: allAirtable(
         filter: {
           data: { 
-            Momentum_Theme: { in : "Theme 3 - Culture built on Fear" }
+            Momentum_Theme: { in: "Theme 3 - Culture built on Fear", nin: "maybe?" }
           }
         }
       ) {
