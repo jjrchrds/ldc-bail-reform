@@ -22,7 +22,7 @@ const Issue3Page = () => {
       documents: allAirtable(
         filter: {
           data: { Momentum_Theme: { 
-            in: "Theme 1 [Publish]"}
+            in: "Theme 3 [Publish]"}
           }
         }
         sort: { fields: data___Momentum_Tab, order: ASC}
