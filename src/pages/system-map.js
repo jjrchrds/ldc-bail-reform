@@ -9,6 +9,7 @@ import * as D3 from "d3"
 import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
 import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
 import BottomButtons from "../components/bottom-buttons"
+import TurnDeviceModal from "../components/turn-device-modal"
 import StaticModal from "../components/system-map/static-modal"
 import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
@@ -522,22 +523,10 @@ class SystemMapPage extends Component {
           />
         </Container>
 
-
-        <Modal show={this.state.showMobileModal} 
+        <TurnDeviceModal
+        show={this.state.showMobileModal} 
         onHide={this.onHide}
-        className="turn-device-modal">
-          <Modal.Header>
-            <Modal.Title>View in landscape mode only</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p>This page isn't optimized for portrait mobile view.</p>
-            <p>Please turn your device to access landscape mode.</p>
-          <img src={turnPhoneImg} style={{}}></img>
-
-          </Modal.Body>
-
-        </Modal>
+        />
 
         <StaticModal
           show={this.state.showStaticModal}
