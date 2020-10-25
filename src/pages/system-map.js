@@ -135,11 +135,11 @@ class SystemMapPage extends Component {
 
     D3.select("#sidebar-wrapper")
       .style("height", window.innerHeight * 0.8 + "px")
-      .style("top", (window.innerHeight * 0.2) / 2 + "px")
+      .style("top", (window.innerHeight * 0.3) / 2 + "px")
 
     // Vertically centering the svg when it becomes sticky
     D3.select("#svg-wrapper")
-      .style("top", d => `${(window.innerHeight * 0.2) / 2}px`)
+      .style("top", d => `${(window.innerHeight * 0.3) / 2}px`)
       .style("height", `${window.innerHeight * 0.8}px`)
 
     this.scroller.resize()
@@ -468,8 +468,8 @@ class SystemMapPage extends Component {
             />
           </Row>
           {/* Old Row */}
-          <Row>
-            <Col sm={11} md={9} id="main-col">
+          <Row id="sm-row">
+            <Col sm={8} md={9} id="main-col">
               <div id="system-map">
                 {/* <div id="sm-layer__title">
                   <p></p>
@@ -482,7 +482,7 @@ class SystemMapPage extends Component {
                 </div>
               </div>
             </Col>
-            <Col sm={1} md={3} id="sidebar-col">
+            <Col sm={4} md={3} id="sidebar-col">
               <div id="sidebar-wrapper">
                 <p id="prompt-1" className="prompt"></p>
                 <div id="sm-legend" className="text-dark">
