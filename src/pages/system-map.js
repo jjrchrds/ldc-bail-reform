@@ -7,12 +7,16 @@ import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
 // import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
 import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
+import BottomButtons from "../components/bottom-buttons"
 import StaticModal from "../components/system-map/static-modal"
 import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
 import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
 import Accordion from "react-bootstrap/Accordion"
 import { Link } from "gatsby"
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 
 class SystemMapPage extends Component {
@@ -32,6 +36,7 @@ class SystemMapPage extends Component {
     staticModalActiveContent: "",
     cogModalActiveContent: "",
     zapModalActiveContent: "",
+    showMobileModal: false,
   }
 
   setShow = ({ isVisible }) => {
@@ -44,6 +49,7 @@ class SystemMapPage extends Component {
   handleCloseStatic = () => this.setState({ showStaticModal: false })
   handleCloseCog = () => this.setState({ showCogModal: false })
   handleCloseZap = () => this.setState({ showZapModal: false })
+  onHide = () => false
 
   handleScrollStepEnter = ({ element, index, direction }) => {
     console.log(index)
@@ -121,6 +127,8 @@ class SystemMapPage extends Component {
     // console.log(this.steps)
     // console.log(this.systemMap)
 
+    this.setState({ showMobileModal: (window.innerWidth < 800 && (window.innerHeight > window.innerWidth)) });
+
     // let stepH = Math.floor(window.innerHeight * 0.75)
     this.layerSteps.style("height", window.innerHeight * 1.5 + "px")
 
@@ -137,6 +145,7 @@ class SystemMapPage extends Component {
   }
 
   componentDidMount() {
+
     // Storing the global "this" object to later reference it in D3 event functions
     const self = this
     // console.log(this.state)
@@ -168,7 +177,7 @@ class SystemMapPage extends Component {
     // setup resize event
     window.addEventListener("resize", this.scroller.resize)
     // Probably the way to resize, below
-    window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize)
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
@@ -309,7 +318,7 @@ class SystemMapPage extends Component {
     //     .selectAll("g")
     //     .nodes())
 
-    //     let arr = []; 
+    //     let arr = [];
     //     D3.select("#cogs")
     //     .selectAll("g")
     //     .nodes().forEach(d => arr.push(d.getBBox()))
@@ -319,7 +328,7 @@ class SystemMapPage extends Component {
     //     D3.select("#cogs")
     //       .selectAll("g")
     //       .nodes().forEach(d=>d.setAttribute("transform", "scale(1)")
-          
+
     //       // .setAttribute("transform", "scale(1.5)"
     //       // function(d) {
     //       //   // let bbox = d.getBBox();
@@ -504,15 +513,31 @@ class SystemMapPage extends Component {
               </div>
             </Col>
           </Row>
-          <div className="system-map-ending">
-            <h2 className="call-to-action">keep exploring!</h2>
-            <div className="action-buttons">
-              <Link to="/issue1">THEMES</Link>
-              <Link to="/methodology">TIMELINE</Link>
-            </div>
-          </div>
-          
+          <BottomButtons
+          btn1={"Themes"}
+          btn1Url={"/issue1"}
+          btn2={"Timeline"}
+          btn2Url={"/methodology"}
+          ctaColor={"text-dark"}
+          />
         </Container>
+
+
+        <Modal show={this.state.showMobileModal} 
+        onHide={this.onHide}
+        className="turn-device-modal">
+          <Modal.Header>
+            <Modal.Title>View in landscape mode only</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>This page isn't optimized for portrait mobile view.</p>
+            <p>Please turn your device to access landscape mode.</p>
+          <img src={turnPhoneImg} style={{}}></img>
+
+          </Modal.Body>
+
+        </Modal>
 
         <StaticModal
           show={this.state.showStaticModal}

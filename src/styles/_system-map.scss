@@ -163,91 +163,6 @@
   font-size: 1.2rem;
 }
 
-// .test1 {
-//   transform: translate(-25px, -25px)
-// }
-
-// #main-col {
-//   background: pink;
-// }
-
-// #sidebar-col {
-//   background: yellow;
-// }
-
-.system-map-ending {
-  margin-top: 100px;
-  margin-bottom: 100px;
-
-  .call-to-action {
-    font-family: MARTIN;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 52px;
-    line-height: 86px;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .action-buttons {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-
-    > * {
-      position: relative;
-      margin: 0 36px;
-      outline: none;
-      text-decoration: none;
-      display: inline-block;
-      height: 70px;
-      padding: 0px 50px;
-      font-family: MARTIN;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 40px;
-      line-height: 64px;
-      text-align: center;
-      color: #fffdfb;
-      text-transform: uppercase;
-
-      &::before {
-        content: "";
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        position: absolute;
-        background: #e5521d;
-        transform: rotate(1deg);
-        z-index: -1;
-      }
-
-      &:last-child {
-        &::before {
-          content: "";
-          height: 100%;
-          width: 100%;
-          top: 0;
-          left: 0;
-          position: absolute;
-          background: #e5521d;
-          transform: rotate(-1deg);
-          z-index: -1;
-        }
-      }
-
-      &:hover {
-        color: #fffdfb;
-
-        &::before {
-          background: #F08FDB;
-        }
-      }
-    }
-  }
-}
-
 .accordion-characters {
   .card-header {
     padding: 1.25rem 1.5rem;
@@ -271,5 +186,20 @@
     @include media-breakpoint-up(xl) {
       min-height: 195px;
     }
+  }
+}
+
+.turn-device-modal {
+  .modal-header {
+    border-bottom: none;
+    border-radius: 0px;
+    background: #e5521d;
+    color: #fffdfb;
+    padding: 0.3rem 2rem;
+    font-family: Martin;
+    font-size: 42px;
+  }
+  p {
+    margin: 0px;
   }
 }
