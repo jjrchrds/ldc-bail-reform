@@ -6,6 +6,8 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import * as D3 from "d3"
 // import svgExplImport from "../../static/assets/system-map/EE_1.svg"
 import svgExplImport from "../../static/assets/system-map/EE_1b.svg"
+import TurnDeviceModal from "./turn-device-modal"
+
 
 class ExplFirst extends Component {
   scroller
@@ -24,6 +26,7 @@ class ExplFirst extends Component {
   state = {
     issue_id: 1,
     step_index: 0,
+    showMobileModal: false,
   }
 
   // List of ids for arrows to animate
@@ -163,6 +166,9 @@ class ExplFirst extends Component {
   handleProgress = ({ progress }) => {}
 
   handleResize = () => {
+
+    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
+
     this.layerSteps.style("height", window.innerHeight * 0.75 + "px")
 
     D3.select("#expl-sidebar-wrapper")
@@ -178,8 +184,14 @@ class ExplFirst extends Component {
     this.scroller.resize()
   }
 
+  onHide = () => false
+
+
   componentDidMount() {
     const self = this
+
+    window.addEventListener("resize", this.handleResize)
+
 
     // Storing a selection of the layer steps element
     this.layerSteps = D3.select("#expl-step-wrapper").selectAll(
@@ -362,7 +374,12 @@ class ExplFirst extends Component {
             </div>
           </Col>
         </Row>
+        <TurnDeviceModal
+        show={this.state.showMobileModal} 
+        onHide={this.onHide}
+        />
       </Container>
+      
     )
   }
 }

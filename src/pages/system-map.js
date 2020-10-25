@@ -128,7 +128,7 @@ class SystemMapPage extends Component {
     // console.log(this.steps)
     // console.log(this.systemMap)
 
-    this.setState({ showMobileModal: (window.innerWidth < 800 && (window.innerHeight > window.innerWidth)) });
+    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
 
     // let stepH = Math.floor(window.innerHeight * 0.75)
     this.layerSteps.style("height", window.innerHeight * 1.5 + "px")
