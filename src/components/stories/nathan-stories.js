@@ -1,4 +1,4 @@
-gimport React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col } from "react-bootstrap"
 import { pinDuration } from './common'
