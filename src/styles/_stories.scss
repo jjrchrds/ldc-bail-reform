@@ -44,6 +44,12 @@
 }
 
 .stories {
+  //////variables for this section
+  $color-offwhite: #FFFDFB;
+  //////////
+
+  color: $color-offwhite;
+
   p {
     font-size: 16px;
     &.lead {
@@ -56,6 +62,12 @@
       }
     }
   }
+
+
+  .intro-slide {
+    z-index: 500;
+  }
+  
 }
 
 .slide-from-left {
@@ -65,3 +77,19 @@
     transform: none;
   }
 }
+
+
+.slide-from-right {
+  position: absolute;
+  left: 0;
+  transform: translateX(100vw);
+  transition: .5s all ease-out;
+  &.active {
+    transform: none;
+  }
+}
+
+
+
+
+
