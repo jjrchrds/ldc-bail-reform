@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+gimport React, { useState, useEffect } from 'react';
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col } from "react-bootstrap"
 import { pinDuration } from './common'
@@ -73,7 +73,11 @@ const NathanStories = () => {
           // will need to perhaps re-render component on window 
           //height change - resize event - and vbl that stores corruent 
           //height - will need to further look into this 
-          duration={Math.round(window.innerHeight / 2) + pinDuration}
+          // 
+          // https://www.gatsbyjs.com/docs/debugging-html-builds/#how-to-check-if-code-classlanguage-textwindowcode-is-defined
+          duration={window ? (
+            (Math.round(window.innerHeight / 2) + pinDuration)
+          ) : 0}
           // offset={"150px"}
           pinSettings={{ pushFollowers: false }}
           pin
