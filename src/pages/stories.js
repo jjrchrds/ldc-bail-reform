@@ -5,8 +5,11 @@ import Img from "gatsby-image"
 import { Controller, Scene } from 'react-scrollmagic';
 import BackgroundImage from 'gatsby-background-image'
 import { slugify } from "../libs/helpers"
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Button, Col } from "react-bootstrap"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+
+import NathanComponent from "../components/stories/nathan"
+import KaraComponent from "../components/stories/kara"
 
 
 const StoriesPage = ({data}) => {
@@ -57,131 +60,47 @@ const StoriesPage = ({data}) => {
   return (
     <Layout>  
       <section className="stories">
-      <div ref={ bgs } className="bgs position-fixed">
-        <div className="bg-cover bg-gradient position-fixed"/>
-        { data.allContentfulNarrativePageBackground.edges.map((item, index) => (
-          <BackgroundImage
-            key={`bg-${index}`} 
-            id={`bg-${ slugify(item.node.pageTitle)}`}
-            Tag="section"
-            className={'position-absolute bg-cover'}
-            fluid={item.node.backgroundImage.fluid}
-            backgroundColor={`#040e18`}
-          />
-        ))}
-      </div>
+        <div ref={ bgs } className="bgs position-fixed">
+          <div className="bg-cover bg-gradient position-fixed"/>
+          { data.allContentfulNarrativePageBackground.edges.map((item, index) => (
+            <BackgroundImage
+              key={`bg-${index}`} 
+              id={`bg-${ slugify(item.node.pageTitle)}`}
+              Tag="section"
+              className={'position-absolute bg-cover'}
+              fluid={item.node.backgroundImage.fluid}
+              backgroundColor={`#040e18`}
+            />
+          ))}
+        </div>
 
-      <div className="progress position-fixed">
-        <div ref={ progress }>0</div>
-      </div>
+        <div className="progress position-fixed">
+          <div ref={ progress }>0</div>
+        </div>
 
-      <Controller>
-        {/* introduction */}
-        <Scene 
-          // triggerHook={0} 
-          duration={600} 
-          pin
-        >
-          <div className="vh-100 bg-dark text-white">
-            <Container className="h-100">
-              <Row className="h-100 d-flex align-items-center">
-                <h1>test</h1>
-              </Row>
-            </Container>
-          </div>
-        </Scene>
-        
-        {/* Nathan */}
-        <Scene 
-          // indicators={true}
-          triggerHook={-.5} 
-          duration={"150%"} 
-          pinSettings={{pushFollowers: false}}
-          pin
-        >
-          {(progress, event) => {
-            return (
-            <div className={`vh-100 character-01`}>
-              <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <img className={`bottom-locked opacity-0 ${ progress < .9 ? 'opacity-1' : ''}`} src="http://placehold.it/500x500/"/>
-                </Row>
-              </Container>
-            </div>
-          )}}
-        </Scene>
-
-        <Scene 
-          // indicators={true}
-          triggerHook={-1} 
-          duration={"50%"} 
-          pinSettings={{pushFollowers: false}}
-          pin
-        >
-          {(progress, event) => {
-            return (
-            <div className={`vh-100 character-01`}>
-              <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col md={{span: 6, offset: 6}}>
-                    <h1>Meet Nathan</h1>
-                    <p>test</p>
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-          )}}
-        </Scene>
-
-        <Scene 
-          // indicators={true}
-          triggerHook={-2} 
-          duration={"50%"} 
-          pinSettings={{pushFollowers: false}}
-          pin
-        >
-          {(progress, event) => {
-            return (
-            <div className={`vh-100 character-01`}>
-              <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
+        <Controller>
+          {/* introduction */}
+          <Scene 
+            triggerHook={0} 
+            duration={"50%"} 
+            pin
+          >
+            <div className="vh-100 bg-dark text-white">
+              <Container className="h-100">
+                <Row className="h-100 d-flex align-items-center">
                   <Col className="text-center">
-                    <img 
-                      className={`slide-from-left ${ progress > 0 ? 'active' : ''}`}
-                      src="http://placehold.it/500x300/"
-                    />
+                    <h1 className="text-uppercase text-pink">Lorem Ipsum</h1>
+                    <p className="lead">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero rem adipisci sit possimus. Asperiores recusandae quaerat assumenda aliquid, harum voluptate minima quibusdam libero? Exercitationem dolore porro rerum tempore possimus enim.</p>
+                    <p>Start Scrolling</p>
                   </Col>
                 </Row>
               </Container>
             </div>
-          )}}
-        </Scene>
-
-        <Scene 
-          // indicators={true}
-          triggerHook={0} 
-          duration={"50%"} 
-          pin
-        >
-          {(progress, event) => {
-            return (
-            <div className={`vh-100 character-01`}>
-              <Container className={`h-100`}>
-                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
-                  <Col lg="10" className="text-left">
-                    <h1>Arrest</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-          )}}
-        </Scene>
-
-      </Controller>
+          </Scene>
+        
+        </Controller>
+        <NathanComponent/>
+        <KaraComponent/>
       </section>
     </Layout>
   )
@@ -216,5 +135,37 @@ export const query = graphql`
         }
       }
     }
+    intro_bg: file(relativePath: { eq: "images/intro_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    nathan_bg: file(relativePath: { eq: "images/nathan_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    kara_bg: file(relativePath: { eq: "images/kara_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    george_bg: file(relativePath: { eq: "images/george_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
   }
 `
+
+
+              
+            
