@@ -16,9 +16,8 @@ import ZapModal from "../components/system-map/zap-modal"
 import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
 import Accordion from "react-bootstrap/Accordion"
 import { Link } from "gatsby"
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 
 class SystemMapPage extends Component {
   scroller
@@ -128,7 +127,10 @@ class SystemMapPage extends Component {
     // console.log(this.steps)
     // console.log(this.systemMap)
 
-    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
+    this.setState({
+      showMobileModal:
+        window.innerWidth < 650 && window.innerHeight > window.innerWidth,
+    })
 
     // let stepH = Math.floor(window.innerHeight * 0.75)
     this.layerSteps.style("height", window.innerHeight * 1.5 + "px")
@@ -146,7 +148,6 @@ class SystemMapPage extends Component {
   }
 
   componentDidMount() {
-
     // Storing the global "this" object to later reference it in D3 event functions
     const self = this
     // console.log(this.state)
@@ -182,7 +183,15 @@ class SystemMapPage extends Component {
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
-      const viewBoxWidth = 1400 // svg container width
+
+      let viewBoxWidth; // svg container width
+
+      if (window.innerWidth < 992) {
+        console.log(window.innerWidth)
+        viewBoxWidth = 1800
+      } else if (window.innerWidth > 992) {
+        viewBoxWidth = 1400
+      }
       const viewBoxHeight = 600 // svg container height. Needs to be the same as height for svg-wrapper specified in SCSS
       const scaleFactor = 1.4
 
@@ -515,17 +524,17 @@ class SystemMapPage extends Component {
             </Col>
           </Row>
           <BottomButtons
-          btn1={"Themes"}
-          btn1Url={"/issue1"}
-          btn2={"Timeline"}
-          btn2Url={"/methodology"}
-          ctaColor={"text-dark"}
+            btn1={"Themes"}
+            btn1Url={"/issue1"}
+            btn2={"Timeline"}
+            btn2Url={"/methodology"}
+            ctaColor={"text-dark"}
           />
         </Container>
 
         <TurnDeviceModal
-        show={this.state.showMobileModal} 
-        onHide={this.onHide}
+          show={this.state.showMobileModal}
+          onHide={this.onHide}
         />
 
         <StaticModal
