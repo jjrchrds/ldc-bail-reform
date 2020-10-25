@@ -78,7 +78,7 @@ const StoriesPage = ({data}) => {
       <Controller>
         {/* introduction */}
         <Scene 
-          triggerHook={0} 
+          // triggerHook={0} 
           duration={600} 
           pin
         >
@@ -93,7 +93,7 @@ const StoriesPage = ({data}) => {
         
         {/* Nathan */}
         <Scene 
-          indicators={true}
+          // indicators={true}
           triggerHook={-.5} 
           duration={"150%"} 
           pinSettings={{pushFollowers: false}}
@@ -107,13 +107,12 @@ const StoriesPage = ({data}) => {
                   <img className={`bottom-locked opacity-0 ${ progress < .9 ? 'opacity-1' : ''}`} src="http://placehold.it/500x500/"/>
                 </Row>
               </Container>
-              
             </div>
           )}}
         </Scene>
 
         <Scene 
-          indicators={true}
+          // indicators={true}
           triggerHook={-1} 
           duration={"50%"} 
           pinSettings={{pushFollowers: false}}
@@ -135,7 +134,7 @@ const StoriesPage = ({data}) => {
         </Scene>
 
         <Scene 
-          indicators={true}
+          // indicators={true}
           triggerHook={-2} 
           duration={"50%"} 
           pinSettings={{pushFollowers: false}}
@@ -159,7 +158,7 @@ const StoriesPage = ({data}) => {
         </Scene>
 
         <Scene 
-          indicators={true}
+          // indicators={true}
           triggerHook={0} 
           duration={"50%"} 
           pin
@@ -182,41 +181,6 @@ const StoriesPage = ({data}) => {
           )}}
         </Scene>
 
-        
-        {/* { slideData.map((slide, index) => {
-          console.log(slide.character);
-          return (
-            <Scene 
-              indicators={true}
-              // onEnter={ () => console.log('wow') }
-              key={`slide-${index}`} 
-              triggerHook={0} 
-              duration={"200%"} 
-              pin
-            >
-              {(progress, event) => {
-                if (event.type === "enter") {
-                  updateProgress( index );
-                  updateBackground( slide.character );
-                }
-                return (
-                <div className={`vh-100 ${ slide.character }`}>
-                  <Container className={`h-100 ${ progress > .1 && progress < .9 ? 'opacity-1' : ''}`}>
-                    <Row className="h-100 d-flex align-items-center text-white">
-                      <Col md="6">
-                        <p>{ slide.character }</p>
-                        <h1>{ slide.heading }</h1>
-                        { documentToReactComponents(slide.story.json, options) }
-
-                      </Col>
-                    </Row>
-                  </Container>
-                  
-                </div>
-              )}}
-            </Scene>
-          )
-        })} */}
       </Controller>
       </section>
     </Layout>
