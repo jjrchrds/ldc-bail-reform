@@ -10,7 +10,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 import NathanComponent from "../components/stories/nathan"
 import KaraComponent from "../components/stories/kara"
-
+import GeorgeComponent from "../components/stories/george"
 
 const StoriesPage = ({data}) => {
   let value = 0;
@@ -74,10 +74,6 @@ const StoriesPage = ({data}) => {
           ))}
         </div>
 
-        <div className="progress position-fixed">
-          <div ref={ progress }>0</div>
-        </div>
-
         <Controller>
           {/* introduction */}
           <Scene 
@@ -101,6 +97,7 @@ const StoriesPage = ({data}) => {
         </Controller>
         <NathanComponent/>
         <KaraComponent/>
+        <GeorgeComponent/>
       </section>
     </Layout>
   )
