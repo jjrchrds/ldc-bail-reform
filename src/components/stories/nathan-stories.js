@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col } from "react-bootstrap"
-import { pinDuration } from './common'
+import { 
+  pinDuration } from './common'
 
 
 const NathanStories = () => {
   const [policeCarImgProgress, setPoliceCarImgProgress] = useState()
-  const [policeStnChoiceTxtProgress, setPoliceStnChoiceTxtProgress] = 
+  const [policeStnChoiceTxtProgress, setPoliceStnChoiceTxtProgress] =
     useState()
-  const [policeStnTxtProgress, setPoliceStnTxtProgress] = 
+  const [policeStnTxtProgress, setPoliceStnTxtProgress] =
     useState()
+  const [policeStnTxtEndProgress, setPoliceStnTxtEndProgress] =
+    useState()
+  const [courtTxtEndProgress, setCourtTxtEndProgress] =
+    useState()
+
 
   return (
     <>
+      {/* dbg */}
+      <div className="fixed-bottom">{policeStnTxtEndProgress}</div>
+
       {/* meet nathan */}
       <Controller>
         <Scene
@@ -75,7 +84,7 @@ const NathanStories = () => {
           //height - will need to further look into this 
           // 
           // https://www.gatsbyjs.com/docs/debugging-html-builds/#how-to-check-if-code-classlanguage-textwindowcode-is-defined
-          duration={window ? (
+          duration={window != null ? (
             (Math.round(window.innerHeight / 2) + pinDuration)
           ) : 0}
           // offset={"150px"}
@@ -95,7 +104,7 @@ const NathanStories = () => {
                       <img
                         style={{ marginTop: '-150px' }}
                         className={
-                          `slide-from-left ${progress > 0 ? 'active' : ''}` 
+                          `slide-from-left ${progress > 0 ? 'active' : ''}`
                         }
                         src="http://placehold.it/500x300/"
                       />
@@ -156,12 +165,12 @@ const NathanStories = () => {
               <div
                 // style={{ marginBottom: '150px' }}
                 className={`vh-100 character-01`}>
-                <Container className={`h-100 ${policeStnChoiceTxtProgress > 0 ? 'opacity-0' : ''}`}
-            >
+                <Container className={`h-100`}
+                >
                   <Row className="h-100 text-white">
                     <Col className="text-center col-6 position-relative h-100 d-flex align-items-center">
                       <img
-                        className={`slide-from-right ${progress > 0 ? 'active' : ''}`}
+                        className={`slide-from-right ${progress > 0 ? 'active' : ''}  ${policeStnTxtEndProgress > 0 ? 'opacity-0' : ''}`}
                         src="http://placehold.it/500x500/"
                       />
                     </Col>
@@ -185,7 +194,7 @@ const NathanStories = () => {
             return (
               <div className={`character-01`}>
                 <Container
-                style={{ paddingBottom: "100vh" }}
+                  style={{ paddingBottom: "100vh" }}
                 >
                   <Row className="text-white">
                     <Col className="text-left col-6 offset-6" >
@@ -201,14 +210,24 @@ const NathanStories = () => {
             )
           }}
         </Scene >
+        <Scene
+          duration={1}
+          triggerHook={1}
+        >
+          {progress => {
+            setPoliceStnTxtEndProgress(progress)
+
+            return <div className="police-stn-text-end" />;
+          }}
+        </Scene>
       </Controller >
 
-       {/* the police station - choice */}
-       {/* <Controller>
+      {/* the police station - choice */}
+      <Controller>
         <Scene
           indicators={true}
-          // triggerHook={1} 
-          offset={"-50vh"}
+          triggerHook={.25}
+          // offset={"-50vh"}
           duration={pinDuration}
           // pinSettings={{pushFollowers: false}}
           pin
@@ -216,7 +235,8 @@ const NathanStories = () => {
           {(progress, event) => {
             setPoliceStnChoiceTxtProgress(progress)
             return (
-              <div className={`character-01`}>
+              <div className={`character-01`}
+                style={{ minHeight: '100vh' }}>
                 <Container
                 // className={`h-100`}
                 >
@@ -224,19 +244,27 @@ const NathanStories = () => {
                     <Col className="text-left col-10" >
                       <h1>The Police Station - Choice</h1>
                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
                     </Col>
+                  </Row>
+                  <Row className="justify-content-center">
+                    <img
+                      // className={`slide-from-right ${progress > 0 ? 'active' : ''}`}
+                      className={`slide-from-left ${progress > 0 ? 'active' : ''}`}
+                      src="http://placehold.it/500x300/"
+                    />
                   </Row>
                 </Container>
               </div>
             )
           }}
-        </Scene > 
+        </Scene >
+      </Controller >
+
+      {/* the court */}
+      <Controller>
         <Scene
           indicators={true}
-          // triggerHook={0}
+          triggerHook={0}
           pinSettings={{ pushFollowers: false }}
           pin
         >
@@ -245,12 +273,13 @@ const NathanStories = () => {
               <div
                 // style={{ marginBottom: '150px' }}
                 className={`vh-100 character-01`}>
-                <Container className={`h-100`}>
+                <Container className={`h-100`}
+                >
                   <Row className="h-100 text-white">
                     <Col className="text-center col-6 position-relative h-100 d-flex align-items-center">
                       <img
-                        className={`slide-from-right ${progress > 0 ? 'active' : ''}`}
-                        src="http://placehold.it/500x300/"
+                        className={`slide-from-right ${progress > 0 ? 'active' : ''}  ${courtTxtEndProgress > 0 ? 'opacity-0' : ''}`}
+                        src="http://placehold.it/500x500/"
                       />
                     </Col>
                   </Row>
@@ -259,7 +288,76 @@ const NathanStories = () => {
             )
           }}
         </Scene>
-      </Controller > */}
+        <Scene
+          indicators={true}
+          // triggerHook={0} 
+          // offset={"-150px"}
+          duration={pinDuration}
+          // pinSettings={{pushFollowers: false}}
+          pin
+        >
+          {(progress, event) => {
+            return (
+              <div className={`character-01`}>
+                <Container
+                  style={{ paddingBottom: "100vh" }}
+                >
+                  <Row className="text-white">
+                    <Col className="text-left col-6 offset-6" >
+                      <h1>The Court</h1>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+            )
+          }}
+        </Scene >
+        <Scene
+          duration={1}
+          triggerHook={1}
+        >
+          {progress => {
+            setCourtTxtEndProgress(progress)
+
+            return <div className="court-text-end" />;
+          }}
+        </Scene>
+      </Controller >
+
+       {/* the what happened next */}
+       <Controller>
+        <Scene
+          indicators={true}
+          triggerHook={.25}
+          // offset={"-50vh"}
+          duration={pinDuration}
+          // pinSettings={{pushFollowers: false}}
+          pin
+        >
+          {(progress, event) => {
+            setPoliceStnChoiceTxtProgress(progress)
+            return (
+              <div className={`character-01`}
+                style={{ minHeight: '100vh' }}>
+                <Container
+                // className={`h-100`}
+                >
+                  <Row className="text-white justify-content-center">
+                    <Col className="text-left col-10" >
+                      <h1>What happened next</h1>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+            )
+          }}
+        </Scene >
+      </Controller >
     </>
   );
 }
