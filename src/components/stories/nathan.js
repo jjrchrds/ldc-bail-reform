@@ -108,7 +108,7 @@ const options = {
         <Scene 
           indicators={true}
           triggerHook={-2} 
-          duration={"60%"} 
+          duration={"70%"} 
           pinSettings={{pushFollowers: false}}
           pin
         >
@@ -118,7 +118,7 @@ const options = {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col className="text-center">
-                    <Img fluid={slides[1].slideImage.fluid } className={`d-inline-block w-75 slide-from-left ${ progress > .1 ? 'active' : ''}`}/>
+                    <Img fluid={slides[1].slideImage.fluid } className={`d-inline-block w-50 slide-from-left ${ progress > .1 ? 'active' : ''}`}/>
                   </Col>
                 </Row>
               </Container>
@@ -191,16 +191,21 @@ const options = {
                     <h1>The Police Station</h1>
                     {documentToReactComponents(slides[3].story.json, options) }
                     <div className="text-center mt-5">
-                      <Button 
-                        onClick={() => showModal({title: 'Buy a landline', body: 'body test'})} 
-                        className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3 slide-from-bottom ${ progress > .1 ? 'active' : ''}`} variant="pink">
-                        <span>Speak Up</span>
-                      </Button>
-                      <Button 
-                        onClick={showModal} 
-                        className={`text-uppercase btn-stories btn-rotate-left text-white py-2 slide-from-bottom ${ progress > .2 ? 'active' : ''}`} variant="pink">
-                        <span>Wait</span>
-                      </Button>
+                      <div className={`d-inline-block slide-from-bottom ${ progress > .1 ? 'active' : ''}`}>
+                        <Button 
+                          onClick={() => showModal({title: 'Buy a landline', body: 'body test'})} 
+                          className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`} variant="pink">
+                          <span>Speak Up</span>
+                        </Button>
+                      </div>
+                      <div className={`d-inline-block slide-from-bottom ${ progress > .1 ? 'active' : ''}`}>
+
+                        <Button 
+                          onClick={showModal} 
+                          className={`text-uppercase btn-stories btn-rotate-left text-white py-2`} variant="pink">
+                          <span>Wait</span>
+                        </Button>
+                      </div>
                     </div>
                   </Col>
                 </Row>
