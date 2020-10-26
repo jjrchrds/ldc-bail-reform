@@ -10,15 +10,11 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import IntroStories from '../components/stories/intro-stories'
 import NathanStories from '../components/stories/nathan-stories'
 
-<<<<<<< HEAD
-const StoriesPage = ({ data }) => {
-=======
 import NathanComponent from "../components/stories/nathan"
 import KaraComponent from "../components/stories/kara"
 import GeorgeComponent from "../components/stories/george"
 
 const StoriesPage = ({data}) => {
->>>>>>> joshua/stories
   let value = 0;
 
   // const [ slideIndex, setSlideIndex ] = useState(0);
@@ -71,21 +67,12 @@ const StoriesPage = ({data}) => {
   return (
     <Layout>
       <section className="stories">
-<<<<<<< HEAD
-        <div ref={bgs} className="bgs position-fixed">
-          <div className="bg-cover bg-gradient position-fixed" />
-          {data.allContentfulNarrativePageBackground.edges.map((item, index) => (
-            <BackgroundImage
-              key={`bg-${index}`}
-              id={`bg-${slugify(item.node.pageTitle)}`}
-=======
         <div ref={ bgs } className="bgs position-fixed">
           <div className="bg-cover bg-gradient position-fixed"/>
           { data.allContentfulNarrativePageBackground.edges.map((item, index) => (
             <BackgroundImage
               key={`bg-${index}`} 
               id={`bg-${ slugify(item.node.pageTitle)}`}
->>>>>>> joshua/stories
               Tag="section"
               className={'position-absolute bg-cover'}
               fluid={item.node.backgroundImage.fluid}
@@ -94,55 +81,6 @@ const StoriesPage = ({data}) => {
           ))}
         </div>
 
-<<<<<<< HEAD
-        <div className="progress position-fixed">
-          <div ref={progress}>0</div>
-        </div>
-
-        <IntroStories />
-        <NathanStories />
-
-
-
-
-
-
-        {/* { slideData.map((slide, index) => {
-          console.log(slide.character);
-          return (
-            <Scene 
-              indicators={true}
-              // onEnter={ () => console.log('wow') }
-              key={`slide-${index}`} 
-              triggerHook={0} 
-              duration={"200%"} 
-              pin
-            >
-              {(progress, event) => {
-                if (event.type === "enter") {
-                  updateProgress( index );
-                  updateBackground( slide.character );
-                }
-                return (
-                <div className={`vh-100 ${ slide.character }`}>
-                  <Container className={`h-100 ${ progress > .1 && progress < .9 ? 'opacity-1' : ''}`}>
-                    <Row className="h-100 d-flex align-items-center text-white">
-                      <Col md="6">
-                        <p>{ slide.character }</p>
-                        <h1>{ slide.heading }</h1>
-                        { documentToReactComponents(slide.story.json, options) }
-
-                      </Col>
-                    </Row>
-                  </Container>
-                  
-                </div>
-              )}}
-            </Scene>
-          )
-        })} 
-        </Controller>*/}
-=======
         <Controller>
           {/* introduction */}
           <Scene 
@@ -167,7 +105,6 @@ const StoriesPage = ({data}) => {
         <NathanComponent/>
         <KaraComponent/>
         <GeorgeComponent/>
->>>>>>> joshua/stories
       </section>
     </Layout>
   )
