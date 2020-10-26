@@ -500,7 +500,7 @@ const MethodologyPage = ({data}) => {
 
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
-          <Button className="text-uppercase btn-rotate text-white py-1" variant="pink" onClick={handleYearModalClose}>
+          <Button className="text-uppercase btn-rotate-left text-white py-1" variant="pink" onClick={handleYearModalClose}>
             <span>Back</span>
           </Button>
         </Modal.Footer>

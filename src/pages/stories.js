@@ -5,12 +5,20 @@ import Img from "gatsby-image"
 import { Controller, Scene } from 'react-scrollmagic';
 import BackgroundImage from 'gatsby-background-image'
 import { slugify } from "../libs/helpers"
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Button, Col } from "react-bootstrap"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import IntroStories from '../components/stories/intro-stories'
 import NathanStories from '../components/stories/nathan-stories'
 
+<<<<<<< HEAD
 const StoriesPage = ({ data }) => {
+=======
+import NathanComponent from "../components/stories/nathan"
+import KaraComponent from "../components/stories/kara"
+import GeorgeComponent from "../components/stories/george"
+
+const StoriesPage = ({data}) => {
+>>>>>>> joshua/stories
   let value = 0;
 
   // const [ slideIndex, setSlideIndex ] = useState(0);
@@ -63,12 +71,21 @@ const StoriesPage = ({ data }) => {
   return (
     <Layout>
       <section className="stories">
+<<<<<<< HEAD
         <div ref={bgs} className="bgs position-fixed">
           <div className="bg-cover bg-gradient position-fixed" />
           {data.allContentfulNarrativePageBackground.edges.map((item, index) => (
             <BackgroundImage
               key={`bg-${index}`}
               id={`bg-${slugify(item.node.pageTitle)}`}
+=======
+        <div ref={ bgs } className="bgs position-fixed">
+          <div className="bg-cover bg-gradient position-fixed"/>
+          { data.allContentfulNarrativePageBackground.edges.map((item, index) => (
+            <BackgroundImage
+              key={`bg-${index}`} 
+              id={`bg-${ slugify(item.node.pageTitle)}`}
+>>>>>>> joshua/stories
               Tag="section"
               className={'position-absolute bg-cover'}
               fluid={item.node.backgroundImage.fluid}
@@ -77,6 +94,7 @@ const StoriesPage = ({ data }) => {
           ))}
         </div>
 
+<<<<<<< HEAD
         <div className="progress position-fixed">
           <div ref={progress}>0</div>
         </div>
@@ -124,6 +142,32 @@ const StoriesPage = ({ data }) => {
           )
         })} 
         </Controller>*/}
+=======
+        <Controller>
+          {/* introduction */}
+          <Scene 
+            triggerHook={0} 
+            duration={"50%"} 
+            pin
+          >
+            <div className="vh-100 bg-dark text-white">
+              <Container className="h-100">
+                <Row className="h-100 d-flex align-items-center">
+                  <Col className="text-center">
+                    <h1 className="text-uppercase text-pink">Lorem Ipsum</h1>
+                    <p className="lead">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero rem adipisci sit possimus. Asperiores recusandae quaerat assumenda aliquid, harum voluptate minima quibusdam libero? Exercitationem dolore porro rerum tempore possimus enim.</p>
+                    <p>Start Scrolling</p>
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          </Scene>
+        
+        </Controller>
+        <NathanComponent/>
+        <KaraComponent/>
+        <GeorgeComponent/>
+>>>>>>> joshua/stories
       </section>
     </Layout>
   )
@@ -158,5 +202,37 @@ export const query = graphql`
         }
       }
     }
+    intro_bg: file(relativePath: { eq: "images/intro_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    nathan_bg: file(relativePath: { eq: "images/nathan_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    kara_bg: file(relativePath: { eq: "images/kara_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    george_bg: file(relativePath: { eq: "images/george_bg.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 2000) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
   }
 `
+
+
+              
+            

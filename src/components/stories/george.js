@@ -4,7 +4,7 @@ import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button} from "react-bootstrap"
 
 
-const NathanComponent = () => {
+const GeorgeComponent = () => {
 
   return (
     <Controller>
@@ -161,4 +161,4 @@ const NathanComponent = () => {
   )
 }
 
-export default NathanComponent
+export default GeorgeComponent
