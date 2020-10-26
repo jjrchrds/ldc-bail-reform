@@ -94,7 +94,7 @@ const options = {
             <div className={`vh-100 character-01`}>
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
-                  <Col md={{span: 6, offset: 6}}>
+                  <Col md={{span: 6, offset: 6}} className="mt-6">
                     <h1>{slides[0].heading}</h1>
                     {documentToReactComponents(slides[0].story.json, options) }
                   </Col>
@@ -104,7 +104,7 @@ const options = {
           )}}
         </Scene>
         
-        {/* Police */}
+        {/* Arrest */}
         <Scene 
           indicators={true}
           triggerHook={-2} 
@@ -146,7 +146,8 @@ const options = {
             </div>
           )}}
         </Scene>
-
+        
+        {/* Police Station */}
         <Scene 
           // indicators={true}
           triggerHook={0} 
@@ -188,8 +189,7 @@ const options = {
                 <Row className="h-100 d-flex justify-content-center align-items-center text-white">
                   <Col lg="7" className="text-left">
                     <h1>The Police Station</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea dolore fugit omnis a reiciendis! Et saepe doloribus, esse impedit quos amet repellendus adipisci, tempore nam a hic consectetur! Neque, officia?</p>
+                    {documentToReactComponents(slides[3].story.json, options) }
                     <div className="text-center mt-5">
                       <Button 
                         onClick={() => showModal({title: 'Buy a landline', body: 'body test'})} 
