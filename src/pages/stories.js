@@ -7,8 +7,6 @@ import BackgroundImage from 'gatsby-background-image'
 import { slugify } from "../libs/helpers"
 import { Container, Row, Button, Col } from "react-bootstrap"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import IntroStories from '../components/stories/intro-stories'
-import NathanStories from '../components/stories/nathan-stories'
 
 import NathanComponent from "../components/stories/nathan"
 import KaraComponent from "../components/stories/kara"
