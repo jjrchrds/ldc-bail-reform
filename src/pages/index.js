@@ -25,21 +25,21 @@ const IndexPage = () => {
           }
         }
       }
-      issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
+      issue1: file(relativePath: { eq: "images/MAINPAGE-CTA-01.jpg" }) {
         childImageSharp {
           fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
       }
-      issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
+      issue2: file(relativePath: { eq: "images/MAINPAGE-CTA-02.jpg" }) {
         childImageSharp {
           fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
           }
         }
       }
-      issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
+      issue3: file(relativePath: { eq: "images/MAINPAGE-CTA-03.jpg" }) {
         childImageSharp {
           fluid(quality: 100, maxWidth: 350) {
             ...GatsbyImageSharpFluid
@@ -98,14 +98,14 @@ const IndexPage = () => {
         <Row className="justify-content-between mb-5 pb-5">
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
-              <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white">The Bail System</h3></Card.Title>
+              <Card className="text-left text-dark">
+                <Card.Img src="/assets/gif/SM_home.gif" alt="Card image" />
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">The Bail System</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     How bail is supposed to work and when it doesn’t.
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
@@ -113,7 +113,7 @@ const IndexPage = () => {
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
               <Card className="bg-dark text-light text-left">
-                <Card.Img src="../../static/assets/gif/SM_home.gif" alt="Card image"/>
+                <Card.Img src="https://placehold.it/400x400" alt="Card image"/>
                 <Card.ImgOverlay className="align-contents-bottom bg-dark">
                   <Card.Title><h3 className="text-white mb-0">The Human Experience</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
