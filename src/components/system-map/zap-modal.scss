@@ -1,5 +1,16 @@
 #modal-zap.modal-lg {
   max-width: 900px;
+
+  @media only screen and (max-width: 820px) {
+    font-size: 0.8rem!important;
+    max-width: 600px!important;
+  }
+}
+
+.modal-dialog {
+  @media only screen and (max-width: 820px) {
+    margin: 1rem auto;
+  }
 }
 
 #modal-zap {
