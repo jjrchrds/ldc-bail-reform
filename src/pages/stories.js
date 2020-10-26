@@ -5,7 +5,7 @@ import Img from "gatsby-image"
 import { Controller, Scene } from 'react-scrollmagic';
 import BackgroundImage from 'gatsby-background-image'
 import { slugify } from "../libs/helpers"
-import { Container, Row, Button, Col } from "react-bootstrap"
+import { Container, Row, Button, Col, Modal } from "react-bootstrap"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 import NathanComponent from "../components/stories/nathan"
@@ -60,10 +60,43 @@ const StoriesPage = ({data}) => {
     }
   }
 
-  // console.log(Math.round(window.innerHeight/2) + pinDuration);
+  const [show, setShow] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    title: '',
+    body: '',
+    fluid: null
+  })
+
+  const handleClose = () => setShow(false);
+  const handleShow = (data) => {
+    console.log(data);
+    setModalContent( prevState => {
+      return {
+        ...prevState,
+        ...data
+      }
+    })
+    setShow(true);
+  }
 
   return (
     <Layout>
+
+      <Modal
+        show={show}
+        onHide={handleClose} 
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h2 className="text-rust">{modalContent.title}</h2>
+          <p>
+          {modalContent.body}
+          </p>
+        </Modal.Body>
+      </Modal>
+
       <section className="stories">
         <div ref={ bgs } className="bgs position-fixed">
           <div className="bg-cover bg-gradient position-fixed"/>
@@ -100,7 +133,7 @@ const StoriesPage = ({data}) => {
           </Scene>
         
         </Controller>
-        <NathanComponent/>
+        <NathanComponent handleShow={handleShow}/>
         <KaraComponent/>
         <GeorgeComponent/>
       </section>
