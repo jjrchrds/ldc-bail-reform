@@ -2,10 +2,11 @@ import React, { useState, useRef } from "react"
 import { StaticQuery, graphql } from "gatsby"
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button } from "react-bootstrap"
-import { querySlideContent } from './common'
+import { querySlideContent, queryModalContent } from './common'
+import { BLOCKS } from "@contentful/rich-text-types"
 
 
-const GeorgeComponent = () => (
+const GeorgeComponent = ({ handleShow }) => (
   <StaticQuery
     query={graphql`
           query GeorgeSlideQuery {
@@ -52,6 +53,25 @@ const GeorgeComponent = () => (
       const narrativeContent = data.allContentfulNarrativePageTemplate.edges
       const modalContent = data.allContentfulNarrativeModalTemplate.edges
 
+      const Text = ({ children }) => <p>{children}</p>
+      const ListItem = ({ children }) => <li>{children}</li>
+      const UnorderedList = ({ children }) => <ul className="x">{children}</ul>
+      const OrderedList = ({ children }) => <ol>{children}</ol>
+
+      const richTextOptions = {
+        renderNode: {
+          [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
+          [BLOCKS.LIST_ITEM]: (node, children) => <ListItem>{children}</ListItem>,
+          [BLOCKS.UL_LIST]: (node, children) => (
+            <UnorderedList>{children}</UnorderedList>
+          ),
+          [BLOCKS.OL_LIST]: (node, children) => <OrderedList>{children}</OrderedList>,
+        },
+      }
+
+      const showModal = (data) => {
+        handleShow(data);
+      }
       return (
         <Controller>
 
@@ -65,14 +85,15 @@ const GeorgeComponent = () => (
           >
             {(progress, event) => {
               return (
-                <div className={`vh-100 character-01`}>
+                <div className={`vh-100`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col md={{ span: 6 }} className="h-100">
                         <img
                           src="./assets/george.png"
                           alt=""
-                          className={`george-portrait-img img-fluid bottom-locked opacity-0 w-100 ${progress < .9 ? 'opacity-1' : ''}`}
+                          className={`george-ortrait-img img-fluid bottom-locked opacity-0 h-100 ${progress < .9 ? 'opacity-1' : ''}`}
+                          style={{ top: '20%' }}
                         />
                       </Col>
                     </Row>
@@ -92,14 +113,14 @@ const GeorgeComponent = () => (
           >
             {(progress, event) => {
               return (
-                <div className={`vh-100`} style={{ paddingBottom: '150vh', paddingTop: '30vh' }}>
+                <div className={`vh-100`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col md={{ span: 6, offset: 6 }}>
                         <h1>
-                          {querySlideContent(narrativeContent, 1, "heading")}
+                          {querySlideContent(narrativeContent, 1, "heading", richTextOptions)}
                         </h1>
-                        {querySlideContent(narrativeContent, 1, "body")}
+                        {querySlideContent(narrativeContent, 1, "body", richTextOptions)}
                       </Col>
                     </Row>
                   </Container>
@@ -118,7 +139,7 @@ const GeorgeComponent = () => (
           >
             {(progress, event) => {
               return (
-                <div className={`vh-100`} style={{ marginBottom: '-25vh' }}>
+                <div className={`vh-100`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col>
@@ -127,10 +148,11 @@ const GeorgeComponent = () => (
                             {querySlideContent(
                               narrativeContent,
                               2,
-                              "heading"
+                              "heading",
+                              richTextOptions
                             )}
                           </h1>
-                          {querySlideContent(narrativeContent, 2, "body")}
+                          {querySlideContent(narrativeContent, 2, "body", richTextOptions)}
                         </div>
                       </Col>
                     </Row>
@@ -159,7 +181,8 @@ const GeorgeComponent = () => (
                           src={querySlideContent(
                             narrativeContent,
                             3,
-                            "image"
+                            "image",
+                            richTextOptions
                           )}
                         />
                       </Col>
@@ -184,9 +207,9 @@ const GeorgeComponent = () => (
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col className="text-left col-6">
                         <h1>
-                          {querySlideContent(narrativeContent, 3, "heading")}
+                          {querySlideContent(narrativeContent, 3, "heading", richTextOptions)}
                         </h1>
-                        {querySlideContent(narrativeContent, 3, "body")}
+                        {querySlideContent(narrativeContent, 3, "body", richTextOptions)}
                       </Col>
                     </Row>
                   </Container>
@@ -236,14 +259,28 @@ const GeorgeComponent = () => (
                     <Row className="h-100 d-flex justify-content-center align-items-center text-white">
                       <Col lg="7" className="text-left">
                         <h1>
-                          {querySlideContent(narrativeContent, 4, "heading")}
+                          {querySlideContent(narrativeContent, 4, "heading", richTextOptions)}
                         </h1>
-                        {querySlideContent(narrativeContent, 4, "body")}
+                        {querySlideContent(narrativeContent, 4, "body", richTextOptions)}
                         <div className="d-flex justify-content-center">
-                          <Button className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3 slide-from-bottom ${progress > .1 ? 'active' : ''}`} variant="pink">
+                          <Button
+                            onClick={() => showModal(
+                              { title: 
+                                queryModalContent(modalContent, 5, "heading", richTextOptions), 
+                                body: 
+                                queryModalContent(modalContent, 5, "body", richTextOptions) })}
+                            className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3 slide-from-bottom ${progress > .1 ? 'active' : ''}`} variant="pink"
+                          >
                             <span>Work</span>
                           </Button>
-                          <Button className={`text-uppercase btn-stories btn-rotate-left text-white py-2 slide-from-bottom ${progress > .2 ? 'active' : ''}`} variant="pink">
+                          <Button
+                            onClick={() => showModal(
+                              { title: 
+                                queryModalContent(modalContent, 6, "heading", richTextOptions), 
+                                body: 
+                                queryModalContent(modalContent, 6, "body", richTextOptions) })}
+                            className={`text-uppercase btn-stories btn-rotate-left text-white py-2 slide-from-bottom ${progress > .2 ? 'active' : ''}`} variant="pink"
+                          >
                             <span>Go Home</span>
                           </Button>
                         </div>

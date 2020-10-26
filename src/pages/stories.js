@@ -135,7 +135,7 @@ const StoriesPage = ({data}) => {
         </Controller>
         <NathanComponent handleShow={handleShow}/>
         <KaraComponent/>
-        <GeorgeComponent/>
+        <GeorgeComponent handleShow={handleShow}/>
       </section>
     </Layout>
   )
