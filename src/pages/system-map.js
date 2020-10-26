@@ -5,8 +5,9 @@ import Head from "../components/head"
 import { graphql, StaticQuery } from "gatsby"
 import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
-// import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
-import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+// import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+import svgSystemMap from "../../static/assets/system-map/SM_oct26_good.svg"
+
 import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
 import BottomButtons from "../components/bottom-buttons"
 import TurnDeviceModal from "../components/turn-device-modal"
@@ -61,7 +62,7 @@ class SystemMapPage extends Component {
     if (index === 0) {
       D3.select("#prompt-1").style("display", "none")
       // D3.select("#sm-legend").style("display", "none")
-      D3.select(".sm-layer__title").text("System map - layer 1")
+      D3.select(".sm-layer__title").text("Overview of the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
@@ -81,31 +82,38 @@ class SystemMapPage extends Component {
           "Click on the pictures to get details on each stage. Once you’re done, keep scrolling!"
         )
       D3.select("#sm-legend").style("display", "block")
-      D3.select(".sm-layer__title").text("System map - layer 1")
+      D3.select(".sm-layer__title").text("Overview of the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
     if (index === 3) {
+      // Setting text for legend symbol (Cog)
+      D3.select("#sm-legend__symbol-text").text("Major decision")
+
       D3.select("#cogs").style("display", "block")
       D3.select("#zaps").style("display", "none")
       D3.select("#base").selectAll("image").style("pointer-events", "none")
       D3.select("#prompt-1").text(
         "Click on the icons to see what happens at each decision point. Keep scrolling!"
       )
-      D3.select(".sm-layer__title").text("Key Decisions")
+      D3.select(".sm-layer__title").text("Major Decisions in the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "visible")
       D3.select("#cog-legend").style("display", "block")
       D3.select("#zap-legend").style("display", "none")
     }
 
     if (index === 4) {
+      // Setting text for legend symbol (Zap)
+      D3.select("#sm-legend__symbol-text").text("Systemic problem")
+
+
       D3.select("#cogs").style("display", "none")
       D3.select("#zaps").style("display", "block")
       D3.select("#base").selectAll("image").style("pointer-events", "none")
       D3.select("#prompt-1").text(
-        "Click on the icons to know more about lorem ipsum dolor."
+        "Click on the icons to learn more about systemic problems."
       )
-      D3.select(".sm-layer__title").text("How the system fails")
+      D3.select(".sm-layer__title").text("Systemic Problems in the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "visible")
       D3.select("#cog-legend").style("display", "none")
       D3.select("#zap-legend").style("display", "block")
@@ -202,7 +210,7 @@ class SystemMapPage extends Component {
       D3.select("#svg-wrapper")
         .append("p")
         .classed("sm-layer__title", "true")
-        .text("System map - layer 1")
+        .text("Overview of the Bail Process")
 
       // Appending the imported SVG to svg-wrapper
       D3.select("#svg-wrapper").node().appendChild(svgMap)
@@ -456,7 +464,7 @@ class SystemMapPage extends Component {
                   </Row>
 
                   <div id="prompt-0" className="prompt text-center">
-                    Lorem ipsum
+                    Scroll Down
                   </div>
                   <div id="arrow-down" className="stepx">
                     <svg
@@ -511,13 +519,13 @@ class SystemMapPage extends Component {
                         />
                       </svg>
                     </div>
-                    <p>Lorem ipsum dolor</p>
+                    <p>Next step in the bail process</p>
                   </div>
                   <div className="sm-legend__item sm-legend__third-item">
                     <div className="sm-legend__symbol">
                       <SmLegendSymbol></SmLegendSymbol>
                     </div>
-                    <p>Lorem ipsum dolor</p>
+                    <p id="sm-legend__symbol-text">Lorem ipsum dolor</p>
                   </div>
                 </div>
               </div>
