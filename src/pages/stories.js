@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Layout from "../components/layout"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
@@ -11,6 +11,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import NathanComponent from "../components/stories/nathan"
 import KaraComponent from "../components/stories/kara"
 import GeorgeComponent from "../components/stories/george"
+import { active } from "d3";
 
 const StoriesPage = ({data}) => {
   let value = 0;
@@ -24,17 +25,24 @@ const StoriesPage = ({data}) => {
     progress.current.innerHTML = value;
   }
 
+  const [ bgState, setBgState ] = useState({
+    'bg-nathan': true,
+    'bg-kara': false,
+    'bg-george': false
+  });
+
   const updateBackground = ( id ) => {
     const activeId = 'bg-'+id;
-    const backgrounds = bgs.current.querySelectorAll('.bg-cover');
-    backgrounds.forEach(background => {
-
-      background.classList.remove('bg-active');
-      if (background.id === activeId) {
-        background.classList.add('bg-active');
-      }
-
-    })
+    console.log(activeId);
+    // console.log(bgState);
+    for (const [key, value] of Object.entries(bgState)) {
+      // setBgState( prevState => {
+      //   return {
+      //     ...prevState,
+      //     [key]: key === activeId ? true : false
+      //   }
+      // })
+    }
   }
 
   //initialize slideData
@@ -75,6 +83,21 @@ const StoriesPage = ({data}) => {
     })
     setShow(true);
   }
+  
+  useEffect(()=>{
+    data.allContentfulNarrativePageBackground.edges.forEach((item,index)=>{
+      const id = `bg-${ slugify(item.node.pageTitle)}`;
+      let visible = id === "bg-nathan" ? true : false;
+      // console.log(id, visible);
+
+      setBgState(prevState => {
+        return {
+          ...prevState,
+          [id]: visible
+        }
+      })
+    })
+  }, [])
 
   return (
     <Layout>
@@ -96,17 +119,25 @@ const StoriesPage = ({data}) => {
 
       <section className="stories">
         <div ref={ bgs } className="bgs position-fixed">
-          <div className="bg-cover bg-gradient position-fixed"/>
-          { data.allContentfulNarrativePageBackground.edges.map((item, index) => (
-            <BackgroundImage
-              key={`bg-${index}`} 
-              id={`bg-${ slugify(item.node.pageTitle)}`}
-              Tag="section"
-              className={'position-absolute bg-cover'}
-              fluid={item.node.backgroundImage.fluid}
-              backgroundColor={`#040e18`}
-            />
-          ))}
+          <div className="bg-cover bg-gradient position-fixed opacity-1"/>
+          { data.allContentfulNarrativePageBackground.edges.map((item, index) => {
+            const id = `bg-${ slugify(item.node.pageTitle)}`;
+            // console.log(bgState);
+            // console.log(id, bgState[id]);
+
+            return(
+              <BackgroundImage
+                key={`bg-${index}`} 
+                id={id}
+                Tag="section"
+                className={`position-absolute bg-cover bg-character ${ bgState[id] ? 'opacity-1' : ''}`}
+                fluid={item.node.backgroundImage.fluid}
+                backgroundColor={`#111`}
+                preserveStackingContext={true}
+              />
+            )
+          })}
+          
         </div>
 
         <Controller>
@@ -130,8 +161,8 @@ const StoriesPage = ({data}) => {
           </Scene>
         
         </Controller>
-        <NathanComponent handleShow={handleShow}/>
-        <KaraComponent/>
+        <NathanComponent handleShow={handleShow} handleBg={updateBackground}/>
+        <KaraComponent handleShow={handleShow} handleBg={updateBackground}/>
         <GeorgeComponent/>
       </section>
     </Layout>

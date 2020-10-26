@@ -1,6 +1,17 @@
+.stories {
+  background: black;
+}
 .bg-cover {
   width: 100vw;
   height: 100vh;
+}
+
+.bg-character {
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  &.opacity-1 {
+
+  }
 }
 
 .bg-gradient {
@@ -11,13 +22,6 @@
 
 .bg-active {
   z-index: 10;
-}
-
-//scrollmagic
-.scrollmagic-pin-spacer {
-  // height: 2vh !important;
-  // min-height: 2vh !important;
-  // padding-top: 2vh !important;
 }
 
 //transitions

@@ -51,7 +51,7 @@ const options = {
   },
 }
 
-  console.log(slides[0].story);
+  // console.log(slides[0].story);
 
   const showModal = (data) => {
     handleShow(data);
