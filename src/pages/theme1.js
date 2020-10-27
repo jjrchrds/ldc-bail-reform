@@ -21,13 +21,11 @@ const Issue1Page = () => {
       }
       documents: allAirtable(
         filter: {
-          data: { 
-            Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions", nin : "maybe?" }
-            Publish__or_Start_Date_: { ne: null }
-            Momentum_Annotation: { ne: null }
-            Image: { elemMatch: { url: { ne: null } } }
+          data: { Momentum_Theme: { 
+            in: "Theme 1 [Publish]"}
           }
         }
+        sort: { fields: data___Momentum_Tab, order: ASC}
       ) {
         nodes {
           data {
@@ -43,7 +41,7 @@ const Issue1Page = () => {
             }
           }
         }
-      }
+  	  }
       issueContent: allContentfulIssues (filter: {
         issueName: {eq: "Worsening the Lives of Marginalized People"}
       })

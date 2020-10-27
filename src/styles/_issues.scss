@@ -51,14 +51,14 @@
   .momentum-pane {
     background: $dark;
     color: $light;
-    box-sizing: border-box;
+    width: 100%;
 
     .article-list {
       .article-item {
         position: relative;
         display: flex;
         flex-direction: column;
-        min-height: 120px;
+        // min-height: 120px;
         z-index: 2;
         margin-bottom: 16px;
         background: $dark;
@@ -98,6 +98,7 @@
         display: flex;
         flex: 1;
         color: $light !important;
+        padding: 1rem;
 
         &.active {
           border: 4px solid $pink;
