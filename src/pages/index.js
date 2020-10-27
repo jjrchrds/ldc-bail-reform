@@ -24,7 +24,7 @@ const IndexPage = () => {
           title
           heroImage {
             fluid(quality: 90, maxWidth: 2000) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           heroTextTop
@@ -47,52 +47,24 @@ const IndexPage = () => {
           theme1Img {
             title
             fluid(quality: 100, maxWidth: 350) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           theme1ImgAlt
           theme2Img {
             title
             fluid(quality: 100, maxWidth: 350) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           theme2ImgAlt
           theme3Img {
             title
             fluid(quality: 100, maxWidth: 350) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           theme3ImgAlt
-        }
-      }
-      homeHero: file(relativePath: { eq: "images/home_hero.png" }) {
-        childImageSharp {
-          fluid(quality: 90, maxWidth: 2000) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      issue1: file(relativePath: { eq: "images/MAINPAGE-CTA-01.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      issue2: file(relativePath: { eq: "images/MAINPAGE-CTA-02.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      issue3: file(relativePath: { eq: "images/MAINPAGE-CTA-03.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
-          }
         }
       }
     }
@@ -109,7 +81,7 @@ const IndexPage = () => {
       <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"
-          fluid={data.homeHero.childImageSharp.fluid}
+          fluid={content.heroImage.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
@@ -197,18 +169,18 @@ const IndexPage = () => {
 
         <Row className="justify-content-md-center mb-5 pb-5">
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue1" aria-label={content.theme1ImgAlt}>
-              <Img fluid={data.issue1.childImageSharp.fluid} className="mb-4" alt={content.theme1ImgAlt}/>
+            <Link to="theme1" aria-label={content.theme1ImgAlt}>
+              <Img fluid={content.theme1Img.fluid} className="mb-4" alt={content.theme1ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue2" aria-label={content.theme2ImgAlt}>
-              <Img fluid={data.issue2.childImageSharp.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
+            <Link to="theme2" aria-label={content.theme2ImgAlt}>
+              <Img fluid={content.theme2Img.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue3" aria-label={content.theme3ImgAlt}>
-              <Img fluid={data.issue3.childImageSharp.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
+            <Link to="theme3" aria-label={content.theme3ImgAlt}>
+              <Img fluid={content.theme3Img.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
             </Link>
           </Col>
         </Row>
