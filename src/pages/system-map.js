@@ -7,11 +7,18 @@ import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
 // import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
 import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
+import BottomButtons from "../components/bottom-buttons"
+import TurnDeviceModal from "../components/turn-device-modal"
 import StaticModal from "../components/system-map/static-modal"
 import CogModal from "../components/system-map/cog-modal"
 import ZapModal from "../components/system-map/zap-modal"
 import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
 import Accordion from "react-bootstrap/Accordion"
+import { Link } from "gatsby"
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+
 
 class SystemMapPage extends Component {
   scroller
@@ -30,6 +37,7 @@ class SystemMapPage extends Component {
     staticModalActiveContent: "",
     cogModalActiveContent: "",
     zapModalActiveContent: "",
+    showMobileModal: false,
   }
 
   setShow = ({ isVisible }) => {
@@ -42,6 +50,7 @@ class SystemMapPage extends Component {
   handleCloseStatic = () => this.setState({ showStaticModal: false })
   handleCloseCog = () => this.setState({ showCogModal: false })
   handleCloseZap = () => this.setState({ showZapModal: false })
+  onHide = () => false
 
   handleScrollStepEnter = ({ element, index, direction }) => {
     console.log(index)
@@ -119,22 +128,25 @@ class SystemMapPage extends Component {
     // console.log(this.steps)
     // console.log(this.systemMap)
 
+    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
+
     // let stepH = Math.floor(window.innerHeight * 0.75)
     this.layerSteps.style("height", window.innerHeight * 1.5 + "px")
 
     D3.select("#sidebar-wrapper")
       .style("height", window.innerHeight * 0.8 + "px")
-      .style("top", (window.innerHeight * 0.2) / 2 + "px")
+      .style("top", (window.innerHeight * 0.3) / 2 + "px")
 
     // Vertically centering the svg when it becomes sticky
     D3.select("#svg-wrapper")
-      .style("top", d => `${(window.innerHeight * 0.2) / 2}px`)
+      .style("top", d => `${(window.innerHeight * 0.3) / 2}px`)
       .style("height", `${window.innerHeight * 0.8}px`)
 
     this.scroller.resize()
   }
 
   componentDidMount() {
+
     // Storing the global "this" object to later reference it in D3 event functions
     const self = this
     // console.log(this.state)
@@ -166,7 +178,7 @@ class SystemMapPage extends Component {
     // setup resize event
     window.addEventListener("resize", this.scroller.resize)
     // Probably the way to resize, below
-    window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize)
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
@@ -307,7 +319,7 @@ class SystemMapPage extends Component {
     //     .selectAll("g")
     //     .nodes())
 
-    //     let arr = []; 
+    //     let arr = [];
     //     D3.select("#cogs")
     //     .selectAll("g")
     //     .nodes().forEach(d => arr.push(d.getBBox()))
@@ -317,7 +329,7 @@ class SystemMapPage extends Component {
     //     D3.select("#cogs")
     //       .selectAll("g")
     //       .nodes().forEach(d=>d.setAttribute("transform", "scale(1)")
-          
+
     //       // .setAttribute("transform", "scale(1.5)"
     //       // function(d) {
     //       //   // let bbox = d.getBBox();
@@ -456,8 +468,8 @@ class SystemMapPage extends Component {
             />
           </Row>
           {/* Old Row */}
-          <Row>
-            <Col sm={11} md={9} id="main-col">
+          <Row id="sm-row">
+            <Col sm={8} md={9} id="main-col">
               <div id="system-map">
                 {/* <div id="sm-layer__title">
                   <p></p>
@@ -470,7 +482,7 @@ class SystemMapPage extends Component {
                 </div>
               </div>
             </Col>
-            <Col sm={1} md={3} id="sidebar-col">
+            <Col sm={4} md={3} id="sidebar-col">
               <div id="sidebar-wrapper">
                 <p id="prompt-1" className="prompt"></p>
                 <div id="sm-legend" className="text-dark">
@@ -502,7 +514,19 @@ class SystemMapPage extends Component {
               </div>
             </Col>
           </Row>
+          <BottomButtons
+          btn1={"Themes"}
+          btn1Url={"/issue1"}
+          btn2={"Timeline"}
+          btn2Url={"/methodology"}
+          ctaColor={"text-dark"}
+          />
         </Container>
+
+        <TurnDeviceModal
+        show={this.state.showMobileModal} 
+        onHide={this.onHide}
+        />
 
         <StaticModal
           show={this.state.showStaticModal}
