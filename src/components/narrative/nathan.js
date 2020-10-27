@@ -1,22 +1,14 @@
 import React, { Component } from "react"
 import "intersection-observer"
 import clsx from "clsx"
-
-import { Parallax, Background } from "react-parallax"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
-// import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import { StaticQuery, graphql } from "gatsby"
 import { BLOCKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-
-// https://png-pixel.com/
-//1x1 transparent png
-const transparentPixel =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
 
 const RichTextOptions = {
   renderNode: {
@@ -43,14 +35,10 @@ class NathanNarrative extends Component {
 
   componentDidMount() {
     this.props.attachNathanRef(this.nathanRef)
-    // console.log(this.nathanRef.current.querySelector('.meet-nathan').offsetHeight)
 
     this.meetNathanSlideHeight = this.nathanRef.current.querySelector(
       ".meet-nathan"
     ).offsetHeight
-
-    // this.meetNathanSlideHeight =
-    //   this.nathanRef.current.querySelector('.meet-nathan').offsetHeight;
 
     try {
       this.nathanMeetTextElm = this.nathanMeetTextRef.current
@@ -173,46 +161,39 @@ class NathanNarrative extends Component {
           const narrativeContent = data.allContentfulNarrativePageTemplate.edges
           const modalContent = data.allContentfulNarrativeModalTemplate.edges
 
-          //decide on standard -- put px in 
-          //place where vbl is being used 
+          //decide on standard -- put px in
+          //place where vbl is being used
           const nathanPortraitTotalDist = 125
-          const nathanPortraitOffset = `${
-            (1 - progress) * nathanPortraitTotalDist
-          }px`
-            
-            const CAR_IMG_MAX_PROGRESS = .54;
-            const offsetFraction = 
-              Math.min(progress, CAR_IMG_MAX_PROGRESS);
-            const policeCarImgOffset = 
-              this.policeCarImgRef.current != null ? 
-              Math.round(
-                (offsetFraction * window.innerWidth) - 
-                  (this.policeCarImgRef.current.offsetWidth/2)
-              ) : 0;
-          
+          const nathanPortraitOffset = `${-(
+            progress * nathanPortraitTotalDist
+          )}px`
+
+          const CAR_IMG_MAX_PROGRESS = 0.54
+          const offsetFraction = Math.min(progress, CAR_IMG_MAX_PROGRESS)
+          const policeCarImgOffset =
+            this.policeCarImgRef.current != null
+              ? Math.round(
+                  offsetFraction * window.innerWidth -
+                    this.policeCarImgRef.current.offsetWidth / 2
+                )
+              : 0
+
           return (
             <div id="narrative-nathan" ref={this.nathanRef}>
-              <div className="narrative-step meet-nathan">
-                <Container>
-                  <Row className="relative-content justify-content-center">
-                    <Col xs="auto" className="d-flex align-items-center">
-                      <img
-                        src={this.querySlideContent(
-                          narrativeContent,
-                          1,
-                          "image"
-                        )}
-                        className="nathan-portrait-img"
-                        ref={this.nathanPortraitRef}
-                        alt=""
-                        style={{
-                          // position: "relative",
-                          // bottom: nathanPortraitOffset,
-                          transform: `translate3d(0, ${nathanPortraitOffset}, 0)`,
-                        }}
-                      />
-                    </Col>
-                    <Col className="d-flex flex-column justify-content-center">
+              <div className="narrative-step meet-nathan scroll-start">
+                <Container className="relative-content">
+                  <img
+                    src={this.querySlideContent(narrativeContent, 1, "image")}
+                    className="nathan-portrait-img"
+                    ref={this.nathanPortraitRef}
+                    alt=""
+                    // style={{
+                    //   position: 'relative',
+                    //   transform: `translate3d(0, ${nathanPortraitOffset}, 0)`,
+                    // }}
+                  />
+                  <Row>
+                    <Col className="col-6 offset-6">
                       <h1>
                         {this.querySlideContent(narrativeContent, 1, "heading")}
                       </h1>
@@ -222,74 +203,22 @@ class NathanNarrative extends Component {
                 </Container>
               </div>
 
-              {/* sort of working for parallax */}
-              {/* <div className="narrative-step arrest">
-                <Container className="relative-content">
-                  <Row>
-                    <Col>
-                      <Parallax
-                        bgImage={transparentPixel}
-                        renderLayer={percentage => (
-                          <div>
-                            <img
-                              className="police-car-img"
-                              src={this.querySlideContent(
-                                narrativeContent,
-                                2,
-                                "image"
-                              )}
-                              alt=""
-                              style={{
-                                position: "fixed",
-                                top: 50,
-                                // left: `${(percentage * 100) - 50}%`,
-                                transform: `translateX(${(percentage * 200) - 100}%)`
-                              }}
-                            />
-                          </div>
-                        )}
-                      >
-                        <div style={{height: 500}}/>
-                      </Parallax>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <h1>
-                        {this.querySlideContent(narrativeContent, 2, "heading")}
-                      </h1>
-                      {this.querySlideContent(narrativeContent, 2, "body")}
-                    </Col>
-                  </Row>
-                </Container>
-              </div> */}
-
-              {/* a different parallax plugin  */}
               <div className="narrative-step arrest">
                 <Container className="relative-content">
-                  <Row>
-                    <Col style={{ marginBottom: 500 }}>
-                      <img
-                        ref={this.policeCarImgRef}
-                        className={clsx(
-                          "police-car-img",
-                          offsetFraction < CAR_IMG_MAX_PROGRESS && "max-offset"
-                        )} 
-                        src={this.querySlideContent(
-                          narrativeContent,
-                          2,
-                          "image"
-                        )}
-                        alt=""
-                        style={{
-                          position: "fixed",
-                          transform: `rotate(1.79deg) translate3d(${policeCarImgOffset}px, 0, 0)`,
-                          opacity: offsetFraction < CAR_IMG_MAX_PROGRESS ?
-                            1 : .15
-                        }}
-                      />
-                    </Col>
-                  </Row>
+                  <img
+                    ref={this.policeCarImgRef}
+                    className={clsx(
+                      "police-car-img",
+                      offsetFraction < CAR_IMG_MAX_PROGRESS && "max-offset"
+                    )}
+                    src={this.querySlideContent(narrativeContent, 2, "image")}
+                    alt=""
+                    style={{
+                      position: "fixed",
+                      // transform: `rotate(1.79deg) translate3d(${policeCarImgOffset}px, 0, 0)`
+                      // opacity: offsetFraction < CAR_IMG_MAX_PROGRESS ? 1 : 0.15,
+                    }}
+                  />
                   <Row>
                     <Col>
                       <h1>
@@ -325,7 +254,6 @@ class NathanNarrative extends Component {
                 </Container>
               </div>
 
-              {/*  police station choice */}
               <div className="narrative-step ">
                 <Container
                   className="relative-content police-station-choice"
