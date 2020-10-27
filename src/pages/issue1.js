@@ -22,9 +22,10 @@ const Issue1Page = () => {
       documents: allAirtable(
         filter: {
           data: { 
-            Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions" }
+            Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions", nin : "maybe?" }
             Publish__or_Start_Date_: { ne: null }
             Momentum_Annotation: { ne: null }
+            Image: { elemMatch: { url: { ne: null } } }
           }
         }
       ) {
@@ -37,6 +38,9 @@ const Issue1Page = () => {
             URL
             Publish__or_Start_Date_
             Momentum_Annotation
+            Image {
+              url
+            }
           }
         }
       }
