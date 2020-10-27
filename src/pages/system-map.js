@@ -535,7 +535,7 @@ console.log("now exiting" + index)
             </Col>
           </Row>
           <BottomButtons
-            btn1={"Bail Worsens Lives"}
+            btn1={"How Bail Worsens Lives"}
             btn1Url={"/theme1"}
             btn2={"Bail Reform Timeline"}
             btn2Url={"/timeline"}
