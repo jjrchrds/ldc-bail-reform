@@ -53,7 +53,8 @@ class SystemMapPage extends Component {
   onHide = () => false
 
   handleScrollStepEnter = ({ element, index, direction }) => {
-    console.log(index)
+    console.log("now entering" + index)
+
 
     this.currentStep = index
 
@@ -121,6 +122,8 @@ class SystemMapPage extends Component {
   }
 
   handleScrollStepExit = ({ element, index, direction }) => {
+console.log("now exiting" + index)
+
     if (index === 2 && direction === "up") {
       D3.select("#prompt-1").style("display", "none")
       D3.select("#sm-legend").style("display", "none")

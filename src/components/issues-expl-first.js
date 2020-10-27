@@ -9,8 +9,6 @@ import svgExplImport from "../../static/assets/system-map/EE_1b.svg"
 import TurnDeviceModal from "./turn-device-modal"
 import ExplSidebar from "./issues-expl-sidebar"
 
-
-
 class ExplFirst extends Component {
   scroller
   layerSteps
@@ -29,6 +27,7 @@ class ExplFirst extends Component {
     issue_id: 1,
     step_index: 0,
     showMobileModal: false,
+    explTextIsBelow: false,
     viewportWidth: 0,
   }
 
@@ -43,13 +42,11 @@ class ExplFirst extends Component {
     "arrow-path-7",
   ]
 
-
   handleScrollStepEnter = ({ element, index, direction }) => {
     // Updating current step index
     this.setState({
       step_index: index,
     })
-
     // Animating main steps ("layers")
     if (
       this.state.step_index === 1 ||
@@ -125,8 +122,8 @@ class ExplFirst extends Component {
       D3.selectAll(".explanation-text").style("display", "none")
     } else {
       //debug
-      console.log(D3.select(`#arrow-path-${this.state.step_index}`).node())
-      console.log(this[`bbox${this.state.step_index}`])
+      // console.log(D3.select(`#arrow-path-${this.state.step_index}`).node())
+      // console.log(this[`bbox${this.state.step_index}`])
 
       // If this.state.step_index > 0
       // Show arrow group
@@ -158,8 +155,10 @@ class ExplFirst extends Component {
   handleResize = () => {
     this.setState({
       showMobileModal:
-        window.innerWidth < 650 && window.innerHeight > window.innerWidth,
-        viewportWidth: window.innerWidth,
+        window.innerWidth < 992 && window.innerHeight < window.innerWidth,
+      viewportWidth: window.innerWidth,
+      explTextIsBelow:
+        window.innerWidth < 992 && window.innerHeight > window.innerWidth,
     })
 
     this.layerSteps.style("height", window.innerHeight * 0.75 + "px")
@@ -308,9 +307,12 @@ class ExplFirst extends Component {
               <div id="expl-svg-wrapper">
                 <div id="svg"></div>
                 <div id="expl-sidebar-col-mobile" className="text-dark">
-                <ExplSidebar
-                issue_id={this.state.issue_id}
-                />
+                  {this.state.explTextIsBelow && (
+                    <ExplSidebar
+                      issue_id={this.state.issue_id}
+                      firstStepChange={4}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -325,19 +327,22 @@ class ExplFirst extends Component {
               </div>
             </div>
           </Col>
-          
-          <Col sm={1} md={3} id="expl-sidebar-col">
-            <div id="expl-sidebar-wrapper" className="text-dark">
-            <ExplSidebar
-                issue_id={this.state.issue_id}
+
+          {!this.state.explTextIsBelow && (
+            <Col sm={1} md={3} id="expl-sidebar-col">
+              <div id="expl-sidebar-wrapper" className="text-dark">
+                <ExplSidebar
+                  issue_id={this.state.issue_id}
+                  firstStepChange={4}
                 />
-            </div>
-          </Col>
+              </div>
+            </Col>
+          )}
         </Row>
-        {/* <TurnDeviceModal
-        show={this.state.showMobileModal} 
-        onHide={this.onHide}
-        /> */}
+        <TurnDeviceModal
+          show={this.state.showMobileModal}
+          onHide={this.onHide}
+        />
       </Container>
     )
   }
