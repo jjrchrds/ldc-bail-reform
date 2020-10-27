@@ -24,7 +24,7 @@ const IndexPage = () => {
           title
           heroImage {
             fluid(quality: 90, maxWidth: 2000) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           heroTextTop
@@ -36,6 +36,12 @@ const IndexPage = () => {
           }
           card1Title
           card1Leed
+          card1Img {
+            description
+            file {
+              url
+            }
+          }
           card2Title
           card2Leed
           card3Title
@@ -47,52 +53,24 @@ const IndexPage = () => {
           theme1Img {
             title
             fluid(quality: 100, maxWidth: 350) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           theme1ImgAlt
           theme2Img {
             title
             fluid(quality: 100, maxWidth: 350) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           theme2ImgAlt
           theme3Img {
             title
             fluid(quality: 100, maxWidth: 350) {
-              src
+              ...GatsbyContentfulFluid
             }
           }
           theme3ImgAlt
-        }
-      }
-      homeHero: file(relativePath: { eq: "images/home_hero.png" }) {
-        childImageSharp {
-          fluid(quality: 90, maxWidth: 2000) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
-          }
         }
       }
     }
@@ -109,7 +87,7 @@ const IndexPage = () => {
       <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"
-          fluid={data.homeHero.childImageSharp.fluid}
+          fluid={content.heroImage.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
@@ -147,14 +125,14 @@ const IndexPage = () => {
         <Row className="justify-content-between mb-5 pb-5">
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
-              <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white">{content.card1Title}</h3></Card.Title>
+              <Card className="text-left text-dark">
+                <Card.Img src={content.card1Img.file.url} alt={content.card1Img.description} />
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">The Bail System</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     {content.card1Leed}
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
@@ -162,7 +140,7 @@ const IndexPage = () => {
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
               <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
+                <Card.Img src="https://placehold.it/400x400" alt="Card image"/>
                 <Card.ImgOverlay className="align-contents-bottom bg-dark">
                   <Card.Title><h3 className="text-white mb-0">{content.card2Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
@@ -197,18 +175,18 @@ const IndexPage = () => {
 
         <Row className="justify-content-md-center mb-5 pb-5">
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue1" aria-label={content.theme1ImgAlt}>
-              <Img fluid={data.issue1.childImageSharp.fluid} className="mb-4" alt={content.theme1ImgAlt}/>
+            <Link to="theme1" aria-label={content.theme1ImgAlt}>
+              <Img fluid={content.theme1Img.fluid} className="mb-4" alt={content.theme1ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue2" aria-label={content.theme2ImgAlt}>
-              <Img fluid={data.issue2.childImageSharp.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
+            <Link to="theme2" aria-label={content.theme2ImgAlt}>
+              <Img fluid={content.theme2Img.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue3" aria-label={content.theme3ImgAlt}>
-              <Img fluid={data.issue3.childImageSharp.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
+            <Link to="theme3" aria-label={content.theme3ImgAlt}>
+              <Img fluid={content.theme3Img.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
             </Link>
           </Col>
         </Row>

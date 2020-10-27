@@ -9,16 +9,9 @@ import IssuesHero from "../components/issues-hero"
 import MomentumTabs from "../components/issues-momentum"
 import ExplThird from "../components/issues-expl-third"
 
-const Issue3Page = () => {
+const Theme3Page = () => {
   const data = useStaticQuery(graphql `
     query {
-      issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
-        childImageSharp {
-          fluid(quality: 75, maxWidth: 600) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
       documents: allAirtable(
         filter: {
           data: { Momentum_Theme: { 
@@ -43,26 +36,29 @@ const Issue3Page = () => {
         issueName: {eq: "Culture of Fear"}
       })
       {
-        edges {
-          node {
-            issueName
-            issueBlurb
-            heroMomentum { heroMomentum }
-            heroOpportunity { heroOpportunity }
-            heroEE { heroEE }
-            momentumBlurb { json }
-            opportunityBlurb { json }
-            sources {
-              title
-              fact { json }
+        nodes {
+          issueName
+          issueImage {
+            fluid (maxWidth: 400) {
+              ...GatsbyContentfulFluid
             }
+          }
+          issueBlurb
+          heroMomentum { heroMomentum }
+          heroOpportunity { heroOpportunity }
+          heroEE { heroEE }
+          momentumBlurb { json }
+          opportunityBlurb { json }
+          sources {
+            title
+            fact { json }
           }
         }
       }
     }
   `)
 
-  const issueContents = data.issueContent.edges[0].node;
+  const issueContents = data.issueContent.nodes[0];
 
   // This splits our list of sources in half so we can list them in two columns
   const allSources = issueContents.sources
@@ -74,7 +70,7 @@ const Issue3Page = () => {
       <Head title={"Theme: " + issueContents.issueName}/>
       <IssuesHero 
         issueName={ issueContents.issueName } 
-        issueImg={ data.issue3.childImageSharp.fluid }
+        issueImg={ issueContents.issueImage.fluid }
         issueBlurb={ issueContents.issueBlurb }
         heroMomentum={ issueContents.heroMomentum.heroMomentum }
         heroOpportunity={ issueContents.heroOpportunity.heroOpportunity }
@@ -146,4 +142,4 @@ const Issue3Page = () => {
   )
 }
 
-export default Issue3Page
+export default Theme3Page

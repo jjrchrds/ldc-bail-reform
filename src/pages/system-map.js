@@ -516,9 +516,9 @@ class SystemMapPage extends Component {
           </Row>
           <BottomButtons
           btn1={"Themes"}
-          btn1Url={"/issue1"}
+          btn1Url={"/theme1"}
           btn2={"Timeline"}
-          btn2Url={"/methodology"}
+          btn2Url={"/timeline"}
           ctaColor={"text-dark"}
           />
         </Container>
