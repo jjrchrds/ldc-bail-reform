@@ -7,7 +7,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import Img from "gatsby-image"
 
 
-const NathanComponent = ({handleShow}) => {
+const NathanComponent = ({handleShow, handleBg}) => {
 
   const data = useStaticQuery(graphql`
     query {
@@ -183,6 +183,15 @@ const options = {
           pin
         >
           {(progress, event) => {
+           console.log(event);
+            if ( event.scrollDirection === "FORWARD" && event.type === "leave") {
+              // console.log(event.type);
+              handleBg('kara');
+            } else if ( event.scrollDirection === "REVERSE" && event.type ==="enter") {
+              // console.log(event.type);
+              handleBg('nathan');
+            }
+
             return (
             <div className={`vh-100 character-01`}>
               <Container className={`h-100`}>
