@@ -5,8 +5,9 @@ import Head from "../components/head"
 import { graphql, StaticQuery } from "gatsby"
 import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
-// import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
-import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+// import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+import svgSystemMap from "../../static/assets/system-map/SM_oct26_good.svg"
+
 import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
 import BottomButtons from "../components/bottom-buttons"
 import TurnDeviceModal from "../components/turn-device-modal"
@@ -16,9 +17,8 @@ import ZapModal from "../components/system-map/zap-modal"
 import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
 import Accordion from "react-bootstrap/Accordion"
 import { Link } from "gatsby"
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 
 class SystemMapPage extends Component {
   scroller
@@ -53,7 +53,8 @@ class SystemMapPage extends Component {
   onHide = () => false
 
   handleScrollStepEnter = ({ element, index, direction }) => {
-    console.log(index)
+    console.log("now entering" + index)
+
 
     this.currentStep = index
 
@@ -62,7 +63,7 @@ class SystemMapPage extends Component {
     if (index === 0) {
       D3.select("#prompt-1").style("display", "none")
       // D3.select("#sm-legend").style("display", "none")
-      D3.select(".sm-layer__title").text("System map - layer 1")
+      D3.select(".sm-layer__title").text("Overview of the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
@@ -82,31 +83,38 @@ class SystemMapPage extends Component {
           "Click on the pictures to get details on each stage. Once you’re done, keep scrolling!"
         )
       D3.select("#sm-legend").style("display", "block")
-      D3.select(".sm-layer__title").text("System map - layer 1")
+      D3.select(".sm-layer__title").text("Overview of the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
     if (index === 3) {
+      // Setting text for legend symbol (Cog)
+      D3.select("#sm-legend__symbol-text").text("Major decision")
+
       D3.select("#cogs").style("display", "block")
       D3.select("#zaps").style("display", "none")
       D3.select("#base").selectAll("image").style("pointer-events", "none")
       D3.select("#prompt-1").text(
         "Click on the icons to see what happens at each decision point. Keep scrolling!"
       )
-      D3.select(".sm-layer__title").text("Key Decisions")
+      D3.select(".sm-layer__title").text("Major Decisions in the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "visible")
       D3.select("#cog-legend").style("display", "block")
       D3.select("#zap-legend").style("display", "none")
     }
 
     if (index === 4) {
+      // Setting text for legend symbol (Zap)
+      D3.select("#sm-legend__symbol-text").text("Systemic problem")
+
+
       D3.select("#cogs").style("display", "none")
       D3.select("#zaps").style("display", "block")
       D3.select("#base").selectAll("image").style("pointer-events", "none")
       D3.select("#prompt-1").text(
-        "Click on the icons to know more about lorem ipsum dolor."
+        "Click on the icons to learn more about systemic problems."
       )
-      D3.select(".sm-layer__title").text("How the system fails")
+      D3.select(".sm-layer__title").text("Systemic Problems in the Bail Process")
       D3.select(".sm-legend__third-item").style("visibility", "visible")
       D3.select("#cog-legend").style("display", "none")
       D3.select("#zap-legend").style("display", "block")
@@ -114,6 +122,8 @@ class SystemMapPage extends Component {
   }
 
   handleScrollStepExit = ({ element, index, direction }) => {
+console.log("now exiting" + index)
+
     if (index === 2 && direction === "up") {
       D3.select("#prompt-1").style("display", "none")
       D3.select("#sm-legend").style("display", "none")
@@ -128,7 +138,10 @@ class SystemMapPage extends Component {
     // console.log(this.steps)
     // console.log(this.systemMap)
 
-    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
+    this.setState({
+      showMobileModal:
+        window.innerWidth < 650 && window.innerHeight > window.innerWidth,
+    })
 
     // let stepH = Math.floor(window.innerHeight * 0.75)
     this.layerSteps.style("height", window.innerHeight * 1.5 + "px")
@@ -146,7 +159,6 @@ class SystemMapPage extends Component {
   }
 
   componentDidMount() {
-
     // Storing the global "this" object to later reference it in D3 event functions
     const self = this
     // console.log(this.state)
@@ -182,7 +194,15 @@ class SystemMapPage extends Component {
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
-      const viewBoxWidth = 1400 // svg container width
+
+      let viewBoxWidth; // svg container width
+
+      if (window.innerWidth < 992) {
+        console.log(window.innerWidth)
+        viewBoxWidth = 1800
+      } else if (window.innerWidth > 992) {
+        viewBoxWidth = 1400
+      }
       const viewBoxHeight = 600 // svg container height. Needs to be the same as height for svg-wrapper specified in SCSS
       const scaleFactor = 1.4
 
@@ -193,7 +213,7 @@ class SystemMapPage extends Component {
       D3.select("#svg-wrapper")
         .append("p")
         .classed("sm-layer__title", "true")
-        .text("System map - layer 1")
+        .text("Overview of the Bail Process")
 
       // Appending the imported SVG to svg-wrapper
       D3.select("#svg-wrapper").node().appendChild(svgMap)
@@ -447,7 +467,7 @@ class SystemMapPage extends Component {
                   </Row>
 
                   <div id="prompt-0" className="prompt text-center">
-                    Lorem ipsum
+                    Scroll Down
                   </div>
                   <div id="arrow-down" className="stepx">
                     <svg
@@ -502,30 +522,30 @@ class SystemMapPage extends Component {
                         />
                       </svg>
                     </div>
-                    <p>Lorem ipsum dolor</p>
+                    <p>Next step in the bail process</p>
                   </div>
                   <div className="sm-legend__item sm-legend__third-item">
                     <div className="sm-legend__symbol">
                       <SmLegendSymbol></SmLegendSymbol>
                     </div>
-                    <p>Lorem ipsum dolor</p>
+                    <p id="sm-legend__symbol-text">Lorem ipsum dolor</p>
                   </div>
                 </div>
               </div>
             </Col>
           </Row>
           <BottomButtons
-          btn1={"How Bail Worsens Lives"}
-          btn1Url={"/theme1"}
-          btn2={"Bail Reform Timeline"}
-          btn2Url={"/timeline"}
-          ctaColor={"text-dark"}
+            btn1={"How Bail Worsens Lives"}
+            btn1Url={"/theme1"}
+            btn2={"Bail Reform Timeline"}
+            btn2Url={"/timeline"}
+            ctaColor={"text-dark"}
           />
         </Container>
 
         <TurnDeviceModal
-        show={this.state.showMobileModal} 
-        onHide={this.onHide}
+          show={this.state.showMobileModal}
+          onHide={this.onHide}
         />
 
         <StaticModal

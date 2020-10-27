@@ -11,6 +11,9 @@
     -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     z-index: 0;
+    // @include media-breakpoint-down(md) {
+    //   height: 300px!important;
+    // }
   }
 
   #expl-sidebar-wrapper {
@@ -43,7 +46,7 @@
   }
 
   .expl-step-layer {
-    visibility: hidden;
+    visibility: visible;
     margin: 0 auto;
     background-color: rgba(223, 124, 124, 0.1);
     pointer-events: none;
@@ -55,7 +58,7 @@
   }
 
   // Explanation texts in sidebar hidden by default
-  .text-layer-1, .text-layer-2, .text-layer-3 {
+  .text-layer-1, .text-layer-2, .text-layer-3, .text-layer-4 {
       display: none;
   }
 }

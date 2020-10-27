@@ -7,7 +7,7 @@ import * as D3 from "d3"
 // import svgExplImport from "../../static/assets/system-map/EE_1.svg"
 import svgExplImport from "../../static/assets/system-map/EE_1b.svg"
 import TurnDeviceModal from "./turn-device-modal"
-
+import ExplSidebar from "./issues-expl-sidebar"
 
 class ExplFirst extends Component {
   scroller
@@ -27,6 +27,8 @@ class ExplFirst extends Component {
     issue_id: 1,
     step_index: 0,
     showMobileModal: false,
+    explTextIsBelow: false,
+    viewportWidth: 0,
   }
 
   // List of ids for arrows to animate
@@ -40,26 +42,11 @@ class ExplFirst extends Component {
     "arrow-path-7",
   ]
 
-  // Options for displaying text in the sidebar
-  options = {
-    renderNode: {
-      "embedded-asset-block": node => {
-        const alt = node.data.target.fields.title["en-US"]
-        const url = node.data.target.fields.file["en-US"].url
-        console.log(node)
-        return <img src={url} className="img-fluid mb-3" alt={alt} />
-      },
-    },
-    renderText: text =>
-      text.split("\n").flatMap((text, i) => [i > 0 && <br />, text]),
-  }
-
   handleScrollStepEnter = ({ element, index, direction }) => {
     // Updating current step index
     this.setState({
       step_index: index,
     })
-
     // Animating main steps ("layers")
     if (
       this.state.step_index === 1 ||
@@ -135,8 +122,8 @@ class ExplFirst extends Component {
       D3.selectAll(".explanation-text").style("display", "none")
     } else {
       //debug
-      console.log(D3.select(`#arrow-path-${this.state.step_index}`).node())
-      console.log(this[`bbox${this.state.step_index}`])
+      // console.log(D3.select(`#arrow-path-${this.state.step_index}`).node())
+      // console.log(this[`bbox${this.state.step_index}`])
 
       // If this.state.step_index > 0
       // Show arrow group
@@ -166,8 +153,13 @@ class ExplFirst extends Component {
   handleProgress = ({ progress }) => {}
 
   handleResize = () => {
-
-    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
+    this.setState({
+      showMobileModal:
+        window.innerWidth < 992 && window.innerHeight < window.innerWidth,
+      viewportWidth: window.innerWidth,
+      explTextIsBelow:
+        window.innerWidth < 992 && window.innerHeight > window.innerWidth,
+    })
 
     this.layerSteps.style("height", window.innerHeight * 0.75 + "px")
 
@@ -186,12 +178,10 @@ class ExplFirst extends Component {
 
   onHide = () => false
 
-
   componentDidMount() {
     const self = this
 
     window.addEventListener("resize", this.handleResize)
-
 
     // Storing a selection of the layer steps element
     this.layerSteps = D3.select("#expl-step-wrapper").selectAll(
@@ -207,7 +197,7 @@ class ExplFirst extends Component {
         let explMap = D3.select(explSvg).select("svg").node()
 
         // Appending the imported SVG to svg-wrapper
-        D3.select("#expl-svg-wrapper").node().appendChild(explMap)
+        D3.select("#svg").node().appendChild(explMap)
 
         D3.select(explMap)
           .attr("width", "100%")
@@ -314,7 +304,18 @@ class ExplFirst extends Component {
         <Row id="explanation-1__row">
           <Col sm={11} md={9} id="main-col">
             <div id="explanation-map" className="expl-step">
-              <div id="expl-svg-wrapper"></div>
+              <div id="expl-svg-wrapper">
+                <div id="svg"></div>
+                <div id="expl-sidebar-col-mobile" className="text-dark">
+                  {this.state.explTextIsBelow && (
+                    <ExplSidebar
+                      issue_id={this.state.issue_id}
+                      firstStepChange={4}
+                    />
+                  )}
+                </div>
+              </div>
+
               <div id="expl-step-wrapper">
                 <div className="expl-step expl-step-layer"></div>
                 <div className="expl-step expl-step-layer"></div>
@@ -326,60 +327,23 @@ class ExplFirst extends Component {
               </div>
             </div>
           </Col>
-          <Col sm={1} md={3} id="expl-sidebar-col">
-            <div id="expl-sidebar-wrapper" className="text-dark">
-              <StaticQuery
-                query={graphql`
-                  query {
-                    allContentfulIssuesEeText(
-                      filter: { issueId: { eq: 1 } }
-                      sort: { fields: [stepId] }
-                    ) {
-                      edges {
-                        node {
-                          issueId
-                          stepId
-                          stepText {
-                            json
-                          }
-                        }
-                      }
-                    }
-                  }
-                `}
-                render={data =>
-                  data.allContentfulIssuesEeText.edges.map(edge => {
-                    if (edge.node.issueId === this.state.issue_id) {
-                      return (
-                        <div
-                          id={"ee-text-" + edge.node.stepId}
-                          className={
-                            edge.node.stepId < 4
-                              ? "text-layer-1"
-                              : edge.node.stepId < 6
-                              ? "text-layer-2"
-                              : "text-layer-3"
-                          }
-                        >
-                          {documentToReactComponents(
-                            edge.node.stepText.json,
-                            this.options
-                          )}
-                        </div>
-                      )
-                    }
-                  })
-                }
-              />
-            </div>
-          </Col>
+
+          {!this.state.explTextIsBelow && (
+            <Col sm={1} md={3} id="expl-sidebar-col">
+              <div id="expl-sidebar-wrapper" className="text-dark">
+                <ExplSidebar
+                  issue_id={this.state.issue_id}
+                  firstStepChange={4}
+                />
+              </div>
+            </Col>
+          )}
         </Row>
         <TurnDeviceModal
-        show={this.state.showMobileModal} 
-        onHide={this.onHide}
+          show={this.state.showMobileModal}
+          onHide={this.onHide}
         />
       </Container>
-      
     )
   }
 }
