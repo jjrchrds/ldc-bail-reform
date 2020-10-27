@@ -36,6 +36,12 @@ const IndexPage = () => {
           }
           card1Title
           card1Leed
+          card1Img {
+            description
+            file {
+              url
+            }
+          }
           card2Title
           card2Leed
           card3Title
@@ -120,7 +126,7 @@ const IndexPage = () => {
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
               <Card className="text-left text-dark">
-                <Card.Img src="/assets/gif/SM_home.gif" alt="Card image" />
+                <Card.Img src={content.card1Img.file.url} alt={content.card1Img.description} />
                 <Card.Body>
                   <Card.Title><h3 className="text-rust">The Bail System</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
