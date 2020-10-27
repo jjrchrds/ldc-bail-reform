@@ -535,10 +535,10 @@ console.log("now exiting" + index)
             </Col>
           </Row>
           <BottomButtons
-            btn1={"Themes"}
-            btn1Url={"/issue1"}
-            btn2={"Timeline"}
-            btn2Url={"/methodology"}
+            btn1={"Bail Worsens Lives"}
+            btn1Url={"/theme1"}
+            btn2={"Bail Reform Timeline"}
+            btn2Url={"/timeline"}
             ctaColor={"text-dark"}
           />
         </Container>
