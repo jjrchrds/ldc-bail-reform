@@ -8,6 +8,7 @@ import Head from '../components/head'
 import IssuesHero from "../components/issues-hero"
 import MomentumTabs from "../components/issues-momentum"
 import ExplThird from "../components/issues-expl-third"
+import BottomButtons from "../components/bottom-buttons"
 
 const Theme3Page = () => {
   const data = useStaticQuery(graphql `
@@ -138,6 +139,14 @@ const Theme3Page = () => {
           </Row>
         </Col>
       </Row>
+
+      <BottomButtons
+          btn1={"Bail Worsens Lives"}
+          btn1Url={"/theme1"}
+          btn2={"Bail Denies Dignity"}
+          btn2Url={"/theme2"}
+          ctaColor={"text-dark"}
+        />
     </Layout>
   )
 }
