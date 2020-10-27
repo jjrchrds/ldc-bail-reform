@@ -36,6 +36,11 @@ const IndexPage = () => {
           }
           card1Title
           card1Leed
+          card1Gif {
+            file {
+              url
+            }
+          }
           card1Img {
             description
             file {
@@ -44,8 +49,30 @@ const IndexPage = () => {
           }
           card2Title
           card2Leed
+          card2Gif {
+            file {
+              url
+            }
+          }
+          card2Img {
+            description
+            file {
+              url
+            }
+          }
           card3Title
           card3Leed
+          card3Gif {
+            file {
+              url
+            }
+          }
+          card3Img {
+            description
+            file {
+              url
+            }
+          }
           themesHeadline
           themesBlurb {
             json
