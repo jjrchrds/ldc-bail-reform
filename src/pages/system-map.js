@@ -515,9 +515,9 @@ class SystemMapPage extends Component {
             </Col>
           </Row>
           <BottomButtons
-          btn1={"Themes"}
+          btn1={"How Bail Worsens Lives"}
           btn1Url={"/theme1"}
-          btn2={"Timeline"}
+          btn2={"Bail Reform Timeline"}
           btn2Url={"/timeline"}
           ctaColor={"text-dark"}
           />
