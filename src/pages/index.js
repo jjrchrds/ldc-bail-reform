@@ -43,8 +43,8 @@ const IndexPage = () => {
           }
           card1Img {
             description
-            fluid (quality: 90, max-Width: 800) {
-              ...GatsbyContentfulFluid
+            file {
+              url
             }
           }
           card2Title
@@ -56,8 +56,8 @@ const IndexPage = () => {
           }
           card2Img {
             description
-            fluid (quality: 90, max-Width: 800) {
-              ...GatsbyContentfulFluid
+            file {
+              url
             }
           }
           card3Title
@@ -69,8 +69,8 @@ const IndexPage = () => {
           }
           card3Img {
             description
-            fluid (quality: 90, max-Width: 800) {
-              ...GatsbyContentfulFluid
+            file {
+              url
             }
           }
           themesHeadline
@@ -106,6 +106,19 @@ const IndexPage = () => {
   const [show, setShow] = React.useState(true);
   const handleClose = () => setShow(false);
   const content = data.homeContent.nodes[0];
+
+  // Switch card img to animated GIF on hover
+  const imgs = [content.card1Img.file.url, content.card2Img.file.url, content.card3Img.file.url]
+  const gifs = [content.card1Gif.file.url, content.card2Gif.file.url, content.card3Gif.file.url]
+
+  const startGif = (cardNum) => {
+    this.src = imgs[cardNum]
+  }
+
+  const stopGif = (cardNum) => {
+    this.src = gifs[cardNum]
+  }
+
 
   return (
     <Layout className="pt-5">
@@ -153,7 +166,7 @@ const IndexPage = () => {
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
               <Card className="text-left text-dark">
-                <Card.Img src={content.card1Img.file.url} alt={content.card1Img.description} />
+                <Card.Img src={imgs[0]} alt={content.card1Img.description} onMouseEnter={this.startGif(1)} onMouseLeave={this.stopGif(1)} />
                 <Card.Body>
                   <Card.Title><h3 className="text-rust">The Bail System</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
