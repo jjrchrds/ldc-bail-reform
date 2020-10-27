@@ -42,7 +42,7 @@
 @import "bootstrap/scss/_modal.scss";
 // @import "bootstrap/scss/_tooltip.scss";
 // @import "bootstrap/scss/_popover.scss";
-// @import "bootstrap/scss/_carousel.scss";
+@import "bootstrap/scss/_carousel.scss";
 // @import "bootstrap/scss/_spinners.scss";
 @import "bootstrap/scss/_utilities.scss";
 @import "bootstrap/scss/_print.scss";
@@ -50,6 +50,7 @@
 @import "animations";
 @import "methodology";
 @import "system-map";
+@import "issues";
 
 // --- Debug CSS ---
 // .display-1 {
@@ -69,10 +70,10 @@
 
 // --- Transitions ---------
 @mixin transition-300 {
-  -webkit-transition: all 300s ease-out;
-  -moz-transition: all 300s ease-out;
-  -o-transition: all 300s ease-out;
-  transition: all 300s ease-out;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
 }
 
 // --- Typography ---------
@@ -99,15 +100,70 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-dropdown {
-  .dropdown-item.active {
+  .dropdown-menu {
+    background: $dark !important;
+  }
+
+  .dropdown-item, .dropdown-item:active {
     display: block;
     width: auto;
-    background: $dark;
+    background: $dark !important;
     padding: 0.6rem 1.2 rem;
+  }
+
+  .dropdown-item:focus, .dropdown-item:hover {
+    background: $rust !important;
+    color: $light !important;
   }
 }
 
+.beta-sticker-wrap {
+  position: relative;
+}
+
+.beta-sticker {
+  position: absolute;
+  width: 392px;
+  top: 3.5rem;
+  left: 5%;
+  padding: 1rem;
+  -moz-transform: rotate(1.33deg);
+  -webkit-transform: rotate(1.33deg);
+  -o-transform: rotate(1.33deg);
+  -ms-transform: rotate(1.33deg);
+  transform: rotate(1.33deg);
+
+  &.modal {
+    z-index: 1;
+  }
+  
+  .modal-content, .modal-header, .modal-footer {
+    border-radius: 0;
+    border: none;
+    background: $green;
+  }
+
+  .modal-header {
+    padding: 0.5rem 1rem 0;
+  }
+
+  .modal-body {
+    padding: 0.25rem 1rem;
+    top: -1px;
+  }
+
+  .modal-footer {
+    padding-top: 0;
+    top: -2px;
+  }
+  
+}
+
 // --- Modifying Layout Components ---------
+body.modal-open {
+  overflow: auto !important;
+}
+
 .align-contents-bottom {
   display: flex;
   flex-direction: column;
@@ -205,7 +261,7 @@ a.dropdown-item {
 .hero {
   background-color: $light;
   position: relative;
-  padding-top: 3rem; // Only needed if navbar is set to "fixed=top" vs. "sticky=top"
+  // padding-top: 3rem; // Only needed if navbar is set to "fixed=top" vs. "sticky=top"
   padding-bottom: 0;
 }
 

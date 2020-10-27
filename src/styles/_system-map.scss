@@ -1,6 +1,6 @@
 #system-map {
   display: inline-block;
-  margin-bottom: 200px;
+  // margin-bottom: 200px;
   width: 100%;
 }
 
@@ -26,6 +26,13 @@
   }
 }
 
+#sm-row {
+  @include media-breakpoint-down(md) {
+    margin-right: -44px!important;
+    margin-left: -44px!important;
+  }
+}
+
 #sidebar-wrapper {
   position: sticky;
   padding-top: 15px;
@@ -43,22 +50,34 @@
 
 #sm-legend {
   bottom: 0;
-position: absolute;
+  position: absolute;
   width: 100%;
   display: none;
 
   .sm-legend__item {
+    display: flex;
+    align-items: center;
+    div {
+      align-items: center;
+      display: flex;
+    }
 
-    div,
     p {
-      display: inline-block;
-    margin-bottom: .2rem;
+      margin-bottom: 0.2rem;
+      font-size: 1rem;
     }
 
     .sm-legend__symbol {
       margin-right: 10px;
       width: 50px;
+      svg {
+        width: 55%;
+      }
     }
+  }
+
+  .legend-cog-zap {
+    width: 2rem;
   }
 }
 
@@ -103,6 +122,7 @@ position: absolute;
 .card-custom-column {
   padding-left: 15px;
   padding-right: 15px;
+  margin: 0 auto;
 }
 
 .card-custom-dark {
@@ -126,7 +146,7 @@ position: absolute;
   background: #e5521d;
   color: #322c2c;
   font-family: Martin;
-  font-size: 40px;
+  font-size: 30px;
   height: 50px;
   line-height: 44px;
   width: 50px;
@@ -149,12 +169,48 @@ position: absolute;
 .prompt {
   color: $rust;
   font-size: 1.2rem;
+  @include media-breakpoint-down(md) {
+    font-size: 1rem !important;
+  }
 }
 
-// #main-col {
-//   background: pink;
-// }
+.accordion-characters {
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+  }
 
-// #sidebar-col {
-//   background: yellow;
-// }
+  .collapse,
+  .collapsing {
+    @include media-breakpoint-up(md) {
+      display: block !important;
+      height: auto !important;
+    }
+  }
+  .card-body {
+    @include media-breakpoint-up(md) {
+      min-height: 220px;
+    }
+    @include media-breakpoint-up(lg) {
+      min-height: 220px;
+    }
+    @include media-breakpoint-up(xl) {
+      min-height: 195px;
+    }
+  }
+}
+
+.turn-device-modal {
+  .modal-header {
+    border-bottom: none;
+    border-radius: 0px;
+    background: #e5521d;
+    color: #fffdfb;
+    padding: 0.3rem 2rem;
+    font-family: Martin;
+    font-size: 42px;
+  }
+  p {
+    margin: 0px;
+  }
+}

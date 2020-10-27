@@ -5,14 +5,14 @@
 
 // // Color system
 
-// $white:    #fff !default;
+$white:    #fff !default;
 // $gray-100: #f8f9fa !default;
 // $gray-200: #e9ecef !default;
 // $gray-300: #dee2e6 !default;
 // $gray-400: #ced4da !default;
 // $gray-500: #adb5bd !default;
-// $gray-600: #6c757d !default;
-// $gray-700: #495057 !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
 // $gray-800: #343a40 !default;
 // $gray-900: #212529 !default;
 // $black:    #000 !default;
@@ -48,7 +48,7 @@
 $purple:        #7100AD;
 $rust:          #e5521d !default; // Bail Reform Color: Rust
 $pink:          #F08FDB !default; // Bail Reform Color: Pink
-$blue:          #A7D6CC !default; // Bail Reform: Cog Blue
+$green:         #1D8673 !default; // Bail Reform Color: Green
 $yellow:        #EDC80F !default; // Bail Reform: Zap Yellow
 $red:           #FE2E00 !default; // Bail Reform: Zap Red
 $light:         #FFFDFB; // Bail Reform Color: BG (Off-White)
@@ -82,12 +82,13 @@ $theme-colors: map-merge(
     // "primary":      $rust,
     "rust":         $rust,
     "pink":         $pink,
-    "blue":         $blue,
+    "green":         $green,
     "yellow":       $yellow,
     "red":          $red,
     "light":        $light,
     "dark":         $dark,
-    "purple":       $purple
+    "purple":       $purple,
+    "grey":         $gray-600
   ),
   $theme-colors
 );
@@ -229,7 +230,7 @@ $emphasized-link-hover-darken-percentage: 15% !default;
 // // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:                12 !default;
-$grid-gutter-width:           60px !default;
+$grid-gutter-width:           30px !default;
 $grid-row-columns:            6 !default;
 
 
@@ -243,9 +244,9 @@ $grid-row-columns:            6 !default;
 // $border-width:                1px !default;
 // $border-color:                $gray-300 !default;
 
-// $border-radius:               .25rem !default;
-// $border-radius-lg:            .3rem !default;
-// $border-radius-sm:            .2rem !default;
+$border-radius:               0 !default;
+$border-radius-lg:            0 !default;
+$border-radius-sm:            0 !default;
 
 // $rounded-pill:                50rem !default;
 
@@ -283,12 +284,12 @@ $grid-row-columns:            6 !default;
 // // stylelint-disable value-keyword-case
 // $font-family-sans-serif:      "Crimson Text", monospace, "Garamond", "Times New Roman", Times, serif !default;
 // $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
-$font-family-base:      "Crimson Text", monospace, "Garamond", "Times New Roman", Times, serif !important;
+$font-family-base:      "Crimson Text", "Garamond", "Times New Roman", Times, serif !important;
 $font-family-headings:         Martin, "Arial Condensed Black", Impact, -apple-system, BlinkMacSystemFont, sans-serif;
 // // stylelint-enable value-keyword-case
 
 
-$font-size-base:              1.25rem !default; // Slightly bigger than the browser default since Crimson Text has a smaller x-height - typically 18px
+$font-size-base:                 1.125rem !default; // 16px * 1.125 = 18px
 // $font-size-lg:                $font-size-base * 1.25 !default;
 // $font-size-sm:                $font-size-base * .875 !default;
 
@@ -299,7 +300,7 @@ $font-size-base:              1.25rem !default; // Slightly bigger than the brow
 // $font-weight-bolder:          bolder !default;
 
 // $font-weight-base:            $font-weight-normal !default;
-// $line-height-base:            1.5 !default;
+$line-height-base:            1.4 !default;
 
 $h1-font-size:                $font-size-base * 4 !default;
 $h2-font-size:                $font-size-base * 3 !default;
@@ -394,9 +395,9 @@ $display-line-height:         0.95 !default;
 
 // $input-btn-padding-y:         .375rem !default;
 // $input-btn-padding-x:         .75rem !default;
-// $input-btn-font-family:       null !default;
-// $input-btn-font-size:         $font-size-base !default;
-// $input-btn-line-height:       $line-height-base !default;
+$input-btn-font-family:       Martin !default;
+$input-btn-font-size:         1.5rem !default;
+$input-btn-line-height:       1 !default;
 
 // $input-btn-focus-width:       .2rem !default;
 // $input-btn-focus-color:       rgba($component-active-bg, .25) !default;
@@ -450,7 +451,7 @@ $display-line-height:         0.95 !default;
 // $btn-block-spacing-y:         .5rem !default;
 
 // // Allows for customizing button radius independently from global border radius
-// $btn-border-radius:           $border-radius !default;
+$btn-border-radius:               0 !default;
 // $btn-border-radius-lg:        $border-radius-lg !default;
 // $btn-border-radius-sm:        $border-radius-sm !default;
 
@@ -1117,7 +1118,7 @@ $card-deck-margin:                  $card-group-margin !default;
 
 // $close-font-size:                   $font-size-base * 1.5 !default;
 // $close-font-weight:                 $font-weight-bold !default;
-// $close-color:                       $black !default;
+$close-color:                       $white !default;
 // $close-text-shadow:                 0 1px 0 $white !default;
 
 

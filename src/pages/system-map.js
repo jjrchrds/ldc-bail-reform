@@ -5,10 +5,20 @@ import Head from "../components/head"
 import { graphql, StaticQuery } from "gatsby"
 import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
-import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
-import StaticModal from "../components/static-modal"
-import CogModal from "../components/cog-modal"
-import ZapModal from "../components/zap-modal"
+// import svgSystemMap from "../../static/assets/system-map/SM_jun25.svg"
+import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
+import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
+import BottomButtons from "../components/bottom-buttons"
+import TurnDeviceModal from "../components/turn-device-modal"
+import StaticModal from "../components/system-map/static-modal"
+import CogModal from "../components/system-map/cog-modal"
+import ZapModal from "../components/system-map/zap-modal"
+import SmLegendSymbol from "../components/system-map/sm-legend-symbol"
+import Accordion from "react-bootstrap/Accordion"
+import { Link } from "gatsby"
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+
 
 class SystemMapPage extends Component {
   scroller
@@ -18,6 +28,7 @@ class SystemMapPage extends Component {
   modalY
   modalMargin
   currentImage = ""
+  currentStep
 
   state = {
     showStaticModal: false,
@@ -26,6 +37,7 @@ class SystemMapPage extends Component {
     staticModalActiveContent: "",
     cogModalActiveContent: "",
     zapModalActiveContent: "",
+    showMobileModal: false,
   }
 
   setShow = ({ isVisible }) => {
@@ -38,21 +50,26 @@ class SystemMapPage extends Component {
   handleCloseStatic = () => this.setState({ showStaticModal: false })
   handleCloseCog = () => this.setState({ showCogModal: false })
   handleCloseZap = () => this.setState({ showZapModal: false })
+  onHide = () => false
 
   handleScrollStepEnter = ({ element, index, direction }) => {
     console.log(index)
+
+    this.currentStep = index
 
     // Handling visibility of "layer" elements based on step number
     // Step 0: initial state, Meet the Characters
     if (index === 0) {
       D3.select("#prompt-1").style("display", "none")
-      D3.select("#sm-legend").style("display", "none")
+      // D3.select("#sm-legend").style("display", "none")
       D3.select(".sm-layer__title").text("System map - layer 1")
+      D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
     if (index === 1) {
       D3.select("#prompt-1").style("display", "none")
-      D3.select("#sm-legend").style("display", "none")
+      // D3.select("#sm-legend").style("display", "none")
+      D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
     if (index === 2) {
@@ -66,6 +83,7 @@ class SystemMapPage extends Component {
         )
       D3.select("#sm-legend").style("display", "block")
       D3.select(".sm-layer__title").text("System map - layer 1")
+      D3.select(".sm-legend__third-item").style("visibility", "hidden")
     }
 
     if (index === 3) {
@@ -75,7 +93,10 @@ class SystemMapPage extends Component {
       D3.select("#prompt-1").text(
         "Click on the icons to see what happens at each decision point. Keep scrolling!"
       )
-      D3.select(".sm-layer__title").text("System map - layer 2")
+      D3.select(".sm-layer__title").text("Key Decisions")
+      D3.select(".sm-legend__third-item").style("visibility", "visible")
+      D3.select("#cog-legend").style("display", "block")
+      D3.select("#zap-legend").style("display", "none")
     }
 
     if (index === 4) {
@@ -85,7 +106,10 @@ class SystemMapPage extends Component {
       D3.select("#prompt-1").text(
         "Click on the icons to know more about lorem ipsum dolor."
       )
-      D3.select(".sm-layer__title").text("System map - layer 3")
+      D3.select(".sm-layer__title").text("How the system fails")
+      D3.select(".sm-legend__third-item").style("visibility", "visible")
+      D3.select("#cog-legend").style("display", "none")
+      D3.select("#zap-legend").style("display", "block")
     }
   }
 
@@ -100,21 +124,23 @@ class SystemMapPage extends Component {
 
   handleResize = () => {
     // console.log("resize")
+    // console.log(window.innerWidth)
     // console.log(this.steps)
     // console.log(this.systemMap)
+
+    this.setState({ showMobileModal: (window.innerWidth < 650 && (window.innerHeight > window.innerWidth)) });
 
     // let stepH = Math.floor(window.innerHeight * 0.75)
     this.layerSteps.style("height", window.innerHeight * 1.5 + "px")
 
     D3.select("#sidebar-wrapper")
       .style("height", window.innerHeight * 0.8 + "px")
-      .style("top", (window.innerHeight * 0.2) / 2 + "px")
+      .style("top", (window.innerHeight * 0.3) / 2 + "px")
 
     // Vertically centering the svg when it becomes sticky
-    D3.select("#svg-wrapper").style(
-      "top",
-      d => `${(window.innerHeight * 0.2) / 2}px`
-    )
+    D3.select("#svg-wrapper")
+      .style("top", d => `${(window.innerHeight * 0.3) / 2}px`)
+      .style("height", `${window.innerHeight * 0.8}px`)
 
     this.scroller.resize()
   }
@@ -123,6 +149,7 @@ class SystemMapPage extends Component {
 
     // Storing the global "this" object to later reference it in D3 event functions
     const self = this
+    // console.log(this.state)
 
     // Storing a selection of the steps element
     this.layerSteps = D3.select("#step-wrapper").selectAll(".step-layer")
@@ -151,12 +178,13 @@ class SystemMapPage extends Component {
     // setup resize event
     window.addEventListener("resize", this.scroller.resize)
     // Probably the way to resize, below
-    // window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize)
 
     // Loading the Systemp Map svg
     D3.xml(svgSystemMap).then(function (smSvg) {
       const viewBoxWidth = 1400 // svg container width
       const viewBoxHeight = 600 // svg container height. Needs to be the same as height for svg-wrapper specified in SCSS
+      const scaleFactor = 1.4
 
       // Storing a selection of the root node for the imported SVG
       let svgMap = D3.select(smSvg).select("svg").node()
@@ -202,6 +230,35 @@ class SystemMapPage extends Component {
       // Adding event listeners: layer 1 (cogs)
       D3.select("#cog-click")
         .selectAll("rect")
+        // Test to make symbols bigger on hover
+        .on("mouseover", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Making cogs bigger - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${(1 - scaleFactor) * (bbox.x + bbox.width / 2)}, ${
+                (1 - scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(${scaleFactor})`
+            )
+        })
+        .on("mouseout", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Cogs back to original size - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${
+                (1 - 1 / scaleFactor) * (bbox.x + bbox.width / 2)
+              }, ${
+                (1 - 1 / scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(1/${scaleFactor})`
+            )
+        })
         .on("click", function (d) {
           console.log(this.id)
           self.modalX = D3.event.clientX + "px"
@@ -215,6 +272,34 @@ class SystemMapPage extends Component {
       // Adding event listeners: layer 2 (zaps)
       D3.select("#zap-click")
         .selectAll("rect")
+        .on("mouseover", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Making zaps bigger - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${(1 - scaleFactor) * (bbox.x + bbox.width / 2)}, ${
+                (1 - scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(${scaleFactor})`
+            )
+        })
+        .on("mouseout", function (d, i, n) {
+          let bbox = D3.select(`#${this.id}-symbol`).node().getBBox()
+          // console.log(bbox)
+          // Zaps back to original size - scaling relative to their center
+          D3.select(`#${this.id}-symbol`)
+            .node()
+            .setAttribute(
+              "transform",
+              `translate(${
+                (1 - 1 / scaleFactor) * (bbox.x + bbox.width / 2)
+              }, ${
+                (1 - 1 / scaleFactor) * (bbox.y + bbox.height / 2)
+              }) scale(1/${scaleFactor})`
+            )
+        })
         .on("click", function () {
           console.log(this)
           // console.log(self)
@@ -226,6 +311,40 @@ class SystemMapPage extends Component {
           self.setState({ zapModalActiveContent: this.id })
         })
     })
+    // .then(d => {
+
+    //   if (window.innerWidth <= 768) {
+
+    //     console.log(D3.select("#cogs")
+    //     .selectAll("g")
+    //     .nodes())
+
+    //     let arr = [];
+    //     D3.select("#cogs")
+    //     .selectAll("g")
+    //     .nodes().forEach(d => arr.push(d.getBBox()))
+
+    //     console.log(arr)
+
+    //     D3.select("#cogs")
+    //       .selectAll("g")
+    //       .nodes().forEach(d=>d.setAttribute("transform", "scale(1)")
+
+    //       // .setAttribute("transform", "scale(1.5)"
+    //       // function(d) {
+    //       //   // let bbox = d.getBBox();
+    //       //   // console.log(bbox)
+    //       //   // return `translate(${(1 - 10) * (bbox.x + bbox.width / 2)}, ${
+    //       //   //   (1 - 10) * (bbox.y + bbox.height / 2)
+    //       //   // }) scale(${10})`
+    //       //   // return `translate(${(1 - 10) * (100 + 50 / 2)}, ${
+    //       //   //   (1 - 10) * (200 + 50 / 2)
+    //       //   // }) scale(${10})`
+    //       //   return "scale(1.1)"
+    //       // }
+    //       )
+    //   }
+    // })
   }
 
   componentWillUnmount() {
@@ -236,7 +355,7 @@ class SystemMapPage extends Component {
     return (
       <Layout>
         <Head title="System Map" />
-        <Container className="mt-4">
+        <Container className="my-5 pt-5">
           {/* New Row */}
           <Row>
             <div className="text-center col-md-12">
@@ -258,7 +377,9 @@ class SystemMapPage extends Component {
             <StaticQuery
               query={graphql`
                 query {
-                  allContentfulSystemMapCharacters {
+                  allContentfulSystemMapCharacters(
+                    sort: { fields: [characterName] }
+                  ) {
                     edges {
                       node {
                         id
@@ -270,39 +391,61 @@ class SystemMapPage extends Component {
                       }
                     }
                   }
-                }`
-              }
-    
-                render={data => (
-                  <Container id="characters__wrapper" className="stepx">
-                    <Row>
-                      {data.allContentfulSystemMapCharacters.edges.map(edge => {
-                        console.log(edge.node.characterName)
-                        return (
-                          <Col
-                            key={edge.node.id}
-                            xs={10}
-                            sm={10}
-                            md={4}
-                            className="mb-5"
+                }
+              `}
+              render={data => (
+                <Container id="characters__wrapper" className="stepx">
+                  <Row>
+                    {data.allContentfulSystemMapCharacters.edges.map(edge => {
+                      return (
+                        <Col
+                          key={edge.node.id}
+                          xs={10}
+                          sm={10}
+                          md={6}
+                          lg={4}
+                          className="mb-5 card-custom-column"
+                        >
+                          <Accordion
+                            className="accordion-characters"
+                            style={{ position: "relative" }}
                           >
-                            <Card>
-                              <Card.Body className="character-card__body">
-                                <div id="character-card__id">
-                                  {edge.node.characterInitial}
-                                </div>
-                                <Card.Title>{edge.node.characterName}</Card.Title>
+                            <Card className="bg-dark text-light card-custom-dark">
+                              <Accordion.Toggle
+                                as={Card.Header}
+                                variant="link"
+                                eventKey="0"
+                              >
+                                <Card.Title className="character-card__title">
+                                  {edge.node.characterName}
+                                </Card.Title>
+                              </Accordion.Toggle>
 
-                                <Card.Text id="character-card__text">
-                                  { edge.node.characterDescription ? edge.node.characterDescription.characterDescription : '' }
-                                </Card.Text>
-                              </Card.Body>
+                              <Accordion.Collapse eventKey="0">
+                                <Card.Body
+                                  className="character-card__body"
+                                  style={{
+                                    padding: "0 1.25rem 1.25rem 1.25rem",
+                                  }}
+                                >
+                                  <Card.Text id="character-card__text">
+                                    {edge.node.characterDescription
+                                      ? edge.node.characterDescription
+                                          .characterDescription
+                                      : ""}
+                                  </Card.Text>
+                                </Card.Body>
+                              </Accordion.Collapse>
                             </Card>
-                          </Col>
-                        )
-                      })}
-                    </Row>
-                    
+                            <div id="character-card__id">
+                              {edge.node.characterInitial}
+                            </div>
+                          </Accordion>
+                        </Col>
+                      )
+                    })}
+                  </Row>
+
                   <div id="prompt-0" className="prompt text-center">
                     Lorem ipsum
                   </div>
@@ -325,8 +468,8 @@ class SystemMapPage extends Component {
             />
           </Row>
           {/* Old Row */}
-          <Row>
-            <Col sm={11} md={9} id="main-col">
+          <Row id="sm-row">
+            <Col sm={8} md={9} id="main-col">
               <div id="system-map">
                 {/* <div id="sm-layer__title">
                   <p></p>
@@ -339,7 +482,7 @@ class SystemMapPage extends Component {
                 </div>
               </div>
             </Col>
-            <Col sm={1} md={3} id="sidebar-col">
+            <Col sm={4} md={3} id="sidebar-col">
               <div id="sidebar-wrapper">
                 <p id="prompt-1" className="prompt"></p>
                 <div id="sm-legend" className="text-dark">
@@ -347,8 +490,8 @@ class SystemMapPage extends Component {
                   <div className="sm-legend__item">
                     <div className="sm-legend__symbol">
                       <svg
-                        width="50"
-                        height="10"
+                        width="100%"
+                        height="100%"
                         viewBox="0 0 62 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -361,19 +504,29 @@ class SystemMapPage extends Component {
                     </div>
                     <p>Lorem ipsum dolor</p>
                   </div>
-                  <div className="sm-legend__item">
-                    <div className="sm-legend__symbol">img</div>
-                    <p>Lorem ipsum dolor</p>
-                  </div>
-                  <div className="sm-legend__item">
-                    <div className="sm-legend__symbol">img</div>
+                  <div className="sm-legend__item sm-legend__third-item">
+                    <div className="sm-legend__symbol">
+                      <SmLegendSymbol></SmLegendSymbol>
+                    </div>
                     <p>Lorem ipsum dolor</p>
                   </div>
                 </div>
               </div>
             </Col>
           </Row>
+          <BottomButtons
+          btn1={"Themes"}
+          btn1Url={"/issue1"}
+          btn2={"Timeline"}
+          btn2Url={"/methodology"}
+          ctaColor={"text-dark"}
+          />
         </Container>
+
+        <TurnDeviceModal
+        show={this.state.showMobileModal} 
+        onHide={this.onHide}
+        />
 
         <StaticModal
           show={this.state.showStaticModal}
