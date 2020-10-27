@@ -43,8 +43,8 @@ const IndexPage = () => {
           }
           card1Img {
             description
-            file {
-              url
+            fluid (quality: 90, max-Width: 800) {
+              ...GatsbyContentfulFluid
             }
           }
           card2Title
@@ -56,8 +56,8 @@ const IndexPage = () => {
           }
           card2Img {
             description
-            file {
-              url
+            fluid (quality: 90, max-Width: 800) {
+              ...GatsbyContentfulFluid
             }
           }
           card3Title
@@ -69,8 +69,8 @@ const IndexPage = () => {
           }
           card3Img {
             description
-            file {
-              url
+            fluid (quality: 90, max-Width: 800) {
+              ...GatsbyContentfulFluid
             }
           }
           themesHeadline
