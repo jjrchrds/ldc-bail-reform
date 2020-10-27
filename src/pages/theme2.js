@@ -7,12 +7,12 @@ import Layout from "../components/layout"
 import Head from '../components/head'
 import IssuesHero from "../components/issues-hero"
 import MomentumTabs from "../components/issues-momentum"
-import ExplFirst from "../components/issues-expl-first"
+import ExplSecond from "../components/issues-expl-second"
 
-const Issue1Page = () => {
+const Issue2Page = () => {
   const data = useStaticQuery(graphql `
     query {
-      issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
+      issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
         childImageSharp {
           fluid(quality: 75, maxWidth: 600) {
             ...GatsbyImageSharpFluid
@@ -22,10 +22,9 @@ const Issue1Page = () => {
       documents: allAirtable(
         filter: {
           data: { 
-            Momentum_Theme: { in : "Theme 1 - Punish S&E Conditions", nin : "maybe?" }
+            Momentum_Theme: { in : "Theme 2 - Deny Dignity & Rights" }
             Publish__or_Start_Date_: { ne: null }
             Momentum_Annotation: { ne: null }
-            Image: { elemMatch: { url: { ne: null } } }
           }
         }
       ) {
@@ -38,14 +37,11 @@ const Issue1Page = () => {
             URL
             Publish__or_Start_Date_
             Momentum_Annotation
-            Image {
-              url
-            }
           }
         }
       }
       issueContent: allContentfulIssues (filter: {
-        issueName: {eq: "Worsening the Lives of Marginalized People"}
+        issueName: {eq: "Denying Dignity and Basic Rights"}
       })
       {
         edges {
@@ -76,10 +72,10 @@ const Issue1Page = () => {
 
   return (
     <Layout>
-      <Head title="Issues"/>
+      <Head title={"Theme: " + issueContents.issueName}/>
       <IssuesHero 
         issueName={ issueContents.issueName } 
-        issueImg={ data.issue1.childImageSharp.fluid }
+        issueImg={ data.issue2.childImageSharp.fluid }
         issueBlurb={ issueContents.issueBlurb }
         heroMomentum={ issueContents.heroMomentum.heroMomentum }
         heroOpportunity={ issueContents.heroOpportunity.heroOpportunity }
@@ -113,7 +109,7 @@ const Issue1Page = () => {
       <Row id="explanation" className="justify-content-center mx-0">
         <Col className="mt-5 mb-5" md="10">
           <h2 className="text-center uppercase text-rust">Explorable Explanation</h2>
-          <ExplFirst></ExplFirst>
+          <ExplSecond></ExplSecond>
         </Col>
       </Row>
 
@@ -151,4 +147,4 @@ const Issue1Page = () => {
   )
 }
 
-export default Issue1Page
+export default Issue2Page

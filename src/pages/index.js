@@ -120,10 +120,10 @@ const IndexPage = () => {
               
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
-                <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
-                <h1 className="display-2 mt-4 mb-0 text-dark uppercase">{content.heroTextTop}</h1>
-                <h1 className="display-1 mb-5 text-rust uppercase">{content.heroTextMid}<span className="hero-em">{content.heroTextEmphasis}</span></h1>
-                <p className="display-3 pt-4 mb-3">{content.heroTextScroll}</p>
+                <HomeLogo fill='#fff' className="mt-5 mb-5 homelogo"/>
+                <h1 className="display-2 mt-4 mb-0 text-dark uppercase">According to the Auditor General</h1>
+                <h1 className="display-1 mb-5 text-rust uppercase">70% of people held in Ontario jails are <span className="hero-em">legally innocent</span></h1>
+                <p className="display-3 pt-4 mb-3">Why?</p>
                 <p>
                   <Button variant="link" className="heartbeat mb-4" aria-label="Learn more">
                     <Link to="/#main">

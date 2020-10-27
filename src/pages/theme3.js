@@ -7,12 +7,12 @@ import Layout from "../components/layout"
 import Head from '../components/head'
 import IssuesHero from "../components/issues-hero"
 import MomentumTabs from "../components/issues-momentum"
-import ExplSecond from "../components/issues-expl-second"
+import ExplThird from "../components/issues-expl-third"
 
-const Issue2Page = () => {
+const Issue3Page = () => {
   const data = useStaticQuery(graphql `
     query {
-      issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
+      issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
         childImageSharp {
           fluid(quality: 75, maxWidth: 600) {
             ...GatsbyImageSharpFluid
@@ -22,7 +22,7 @@ const Issue2Page = () => {
       documents: allAirtable(
         filter: {
           data: { 
-            Momentum_Theme: { in : "Theme 2 - Deny Dignity & Rights" }
+            Momentum_Theme: { in : "Theme 3 - Culture built on Fear" }
             Publish__or_Start_Date_: { ne: null }
             Momentum_Annotation: { ne: null }
           }
@@ -41,7 +41,7 @@ const Issue2Page = () => {
         }
       }
       issueContent: allContentfulIssues (filter: {
-        issueName: {eq: "Denying Dignity and Basic Rights"}
+        issueName: {eq: "Culture of Fear"}
       })
       {
         edges {
@@ -72,10 +72,10 @@ const Issue2Page = () => {
 
   return (
     <Layout>
-      <Head title="Issues"/>
+      <Head title={"Theme: " + issueContents.issueName}/>
       <IssuesHero 
         issueName={ issueContents.issueName } 
-        issueImg={ data.issue2.childImageSharp.fluid }
+        issueImg={ data.issue3.childImageSharp.fluid }
         issueBlurb={ issueContents.issueBlurb }
         heroMomentum={ issueContents.heroMomentum.heroMomentum }
         heroOpportunity={ issueContents.heroOpportunity.heroOpportunity }
@@ -109,8 +109,8 @@ const Issue2Page = () => {
       <Row id="explanation" className="justify-content-center mx-0">
         <Col className="mt-5 mb-5" md="10">
           <h2 className="text-center uppercase text-rust">Explorable Explanation</h2>
-          <ExplSecond></ExplSecond>
         </Col>
+        <ExplThird></ExplThird>
       </Row>
 
       <Row id="sources" className="mt-5 mx-0 py-5 bg-pink justify-content-center">
@@ -147,4 +147,4 @@ const Issue2Page = () => {
   )
 }
 
-export default Issue2Page
+export default Issue3Page
