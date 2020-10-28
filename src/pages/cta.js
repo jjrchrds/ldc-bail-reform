@@ -139,29 +139,33 @@ const CTA = () => {
           </Col>
         </Row>
 
-        <Row className="justify-content-center mt-5 mb-3">
+        <Row className="justify-content-center mt-5 mb-2">
           <Col xl="10">
             <p className="text-rust display-4">{content.section4Title1}</p>
             {documentToReactComponents(content.section4Part1.json)}
           </Col>
         </Row>
-        <Row className="justify-content-center my-3">
-          <Col xl="8">
-            <h3 className="text-green text-center">{content.section4BigTitle}</h3>
+
+        <Row className="justify-content-center mt-3 mb-4">
+          <Col xl="8" lg="10">
+            <h3 className="text-green text-center" style={{lineHeight: "1"}}>{content.section4BigTitle}</h3>
           </Col>
         </Row>
+
         <Row className="justify-content-center my-3">
           <Col xl="10">
             <p className="text-rust display-4">{content.section4Title2}</p>
             {documentToReactComponents(content.section4Part2.json)}
           </Col>
         </Row>
+
         <Row className="justify-content-center my-3">
           <Col xl="10">
             <p className="text-rust display-4">{content.section4Title3}</p>
             {documentToReactComponents(content.section4Part3.json)}
           </Col>
         </Row>
+
         <Row className="justify-content-center my-3">
           <Col xl="10">
             {documentToReactComponents(content.section4Part4.json)}
