@@ -127,7 +127,7 @@ const CTA = () => {
           <Col xl="10">
             <p className="text-rust display-4">{content.dualCollageTitle}</p>
             <Row>
-              <Col xs="12" md="6">
+              <Col xs="12" md="6" className="mb-4">
                 {documentToReactComponents(content.collage2text.json)}
                 <Img className="mt-4" fluid={content.collage2.fluid} alt={content.collage2.description}/>
               </Col>
