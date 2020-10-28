@@ -2,7 +2,7 @@ import React from "react"
 import { Button, Modal } from "react-bootstrap"
 import { Link } from "gatsby"
 
-class BetaSticker extends React.Component {
+class HomeModal extends React.Component {
 
   render(){
     return (
@@ -13,16 +13,16 @@ class BetaSticker extends React.Component {
         enforceFocus={false}
         className="beta-sticker text-light">
         <Modal.Header closeButton>
-          <Modal.Title><h2>This is a beta!</h2></Modal.Title>
+          <Modal.Title><h2>{this.props.heading}</h2></Modal.Title>
         </Modal.Header>
 
         <Modal.Body >
-          <p className="display-4">We'd love your feedback, lorem ipsum dolor sit amet.</p>
+          <p className="display-4">{this.props.body}</p>
         </Modal.Body>
 
         <Modal.Footer className="justify-content-center">
           <Button as={Link} to="/cta" variant="pink" className="text-light">
-            <h4 className="uppercase">Get in Touch</h4>
+            <h4 className="uppercase">{this.props.button}</h4>
           </Button>
         </Modal.Footer>
       </Modal>
@@ -30,4 +30,4 @@ class BetaSticker extends React.Component {
   }
 }
 
-export default BetaSticker
+export default HomeModal

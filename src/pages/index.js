@@ -9,7 +9,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 /* Import Layout Components */
 import Layout from "../components/layout"
 import Head from "../components/head"
-import BetaSticker from "../components/beta-sticker"
+import HomeModal from "../components/home-modal"
 
 /* Import graphics */
 import HomeLogo from "../../static/assets/svg/logo_homepage.svg"
@@ -19,6 +19,13 @@ const IndexPage = () => {
 
   const data = useStaticQuery(graphql `
     query {
+      betaModal: allContentfulHomepageModal {
+        nodes {
+          heading
+          body
+          button
+        }
+      }
       homeContent: allContentfulHomePageTemplate {
         nodes {
           title
@@ -95,6 +102,7 @@ const IndexPage = () => {
   const [show, setShow] = React.useState(true);
   const handleClose = () => setShow(false);
   const content = data.homeContent.nodes[0];
+  const modal = data.betaModal.nodes[0];
 
   return (
     <Layout className="pt-5">
@@ -108,9 +116,12 @@ const IndexPage = () => {
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
           <Container className="mt-5 beta-sticker-wrap">
-            <BetaSticker
+            <HomeModal
               show={show}
-              handleClose={handleClose} />
+              handleClose={handleClose}
+              heading={modal.heading}
+              body={modal.body}
+              button={modal.button} />
               
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
