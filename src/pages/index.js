@@ -145,7 +145,7 @@ const IndexPage = () => {
                 <Card.Img src={content.card1Img.file.url} alt={content.card1Img.description} className="img-static"/>
                 <Card.Img src={content.card1Gif.file.url} alt={content.card1Img.description} className="img-gif"/>
                 <Card.Body>
-                  <Card.Title><h3 className="text-rust">The Bail System</h3></Card.Title>
+                  <Card.Title><h3 className="text-rust">{content.card1Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     {content.card1Leed}
                   </Card.Text>
@@ -156,29 +156,30 @@ const IndexPage = () => {
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
-              <Card className="bg-dark text-light text-left">
+              <Card className="text-left text-dark gif-card">
                 <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
                 <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white mb-0">{content.card2Title}</h3></Card.Title>
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">{content.card2Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     {content.card2Leed}
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/methodology">
-              <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white">{content.card3Title}</h3></Card.Title>
+              <Card className="text-left text-dark gif-card">
+                <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
+                <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">{content.card3Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
                     {content.card3Leed}
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
