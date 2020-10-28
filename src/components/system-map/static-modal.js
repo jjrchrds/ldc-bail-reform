@@ -65,7 +65,7 @@ const StaticModal = props => {
     if (isMobile) {
       return <div></div>;
     } else {
-      return <Img fluid={modalContent.node.stageImage.fluid}/>;
+      return <Col md="4"><Img fluid={modalContent.node.stageImage.fluid}/></Col>;
     }
   }
 
@@ -83,9 +83,7 @@ const StaticModal = props => {
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Col md="4">
               {displayModalImage(isMobile)}
-            </Col>
             <Col>
               <p className="static-modal__subtitle">Who's involved</p>
               {modalContent.node.characters.map(character => (
