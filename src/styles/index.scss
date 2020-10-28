@@ -119,6 +119,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // --- Modifying Layout Components ---------
+// For reducing spacing btw Contentful injections of rich-text list items
+li p {
+  margin-bottom: 0.5rem;
+}
+
 body.modal-open {
   overflow: auto !important;
 }
