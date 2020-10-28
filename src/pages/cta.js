@@ -129,11 +129,11 @@ const CTA = () => {
             <Row>
               <Col xs="12" md="6">
                 {documentToReactComponents(content.collage2text.json)}
-                <Img fluid={content.collage2.fluid} alt={content.collage2.description}/>
+                <Img className="mt-4" fluid={content.collage2.fluid} alt={content.collage2.description}/>
               </Col>
               <Col xs="12" md="6">
                 {documentToReactComponents(content.collage3text.json)}
-                <Img fluid={content.collage3.fluid} alt={content.collage3.description}/>
+                <Img className="mt-4" fluid={content.collage3.fluid} alt={content.collage3.description}/>
               </Col>
             </Row>
           </Col>
