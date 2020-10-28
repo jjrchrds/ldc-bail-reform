@@ -4,6 +4,8 @@ import { Modal, Button, Row, Col } from "react-bootstrap"
 import Img from "gatsby-image"
 import "./static-modal.scss"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import useDeviceDetect from "../useDeviceDetect"
+import NoMobile from "../NoMobile"
 
 // const StaticModal = ({data}) => {
 const StaticModal = props => {
@@ -56,7 +58,16 @@ const StaticModal = props => {
   )
 
   // let modalPosition = `${(window.innerHeight - 450) / 2}px`
-  
+
+  const { isMobile } = useDeviceDetect();
+
+  function displayModalImage(isMobile) {
+    if (isMobile) {
+      return <div></div>;
+    } else {
+      return <Col md="4"><Img fluid={modalContent.node.stageImage.fluid}/></Col>;
+    }
+  }
 
   if (modalContent) {
     return (
@@ -72,9 +83,7 @@ const StaticModal = props => {
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Col md="4">
-              <Img fluid={modalContent.node.stageImage.fluid} />
-            </Col>
+              {displayModalImage(isMobile)}
             <Col>
               <p className="static-modal__subtitle">Who's involved</p>
               {modalContent.node.characters.map(character => (

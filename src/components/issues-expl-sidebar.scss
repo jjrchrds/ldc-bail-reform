@@ -1,0 +1,5 @@
+.text-layer-1, .text-layer-2, .text-layer-3, .text-layer-4 {
+  @media only screen and (max-width: 768px) {
+    font-size: 0.9rem!important;
+  }
+}

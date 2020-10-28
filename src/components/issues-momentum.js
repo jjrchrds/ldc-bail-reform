@@ -24,20 +24,22 @@ class MomentumTabs extends React.Component {
         docsByTab[tempKey].docs.push(airtable[i].data);
       });
     }
+
+    // console.log(docsByTab);
+
     // Map objects to final results array
     const docsByTabArray = Object.keys(docsByTab).map(function(key) {
       return docsByTab[key];
     })
 
-    // Sort tabs in order
-    const docsByTabSorted = docsByTabArray.sort();
+    // console.log(docsByTabArray[0].docs[0].Image[0].url);
     
     return (
       <Row className="justify-content-center mt-3 mb-5 momentum">
         <Col lg="10" xl="8">
           <Tab.Container defaultActiveKey="0">
             <Row className="pl-1">
-                { docsByTabSorted.map((item, i) => (
+                { docsByTabArray.map((item, i) => (
                   <Nav key={ i } variant="link" className="flex momentum-tab-wrap px-1">
                     <Nav.Item className="momentum-tab">
                       <Nav.Link eventKey={ i } className="px-3 py-1">
@@ -49,7 +51,7 @@ class MomentumTabs extends React.Component {
             </Row>
 
             <Row className="pl-2 pr-2">
-              { docsByTabSorted.map((item, i) => (
+              { docsByTabArray.map((item, i) => (
                 <Tab.Content key={ i } className="momentum-pane px-4">
                   <Tab.Pane eventKey={ i }>
                     <Row className="no-gutters">
@@ -58,7 +60,7 @@ class MomentumTabs extends React.Component {
                           <Nav variant="link" className="pl-0 pt-0 pr-4">
                           {item.docs.map(function(doc, index) {
                             return (
-                            <Nav.Item key={ index } className="article-item">
+                            <Nav.Item key={ index } className="article-item" >
                               <Nav.Link eventKey={ index } className="article-heading align-items-center">
                                 { doc.Title }
                               </Nav.Link>

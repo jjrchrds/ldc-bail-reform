@@ -1,0 +1,17 @@
+.green-label {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+
+  &:before {
+    position: absolute;
+    z-index: -1;
+    content: '';
+    top: 0;
+    left: -5%;
+    height: 100%;
+    width: 110%;
+    background: #1D8673;
+    transform: rotate(-2deg);
+  }
+}
