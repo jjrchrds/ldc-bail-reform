@@ -74,7 +74,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             {/* meet kara - portrait img */}
             <Scene
               // indicators={true}
-              triggerHook={-.5}
+              triggerHook={0}
               duration={"150%"}
               pinSettings={{ pushFollowers: false }}
               pin
@@ -85,11 +85,10 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   handleBg('nathan');
                 }
                 return (
-                  <div className={`vh-100 character-01`}>
+                  <div className={`character-01 vh-100`}>
                     <Container className={`h-100 position-relative`}>
                       <Row className="h-100 d-flex align-items-end text-white">
-                        <Col lg={{ span: 6, offset: 6 }}>
-
+                        <Col lg={{ span: 6, offset: 6 }} className="h-100">
                           <img
                             // fluid={querySlideContent(narrativeContent, 1, 'image', richTextOptions)}
                             src="https://via.placeholder.com/500x600"
@@ -106,7 +105,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             {/* meet kara - text */}
             <Scene
               // indicators={true}
-              triggerHook={-1}
+              triggerHook={0}
               duration={"50%"}
               pin
             >
@@ -137,33 +136,42 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             >
               {(progress, event) => {
                 return (
-                  <div className={`vh-100 character-01`}>
+                  <div className={`vh-100 character-01 contacting-family`}>
                     <Container className={`h-100`}>
                       <Row className="h-100 d-flex justify-content-center align-items-center">
                         <Col lg="10" className="text-left">
-                          <Row className="d-flex justify-content-between mt-5">
+                          <Row className="d-flex justify-content-between mt-5 kara-contact-cards">
                             <Col className={`opacity-0 slide-from-top ${progress > .15 ? 'active opacity-1' : ''}`}>
 
                               <Card>
-                                <Card.Body className="px-3 py-2">
-                                  <p className="mb-0">Jason M.</p>
-                                  <p className="mb-0">905-555-2323</p>
+                                <Card.Body className="px-3 py-2 d-flex align-items-center">
+                                  <img src="https://via.placeholder.com/50x50" />
+                                  <div>
+                                    <p className="mb-0">Jason M.</p>
+                                    <p className="mb-0">905-555-2323</p>
+                                  </div>
                                 </Card.Body>
                               </Card>
                             </Col>
                             <Col className={`opacity-0 slide-from-top ${progress > .25 ? 'active opacity-1' : ''}`}>
                               <Card>
-                                <Card.Body className="px-3 py-2">
-                                  <p className="mb-0">Jason M.</p>
-                                  <p className="mb-0">905-555-2323</p>
+                                <Card.Body className="px-3 py-2 d-flex align-items-center">
+                                  <img src="https://via.placeholder.com/50x50" />
+                                  <div>
+                                    <p className="mb-0">Jason M.</p>
+                                    <p className="mb-0">905-555-2323</p>
+                                  </div>
                                 </Card.Body>
                               </Card>
                             </Col>
                             <Col className={`opacity-0 slide-from-top ${progress > .35 ? 'active opacity-1' : ''}`}>
                               <Card>
-                                <Card.Body className="px-3 py-2">
-                                  <p className="mb-0">Jason M.</p>
-                                  <p className="mb-0">905-555-2323</p>
+                                <Card.Body className="px-3 py-2 d-flex align-items-center">
+                                  <img src="https://via.placeholder.com/50x50" />
+                                  <div>
+                                    <p className="mb-0">Jason M.</p>
+                                    <p className="mb-0">905-555-2323</p>
+                                  </div>
                                 </Card.Body>
                               </Card>
                             </Col>
@@ -202,30 +210,36 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                             {querySlideContent(narrativeContent, 3, "body")}
                           </p>
                           <div className="text-center mt-5">
-                            <Button
-                              className="text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3" variant="pink"
-                              onClick={() => showModal(
-                                {
-                                  title:
-                                    queryModalContent(modalContent, 3, "heading", richTextOptions),
-                                  body:
-                                    queryModalContent(modalContent, 3, "body", richTextOptions)
-                                })}
-                            >
-                              <span>Buy Landline</span>
-                            </Button>
-                            <Button
-                              className="text-uppercase btn-stories btn-rotate-left text-white py-2" variant="pink"
-                              onClick={() => showModal(
-                                {
-                                  title:
-                                    queryModalContent(modalContent, 4, "heading", richTextOptions),
-                                  body:
-                                    queryModalContent(modalContent, 4, "body", richTextOptions)
-                                })}
-                            >
-                              <span>Call Amy</span>
-                            </Button>
+                            <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
+                              <Button
+                                className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`}
+                                variant="pink"
+                                onClick={() => showModal(
+                                  {
+                                    title:
+                                      queryModalContent(modalContent, 3, "heading", richTextOptions),
+                                    body:
+                                      queryModalContent(modalContent, 3, "body", richTextOptions)
+                                  })}
+                              >
+                                <span>Buy Landline</span>
+                              </Button>
+                            </div>
+                            <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
+                              <Button
+                                className={`text-uppercase btn-stories btn-rotate-left text-white py-2`}
+                                variant="pink"
+                                onClick={() => showModal(
+                                  {
+                                    title:
+                                      queryModalContent(modalContent, 4, "heading", richTextOptions),
+                                    body:
+                                      queryModalContent(modalContent, 4, "body", richTextOptions)
+                                  })}
+                              >
+                                <span>Call Amy</span>
+                              </Button>
+                            </div>
                           </div>
                         </Col>
                       </Row>
@@ -238,9 +252,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
 
             {/* life in jail  - lightbulb img */}
             <Scene
-              indicators={true}
-              triggerHook={-3}
-              duration={"50%"}
+              // indicators={true}
+              triggerHook={0}
+              duration={"150%"}
               pinSettings={{ pushFollowers: false }}
               pin
             >
@@ -251,7 +265,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                       <Row className="h-100 d-flex align-items-center text-white">
                         <Col className="text-center col-6 offset-6">
                           <img
-                            className={`img-fluid slide-from-left ${progress > 0 ? 'active' : ''}`}
+                            className={`img-fluid ${progress > 0 ? 'active' : ''}`}
                             // src={querySlideContent(
                             //   narrativeContent,
                             //   3,
@@ -268,13 +282,38 @@ const KaraComponent = ({ handleShow, handleBg }) => {
               }}
             </Scene>
 
-
-            {/* opportunity for bail */}
+            {/* life in jail - text */}
             <Scene
-              indicators={true}
+              // indicators={true}
               triggerHook={0}
               duration={"50%"}
-              // pinSettings={{ pushFollowers: false }}
+              pin
+            >
+              {(progress, event) => {
+                return (
+                  <div className={`vh-100 character-01`}>
+                    <Container className={`h-100`}>
+                      <Row className="h-100 d-flex align-items-center text-white">
+                        <Col md={{ span: 6, offset: 0 }}>
+                          <h1>
+                            {querySlideContent(narrativeContent, 4, "heading")}
+                          </h1>
+                          {querySlideContent(narrativeContent, 4, "body")}
+                        </Col>
+                      </Row>
+                    </Container>
+                  </div>
+                )
+              }}
+            </Scene>
+
+
+
+            {/* opportunity for bail - text */}
+            <Scene
+              // indicators={true}
+              triggerHook={0}
+              duration={"50%"}
               pin
             >
               {(progress, event) => {
@@ -299,17 +338,16 @@ const KaraComponent = ({ handleShow, handleBg }) => {
 
             {/* opportunity for bail - cards */}
             <Scene
-              indicators={true}
+              // indicators={true}
               triggerHook={0}
               duration={"50%"}
-              // pinSettings={{ pushFollowers: false }}
               pin
             >
               {(progress, event) => {
                 return (
-                  <div className={`vh-100`}>
-                    <Container className={`h-100`}>
-                      <Row className="justify-content-center">
+                  <div className={`vh-100 opportunity-for-bail`}>
+                    <Container className={`h-100 d-flex flex-column justify-content-center align-items-center`}>
+                      <Row className="justify-content-center align-items-center">
                         <Col className="d-flex flex-column align-items-center">
                           <Card className="kara-card monique">
                             <Card.Body className="kara-card-content">
@@ -396,10 +434,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
 
             {/* what happened next */}
             < Scene
-              indicators={true}
-              triggerHook={- 3}
+              // indicators={true}
+              triggerHook={0}
               duration={"50%"}
-              // pinSettings={{ pushFollowers: false }}
               pin
             >
               {(progress, event) => {

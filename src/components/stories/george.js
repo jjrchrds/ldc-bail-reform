@@ -77,7 +77,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* meet george - portrait */}
           <Scene
-            indicators={true}
+            // indicators={true}
             triggerHook={0}
             duration={"150%"}
             pinSettings={{ pushFollowers: false }}
@@ -92,13 +92,12 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 <div className={`vh-100`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
-                      <Col md={{ span: 6 }} className="h-100">
-                        <Img
-                          // src="./assets/george.png"
-                          fluid={querySlideContent(narrativeContent, 1, "image", richTextOptions)}
+                      <Col md={{ span: 6, offset: 0 }} className="h-100">
+                        <img
+                          src="https://via.placeholder.com/500x600"
+                          // fluid={querySlideContent(narrativeContent, 1, "image", richTextOptions)}
                           alt=""
-                          className={`george-ortrait-img img-fluid bottom-locked opacity-0 w-100 ${progress < .9 ? 'opacity-1' : ''}`}
-                          style={{ top: '20%' }}
+                          className={`img-fluid bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
                         />
                       </Col>
                     </Row>
@@ -110,10 +109,9 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* meet george - text */}
           <Scene
-            indicators={true}
+            // indicators={true}
             triggerHook={0}
             duration={"50%"}
-            // pinSettings={{ pushFollowers: false }}
             pin
           >
             {(progress, event) => {
@@ -136,10 +134,9 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* conditions */}
           <Scene
-            indicators={true}
+            // indicators={true}
             triggerHook={0}
             duration={"50%"}
-            // pinSettings={{ pushFollowers: false }}
             pin
           >
             {(progress, event) => {
@@ -169,9 +166,9 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* out on bail - keys img */}
           <Scene
-            indicators={true}
-            triggerHook={-3}
-            duration={"50%"}
+            // indicators={true}
+            triggerHook={0}
+            duration={"150%"}
             pinSettings={{ pushFollowers: false }}
             pin
           >
@@ -181,14 +178,15 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col className="text-center col-6 offset-6">
-                        <Img
+                        <img
                           className={`img-fluid slide-from-right ${progress > 0 ? 'active' : ''}`}
-                          fluid={querySlideContent(
-                            narrativeContent,
-                            3,
-                            "image",
-                            richTextOptions
-                          )}
+                          // fluid={querySlideContent(
+                          //   narrativeContent,
+                          //   3,
+                          //   "image",
+                          //   richTextOptions
+                          // )}
+                          src="https://via.placeholder.com/500x600"
                         />
                       </Col>
                     </Row>
@@ -200,15 +198,15 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* out on bail - text */}
           <Scene
-            indicators={true}
+            // indicators={true}
             triggerHook={0}
-            duration={"60vh"}
+            duration={"50%"}
             pin
           >
             {(progress, event) => {
               return (
                 <div>
-                  <Container className={`h-100`}>
+                  <Container className={`vh-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col className="text-left col-6">
                         <h1>
@@ -226,7 +224,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* working while on bail - watch img */}
           <Scene
-            indicators={true}
+            // indicators={true}
             triggerHook={0}
             duration={"50%"}
             pinSettings={{ pushFollowers: false }}
@@ -269,30 +267,35 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                         </h1>
                         {querySlideContent(narrativeContent, 4, "body", richTextOptions)}
                         <div className="d-flex justify-content-center">
-                          <Button
-                            onClick={() => showModal(
-                              {
-                                title:
-                                  queryModalContent(modalContent, 5, "heading", richTextOptions),
-                                body:
-                                  queryModalContent(modalContent, 5, "body", richTextOptions)
-                              })}
-                            className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3 slide-from-bottom ${progress > .1 ? 'active' : ''}`} variant="pink"
-                          >
-                            <span>Work</span>
-                          </Button>
-                          <Button
-                            onClick={() => showModal(
-                              {
-                                title:
-                                  queryModalContent(modalContent, 6, "heading", richTextOptions),
-                                body:
-                                  queryModalContent(modalContent, 6, "body", richTextOptions)
-                              })}
-                            className={`text-uppercase btn-stories btn-rotate-left text-white py-2 slide-from-bottom ${progress > .2 ? 'active' : ''}`} variant="pink"
-                          >
-                            <span>Go Home</span>
-                          </Button>
+                          <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
+                            <Button
+                              onClick={() => showModal(
+                                {
+                                  title:
+                                    queryModalContent(modalContent, 5, "heading", richTextOptions),
+                                  body:
+                                    queryModalContent(modalContent, 5, "body", richTextOptions)
+                                })}
+                              className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`} variant="pink"
+                            >
+
+                              <span>Work</span>
+                            </Button>
+                          </div>
+                          <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
+                            <Button
+                              onClick={() => showModal(
+                                {
+                                  title:
+                                    queryModalContent(modalContent, 6, "heading", richTextOptions),
+                                  body:
+                                    queryModalContent(modalContent, 6, "body", richTextOptions)
+                                })}
+                              className={`text-uppercase btn-stories btn-rotate-left text-white py-2 mr-3`} variant="pink"
+                            >
+                              <span>Go Home</span>
+                            </Button>
+                          </div>
                         </div>
                       </Col>
                     </Row>
@@ -314,14 +317,15 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 <div className={`vh-100 character-01`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex justify-content-center align-items-center text-white">
-                      <Col className="text-center h-100">
+                      <Col className="text-center h-100 d-flex align-items-center">
                         <img
-                          className={`h-100 ${progress > .1 ? 'active' : ''}`}
-                          src={querySlideContent(
-                            narrativeContent,
-                            5,
-                            "image"
-                          )}
+                          className={`img-fluid ${progress > .1 ? 'active' : ''}`}
+                          // src={querySlideContent(
+                          //   narrativeContent,
+                          //   5,
+                          //   "image"
+                          // )}
+                          src="http://via.placeholder.com/500x600"
                         />
                       </Col>
                       <Col lg="7" className="text-left">
@@ -340,10 +344,9 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
 
           {/* what happened next */}
           < Scene
-            indicators={true}
-            triggerHook={- 3}
+            // indicators={true}
+            triggerHook={0}
             duration={"50%"}
-            // pinSettings={{ pushFollowers: false }}
             pin
           >
             {(progress, event) => {
