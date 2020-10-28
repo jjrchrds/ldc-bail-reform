@@ -18,7 +18,7 @@ class Header extends React.Component {
             <Nav className="ml-auto">
               <Nav.Link as={Link} activeClassName="active" to="/narrative">Stories</Nav.Link>
               <Nav.Link as={Link} activeClassName="active" to="/system-map">System Map</Nav.Link>
-              <NavDropdown title="Themes" className="nav-dropdown" variant="dark" activeClassName="active">
+              <NavDropdown title="Explanations" className="nav-dropdown" variant="dark" activeClassName="active">
                 <NavDropdown.Item href="/theme1">Damaging Lives</NavDropdown.Item>
                 <NavDropdown.Item href="/theme2">Denying Dignity</NavDropdown.Item>
                 <NavDropdown.Item href="/theme3">Culture of Fear</NavDropdown.Item>
