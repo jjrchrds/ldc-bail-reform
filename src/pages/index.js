@@ -62,17 +62,6 @@ const IndexPage = () => {
           }
           card3Title
           card3Leed
-          card3Gif {
-            file {
-              url
-            }
-          }
-          card3Img {
-            description
-            file {
-              url
-            }
-          }
           themesHeadline
           themesBlurb {
             json
@@ -106,19 +95,6 @@ const IndexPage = () => {
   const [show, setShow] = React.useState(true);
   const handleClose = () => setShow(false);
   const content = data.homeContent.nodes[0];
-
-  // Switch card img to animated GIF on hover
-  const imgs = [content.card1Img.file.url, content.card2Img.file.url, content.card3Img.file.url]
-  const gifs = [content.card1Gif.file.url, content.card2Gif.file.url, content.card3Gif.file.url]
-
-  const startGif = (cardNum) => {
-    this.src = imgs[cardNum]
-  }
-
-  const stopGif = (cardNum) => {
-    this.src = gifs[cardNum]
-  }
-
 
   return (
     <Layout className="pt-5">
@@ -165,8 +141,9 @@ const IndexPage = () => {
         <Row className="justify-content-between mb-5 pb-5">
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
-              <Card className="text-left text-dark">
-                <Card.Img src={imgs[0]} alt={content.card1Img.description} onMouseEnter={this.startGif(1)} onMouseLeave={this.stopGif(1)} />
+              <Card className="text-left text-dark gif-card">
+                <Card.Img src={content.card1Img.file.url} alt={content.card1Img.description} className="img-static"/>
+                <Card.Img src={content.card1Gif.file.url} alt={content.card1Img.description} className="img-gif"/>
                 <Card.Body>
                   <Card.Title><h3 className="text-rust">The Bail System</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
@@ -180,7 +157,8 @@ const IndexPage = () => {
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
               <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image"/>
+                <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
+                <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
                 <Card.ImgOverlay className="align-contents-bottom bg-dark">
                   <Card.Title><h3 className="text-white mb-0">{content.card2Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
