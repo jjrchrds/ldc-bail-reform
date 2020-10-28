@@ -321,4 +321,22 @@ a.dropdown-item {
   }
 }
 
+// Animating card GIFs on hover
+.gif-card {
+  .img-static {
+    display: block;
+  }
+  .img-gif {
+    display: none;
+  }
+  &:hover {
+    .img-static {
+      display: none;
+    }
+    .img-gif {
+      display: block;
+    }
+  }
+}
+
 // --- End Homepage Styling ---------
