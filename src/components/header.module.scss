@@ -27,6 +27,13 @@
         transform: rotate(-2deg);
         transition: background-color 200ms ease-out;
     }
+
+    &.active {
+      color: #1D8673;
+      &:before {
+        background: white;
+      }
+    }
 }
 
 .ctaHover {
