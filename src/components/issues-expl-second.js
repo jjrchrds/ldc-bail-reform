@@ -439,6 +439,8 @@ class ExplSecond extends Component {
         <TurnDeviceModal
           show={this.state.showMobileModal}
           onHide={this.onHide}
+          orientationBlocked="landscape"
+          orientationGood="portrait"
         />
       </Container>
     )

@@ -8,7 +8,6 @@ import * as D3 from "d3"
 // import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
 import svgSystemMap from "../../static/assets/system-map/SM_oct26_good.svg"
 
-import turnPhoneImg from "../../static/assets/system-map/turnPhone.png"
 import BottomButtons from "../components/bottom-buttons"
 import TurnDeviceModal from "../components/turn-device-modal"
 import StaticModal from "../components/system-map/static-modal"
@@ -546,6 +545,8 @@ console.log("now exiting" + index)
         <TurnDeviceModal
           show={this.state.showMobileModal}
           onHide={this.onHide}
+          orientationBlocked="portrait"
+          orientationGood="landscape"
         />
 
         <StaticModal
