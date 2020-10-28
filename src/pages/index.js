@@ -133,7 +133,7 @@ const IndexPage = () => {
 
       <Container>
         <Row id="main" className="justify-content-md-center pt-5 mb-4">
-          <Col className="mt-4 display-4" md="10">
+          <Col className="mt-4" md="10">
             {documentToReactComponents(content.subheroIntroText.json)}
           </Col>
         </Row>
