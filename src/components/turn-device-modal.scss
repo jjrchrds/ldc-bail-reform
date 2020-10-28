@@ -1,7 +1,8 @@
-// Test: font smoothing for firefox
-// body {
-//   -moz-osx-font-smoothing: grayscale;
-//   -webkit-font-smoothing: antialiased;
-//   font-smoothing: antialiased;
-// }
+.turn-device-img-wrapper {
+    text-align: center;
+}
 
+#turn-device-img {
+    width: 150px;
+    margin-top: 16px;
+}

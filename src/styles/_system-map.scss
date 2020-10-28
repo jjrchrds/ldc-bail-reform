@@ -192,10 +192,7 @@
       min-height: 220px;
     }
     @include media-breakpoint-up(lg) {
-      min-height: 220px;
-    }
-    @include media-breakpoint-up(xl) {
-      min-height: 195px;
+      min-height: 225px;
     }
   }
 }
