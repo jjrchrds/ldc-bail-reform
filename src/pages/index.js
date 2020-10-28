@@ -4,11 +4,12 @@ import { Link, useStaticQuery, graphql } from "gatsby"
 import { Row, Col, Jumbotron, Button, Container, Card } from "react-bootstrap"
 import Img from "gatsby-image"
 import BackgroundImage from "gatsby-background-image"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 /* Import Layout Components */
 import Layout from "../components/layout"
 import Head from "../components/head"
-import BetaSticker from "../components/beta-sticker"
+import HomeModal from "../components/home-modal"
 
 /* Import graphics */
 import HomeLogo from "../../static/assets/svg/logo_homepage.svg"
@@ -18,32 +19,81 @@ const IndexPage = () => {
 
   const data = useStaticQuery(graphql `
     query {
-      homeHero: file(relativePath: { eq: "images/home_hero.png" }) {
-        childImageSharp {
-          fluid(quality: 90, maxWidth: 2000) {
-            ...GatsbyImageSharpFluid
-          }
+      betaModal: allContentfulHomepageModal {
+        nodes {
+          heading
+          body
+          button
         }
       }
-      issue1: file(relativePath: { eq: "images/issue1.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
+      homeContent: allContentfulHomePageTemplate {
+        nodes {
+          title
+          heroImage {
+            fluid(quality: 90, maxWidth: 2000) {
+              ...GatsbyContentfulFluid
+            }
           }
-        }
-      }
-      issue2: file(relativePath: { eq: "images/issue2.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
+          heroTextTop
+          heroTextMid
+          heroTextEmphasis
+          heroTextScroll
+          subheroIntroText {
+            json
           }
-        }
-      }
-      issue3: file(relativePath: { eq: "images/issue3.jpg" }) {
-        childImageSharp {
-          fluid(quality: 100, maxWidth: 350) {
-            ...GatsbyImageSharpFluid
+          card1Title
+          card1Leed
+          card1Gif {
+            file {
+              url
+            }
           }
+          card1Img {
+            description
+            file {
+              url
+            }
+          }
+          card2Title
+          card2Leed
+          card2Gif {
+            file {
+              url
+            }
+          }
+          card2Img {
+            description
+            file {
+              url
+            }
+          }
+          card3Title
+          card3Leed
+          themesHeadline
+          themesBlurb {
+            json
+          }
+          theme1Img {
+            title
+            fluid(quality: 100, maxWidth: 350) {
+              ...GatsbyContentfulFluid
+            }
+          }
+          theme1ImgAlt
+          theme2Img {
+            title
+            fluid(quality: 100, maxWidth: 350) {
+              ...GatsbyContentfulFluid
+            }
+          }
+          theme2ImgAlt
+          theme3Img {
+            title
+            fluid(quality: 100, maxWidth: 350) {
+              ...GatsbyContentfulFluid
+            }
+          }
+          theme3ImgAlt
         }
       }
     }
@@ -51,26 +101,31 @@ const IndexPage = () => {
 
   const [show, setShow] = React.useState(true);
   const handleClose = () => setShow(false);
+  const content = data.homeContent.nodes[0];
+  const modal = data.betaModal.nodes[0];
 
   return (
     <Layout className="pt-5">
-      <Head title="Home" />
+      <Head title={content.title} />
 
       <Jumbotron className="hero" fluid>
         <BackgroundImage
           className="hero-img"
-          fluid={data.homeHero.childImageSharp.fluid}
+          fluid={content.heroImage.fluid}
           backgroundColor={`#F08FDB`}
           alt="A jail cell overlaid with a stylized pink dot pattern"
         >
           <Container className="mt-5 beta-sticker-wrap">
-            <BetaSticker
+            <HomeModal
               show={show}
-              handleClose={handleClose} />
+              handleClose={handleClose}
+              heading={modal.heading}
+              body={modal.body}
+              button={modal.button} />
               
             <Row className="justify-content-center">   
               <Col md="10" className="text-center">
-                <HomeLogo width={400} fill='#fff' className="mt-5 mb-5"/>
+                <HomeLogo fill='#fff' className="mt-5 mb-5 homelogo"/>
                 <h1 className="display-2 mt-4 mb-0 text-dark uppercase">According to the Auditor General</h1>
                 <h1 className="display-1 mb-5 text-rust uppercase">70% of people held in Ontario jails are <span className="hero-em">legally innocent</span></h1>
                 <p className="display-3 pt-4 mb-3">Why?</p>
@@ -90,50 +145,52 @@ const IndexPage = () => {
       <Container>
         <Row id="main" className="justify-content-md-center pt-5 mb-4">
           <Col className="mt-4" md="10">
-            <p className="display-4"><b>If we have a bail system that is supposed to release people from jail, with the assurance that they show up for trial, and they aren’t a risk to public safety, then why does this issue exist?</b></p>
-            <p className="display-4">We’ve created some resources to try and help you answer this question:</p>
+            {documentToReactComponents(content.subheroIntroText.json)}
           </Col>
         </Row>
 
         <Row className="justify-content-between mb-5 pb-5">
           <Col sm="12" md="4" className="text-center">
             <Link to="/system-map">
-              <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white">The Bail System</h3></Card.Title>
+              <Card className="text-left text-dark gif-card">
+                <Card.Img src={content.card1Img.file.url} alt={content.card1Img.description} className="img-static"/>
+                <Card.Img src={content.card1Gif.file.url} alt={content.card1Img.description} className="img-gif"/>
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">{content.card1Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
-                    How bail is supposed to work and when it doesn’t.
+                    {content.card1Leed}
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/narrative">
-              <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white mb-0">The Human Experience</h3></Card.Title>
+              <Card className="text-left text-dark gif-card">
+                <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
+                <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">{content.card2Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
-                    Hear stories about the human cost of bail.
+                    {content.card2Leed}
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
 
           <Col sm="12" md="4" className="text-center">
             <Link to="/methodology">
-              <Card className="bg-dark text-light text-left">
-                <Card.Img src="https://placehold.it/400x400" alt="Card image" />
-                <Card.ImgOverlay className="align-contents-bottom bg-dark">
-                  <Card.Title><h3 className="text-white">Timeline</h3></Card.Title>
+              <Card className="text-left text-dark gif-card">
+                <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
+                <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
+                <Card.Body>
+                  <Card.Title><h3 className="text-rust">{content.card3Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
-                    The human cost of bail.
+                    {content.card3Leed}
                   </Card.Text>
-                </Card.ImgOverlay>
+                </Card.Body>
               </Card>
             </Link>
           </Col>
@@ -141,25 +198,25 @@ const IndexPage = () => {
 
         <Row className="justify-content-md-center mb-4 text-center">
           <Col sm="12" md="10">
-            <h2 className="uppercase text-dark">Why are innocent people in jail?</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada eget sit rhoncus sagittis. Sollicitudin in nisl, congue posuere nullam ut scelerisque. Suscipit elementum vitae laoreet dignissim. Id blandit neque est, non habitant. Nunc cras congue purus dolor facilisi. Non tempus diam condimentum mattis morbi nisl vel, ultrices.</p>
+            <h2 className="uppercase text-dark">{content.themesHeadline}</h2>
+            {documentToReactComponents(content.themesBlurb.json)}
           </Col>
         </Row>
 
         <Row className="justify-content-md-center mb-5 pb-5">
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue1" aria-label="How the bail system worsens the lives of marginalized people">
-              <Img fluid={data.issue1.childImageSharp.fluid} className="mb-4" alt="Worsening the Lives of Marginalized people"/>
+            <Link to="theme1" aria-label={content.theme1ImgAlt}>
+              <Img fluid={content.theme1Img.fluid} className="mb-4" alt={content.theme1ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue2" aria-label="How the bail system denies dignity and basic rights">
-              <Img fluid={data.issue2.childImageSharp.fluid} className="mb-4" alt="Denying Basic Dignity &amp; Rights"/>
+            <Link to="theme2" aria-label={content.theme2ImgAlt}>
+              <Img fluid={content.theme2Img.fluid} className="mb-4" alt={content.theme2ImgAlt}/>
             </Link>
           </Col>
           <Col xs="12" md="4" className="text-center">
-            <Link to="issue3" aria-label="How the bail system relies on a culture built on fear">
-              <Img fluid={data.issue3.childImageSharp.fluid} className="mb-4" alt="Culture Built on Fear"/>
+            <Link to="theme3" aria-label={content.theme3ImgAlt}>
+              <Img fluid={content.theme3Img.fluid}  className="mb-4" alt={content.theme3ImgAlt}/>
             </Link>
           </Col>
         </Row>

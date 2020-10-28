@@ -52,6 +52,7 @@
 @import "system-map";
 @import "issues";
 @import "stories";
+@import "cta";
 
 // --- Debug CSS ---
 // .display-1 {
@@ -118,49 +119,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.beta-sticker-wrap {
-  position: relative;
-}
-
-.beta-sticker {
-  position: absolute;
-  width: 392px;
-  top: 3.5rem;
-  left: 5%;
-  padding: 1rem;
-  -moz-transform: rotate(1.33deg);
-  -webkit-transform: rotate(1.33deg);
-  -o-transform: rotate(1.33deg);
-  -ms-transform: rotate(1.33deg);
-  transform: rotate(1.33deg);
-
-  &.modal {
-    z-index: 1;
-  }
-  
-  .modal-content, .modal-header, .modal-footer {
-    border-radius: 0;
-    border: none;
-    background: $green;
-  }
-
-  .modal-header {
-    padding: 0.5rem 1rem 0;
-  }
-
-  .modal-body {
-    padding: 0.25rem 1rem;
-    top: -1px;
-  }
-
-  .modal-footer {
-    padding-top: 0;
-    top: -2px;
-  }
-  
-}
-
 // --- Modifying Layout Components ---------
+// For reducing spacing btw Contentful injections of rich-text list items
+li p {
+  margin-bottom: 0.5rem;
+}
+
 body.modal-open {
   overflow: auto !important;
 }
@@ -258,6 +222,10 @@ a.dropdown-item {
 
 // --- Homepage Styling ---------
 
+.homelogo {
+  max-width: 400px;
+}
+
 // New styling for jumbotron
 .hero {
   background-color: $light;
@@ -284,6 +252,100 @@ a.dropdown-item {
     z-index: -1;
   }
 }
+
+// Beta Sticker
+.beta-sticker-wrap {
+  position: relative;
+}
+
+.beta-sticker {
+  position: absolute;
+  width: 392px;
+  top: 3.5rem;
+  left: 5%;
+  padding: 1rem;
+  -moz-transform: rotate(1.33deg);
+  -webkit-transform: rotate(1.33deg);
+  -o-transform: rotate(1.33deg);
+  -ms-transform: rotate(1.33deg);
+  transform: rotate(1.33deg);
+
+  &.modal {
+      z-index: 1;
+    }
+    
+    .modal-content, .modal-header, .modal-footer {
+      border-radius: 0;
+      border: none;
+      background: $green;
+    }
+
+    .modal-header {
+      padding: 0.5rem 1rem 0;
+    }
+
+    .modal-body {
+      padding: 0.25rem 1rem;
+      top: -1px;
+    }
+
+    .modal-footer {
+      padding-top: 0;
+      top: -2px;
+    }
+}
+
+// Responsive styling for Beta Sticker
+@media screen and (max-width: 1000px) {
+  .beta-sticker-wrap {
+    position: none;
+  }
+
+  .beta-sticker {
+    position: absolute;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    padding: 0;
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+    width: 100%;
+
+    .modal-dialog {
+      position: absolute;
+      bottom: 0;
+      max-width: none;
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .modal-footer {
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+// Animating card GIFs on hover
+.gif-card {
+  .img-static {
+    display: block;
+  }
+  .img-gif {
+    display: none;
+  }
+  &:hover {
+    .img-static {
+      display: none;
+    }
+    .img-gif {
+      display: block;
+    }
+  }
+}
+
 // --- End Homepage Styling ---------
 
 
