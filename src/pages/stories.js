@@ -157,7 +157,7 @@ const StoriesPage = ({data}) => {
         </Controller>
         <NathanComponent handleShow={handleShow} handleBg={updateBackground}/>
         <KaraComponent handleShow={handleShow} handleBg={updateBackground}/>
-        <GeorgeComponent/>
+        <GeorgeComponent handleShow={handleShow} handleBg={updateBackground}/>
       </section>
     </Layout>
   )

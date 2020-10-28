@@ -25,7 +25,7 @@ export const querySlideContent = (query, slideNumber, queryType, richTextOptions
       )
     case "image":
       return query.filter(edge => edge.node.slideNumber === slideNumber)[0]
-        .node.slideImage.fluid.src
+        .node.slideImage.fluid
     default:
     //no default
   }

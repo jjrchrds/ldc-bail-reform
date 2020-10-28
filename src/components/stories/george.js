@@ -4,9 +4,10 @@ import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button } from "react-bootstrap"
 import { querySlideContent, queryModalContent } from './common'
 import { BLOCKS } from "@contentful/rich-text-types"
+import Img from 'gatsby-image'
 
 
-const GeorgeComponent = ({ handleShow }) => (
+const GeorgeComponent = ({ handleShow, handleBg }) => (
   <StaticQuery
     query={graphql`
           query GeorgeSlideQuery {
@@ -57,7 +58,6 @@ const GeorgeComponent = ({ handleShow }) => (
       const ListItem = ({ children }) => <li>{children}</li>
       const UnorderedList = ({ children }) => <ul className="x">{children}</ul>
       const OrderedList = ({ children }) => <ol>{children}</ol>
-
       const richTextOptions = {
         renderNode: {
           [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
@@ -84,15 +84,20 @@ const GeorgeComponent = ({ handleShow }) => (
             pin
           >
             {(progress, event) => {
+              if (event.scrollDirection === "REVERSE" && event.type === "leave") {
+                // console.log(event.type);
+                handleBg('kara');
+              }
               return (
                 <div className={`vh-100`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col md={{ span: 6 }} className="h-100">
-                        <img
-                          src="./assets/george.png"
+                        <Img
+                          // src="./assets/george.png"
+                          fluid={querySlideContent(narrativeContent, 1, "image", richTextOptions)}
                           alt=""
-                          className={`george-ortrait-img img-fluid bottom-locked opacity-0 h-100 ${progress < .9 ? 'opacity-1' : ''}`}
+                          className={`george-ortrait-img img-fluid bottom-locked opacity-0 w-100 ${progress < .9 ? 'opacity-1' : ''}`}
                           style={{ top: '20%' }}
                         />
                       </Col>
@@ -176,9 +181,9 @@ const GeorgeComponent = ({ handleShow }) => (
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col className="text-center col-6 offset-6">
-                        <img
-                          className={`img-fluid slide-from-left ${progress > 0 ? 'active' : ''}`}
-                          src={querySlideContent(
+                        <Img
+                          className={`img-fluid slide-from-right ${progress > 0 ? 'active' : ''}`}
+                          fluid={querySlideContent(
                             narrativeContent,
                             3,
                             "image",
@@ -235,7 +240,8 @@ const GeorgeComponent = ({ handleShow }) => (
                       <Col className="text-center col-6 offset-6">
                         <img
                           className={`img-fluid slide-from-left w-100 ${progress > 0 ? 'active' : ''}`}
-                          src="./assets/watch.png"
+                          // src="./assets/watch.png"
+                          src="https://via.placeholder.com/500x300"
                         />
                       </Col>
                     </Row>
@@ -265,20 +271,24 @@ const GeorgeComponent = ({ handleShow }) => (
                         <div className="d-flex justify-content-center">
                           <Button
                             onClick={() => showModal(
-                              { title: 
-                                queryModalContent(modalContent, 5, "heading", richTextOptions), 
-                                body: 
-                                queryModalContent(modalContent, 5, "body", richTextOptions) })}
+                              {
+                                title:
+                                  queryModalContent(modalContent, 5, "heading", richTextOptions),
+                                body:
+                                  queryModalContent(modalContent, 5, "body", richTextOptions)
+                              })}
                             className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3 slide-from-bottom ${progress > .1 ? 'active' : ''}`} variant="pink"
                           >
                             <span>Work</span>
                           </Button>
                           <Button
                             onClick={() => showModal(
-                              { title: 
-                                queryModalContent(modalContent, 6, "heading", richTextOptions), 
-                                body: 
-                                queryModalContent(modalContent, 6, "body", richTextOptions) })}
+                              {
+                                title:
+                                  queryModalContent(modalContent, 6, "heading", richTextOptions),
+                                body:
+                                  queryModalContent(modalContent, 6, "body", richTextOptions)
+                              })}
                             className={`text-uppercase btn-stories btn-rotate-left text-white py-2 slide-from-bottom ${progress > .2 ? 'active' : ''}`} variant="pink"
                           >
                             <span>Go Home</span>
@@ -304,9 +314,9 @@ const GeorgeComponent = ({ handleShow }) => (
                 <div className={`vh-100 character-01`}>
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex justify-content-center align-items-center text-white">
-                      <Col className="text-center">
+                      <Col className="text-center h-100">
                         <img
-                          className={`ringing ${progress > .1 ? 'active' : ''}`}
+                          className={`h-100 ${progress > .1 ? 'active' : ''}`}
                           src={querySlideContent(
                             narrativeContent,
                             5,
