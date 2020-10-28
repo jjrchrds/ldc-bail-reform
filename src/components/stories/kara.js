@@ -4,7 +4,7 @@ import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button, Card} from "react-bootstrap"
 
 
-const KaraComponent = () => {
+const KaraComponent = ({handleShow, handleBg}) => {
 
   return (
     <Controller>
@@ -17,6 +17,8 @@ const KaraComponent = () => {
           pin
         >
           {(progress, event) => {
+            
+
             return (
             <div className={`vh-100 character-01`}>
               <Container className={`h-100 position-relative`}>

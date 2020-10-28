@@ -27,16 +27,31 @@ const StoriesPage = ({data}) => {
     progress.current.innerHTML = value;
   }
 
-  const updateBackground = (id) => {
-    const activeId = 'bg-' + id;
-    const backgrounds = bgs.current.querySelectorAll('.bg-cover');
+  const updateBackground = ( id ) => {
+    // console.log('update bg called' + id);
+    const activeId = 'bg-'+id;
+    const activeBg = bgs.current.querySelectorAll('.bg-character.opacity-1');
+    console.log("current: " + activeBg[0].id + ", new: " + activeId)
+    if ( activeBg[0].id === activeId) {
+      return;
+    }
+    
+    const backgrounds = bgs.current.querySelectorAll('.bg-character');
+    const newZIndex = parseInt(activeBg[0].style.zIndex) ? parseInt(activeBg[0].style.zIndex) + 1 : 1;
+
+    console.log(newZIndex)
+
     backgrounds.forEach(background => {
-
-      background.classList.remove('bg-active');
+      
       if (background.id === activeId) {
-        background.classList.add('bg-active');
+        background.classList.add('opacity-1');
+        background.style.zIndex = newZIndex;
+      } else {
+        setTimeout(function(){
+          background.classList.remove('opacity-1');
+        }, 1000)
       }
-
+      
     })
   }
 
@@ -99,17 +114,24 @@ const StoriesPage = ({data}) => {
 
       <section className="stories">
         <div ref={ bgs } className="bgs position-fixed">
-          <div className="bg-cover bg-gradient position-fixed"/>
-          { data.allContentfulNarrativePageBackground.edges.map((item, index) => (
-            <BackgroundImage
-              key={`bg-${index}`} 
-              id={`bg-${ slugify(item.node.pageTitle)}`}
-              Tag="section"
-              className={'position-absolute bg-cover'}
-              fluid={item.node.backgroundImage.fluid}
-              backgroundColor={`#040e18`}
-            />
-          ))}
+          <div className="bg-cover bg-gradient position-fixed opacity-1"/>
+          { data.allContentfulNarrativePageBackground.edges.map((item, index) => {
+            const id = `bg-${ slugify(item.node.pageTitle)}`;
+            console.log(id);
+
+            return(
+              <BackgroundImage
+                key={`bg-${index}`} 
+                id={id}
+                Tag="section"
+                className={`position-absolute bg-cover bg-character ${ id === "bg-nathan" ? 'opacity-1' : ''}`}
+                fluid={item.node.backgroundImage.fluid}
+                backgroundColor={`#111`}
+                preserveStackingContext={true}
+              />
+            )
+          })}
+          
         </div>
 
         <Controller>
@@ -133,9 +155,9 @@ const StoriesPage = ({data}) => {
           </Scene>
         
         </Controller>
-        <NathanComponent handleShow={handleShow}/>
-        <KaraComponent/>
-        <GeorgeComponent handleShow={handleShow}/>
+        <NathanComponent handleShow={handleShow} handleBg={updateBackground}/>
+        <KaraComponent handleShow={handleShow} handleBg={updateBackground}/>
+        <GeorgeComponent/>
       </section>
     </Layout>
   )

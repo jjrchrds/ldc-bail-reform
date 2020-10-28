@@ -1,24 +1,25 @@
+.stories {
+  background: black;
+}
 .bg-cover {
   width: 100vw;
   height: 100vh;
 }
 
+.bg-character {
+  transition: opacity .5s ease-in-out;
+  opacity: 0;
+}
+
 .bg-gradient {
   bottom: 0;
-  z-index: 20;
+  z-index: 60;
   background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0, 1));
 }
 
 .bg-active {
   z-index: 10;
 }
-
-//scrollmagic
-// .scrollmagic-pin-spacer {
-  // height: 2vh !important;
-  // min-height: 2vh !important;
-  // padding-top: 2vh !important;
-// }
 
 //transitions
 .opacity-0 {
