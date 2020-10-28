@@ -76,6 +76,9 @@ Full documentation for Gatsby lives [on the website](https://www.gatsbyjs.org/).
 
 - **To dive straight into code samples, head [to our documentation](https://www.gatsbyjs.org/docs/).** In particular, check out the _Guides_, _API Reference_, and _Advanced Tutorials_ sections in the sidebar.
 
+## Interactions
+1. https://www.npmjs.com/package/react-scrollmagic is used for Stories
+
 ## 💫 Deploy
 to deploy to netlify, push to master branch
 ```shell

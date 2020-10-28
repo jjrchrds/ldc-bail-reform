@@ -50,6 +50,7 @@
     "react-router-hash-link": "^2.1.0",
     "react-scroll-parallax": "^2.3.4",
     "react-scrollama": "^2.2.12",
+    "react-scrollmagic": "^2.2.0",
     "scrollama": "^2.2.1",
     "smooth-scroll": "^16.1.3"
   },

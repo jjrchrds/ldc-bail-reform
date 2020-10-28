@@ -297,12 +297,24 @@
   }
 }
 
-.btn-rotate {
-  transform: rotate(-4deg);
+.btn-rotate-left {
+  transform: rotate(-3deg);
   span {
     display: inline-block;
-    transform: rotate(4deg);
+    transform: rotate(3deg);
   }
+}
+.btn-rotate-right {
+  transform: rotate(3deg);
+  span {
+    display: inline-block;
+    transform: rotate(-3deg);
+  }
+}
+
+.btn-stories {
+  width: 10rem;
+  font-size: 2rem;
 }
 
 .category-indicator {
