@@ -6,7 +6,6 @@ import { Controller, Scene } from 'react-scrollmagic';
 import BackgroundImage from 'gatsby-background-image'
 import { slugify } from "../libs/helpers"
 import { Container, Row, Button, Col, Modal } from "react-bootstrap"
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 import NathanComponent from "../components/stories/nathan"
 import KaraComponent from "../components/stories/kara"
@@ -59,18 +58,6 @@ const StoriesPage = ({data}) => {
       slideData.push(slide);
     })
   });
-
-  //set up documentToReact options
-  const options = {
-    renderNode: {
-      "embedded-asset-block": (node) => {
-        const alt = node.data.target.fields.title["en-US"];
-        const url = node.data.target.fields.file["en-US"].url;
-        console.log(node);
-        return <img src={ url } className="img-fluid mb-3" alt={ alt } />;
-      },
-    }
-  }
 
   const [show, setShow] = useState(false);
   const [modalContent, setModalContent] = useState({

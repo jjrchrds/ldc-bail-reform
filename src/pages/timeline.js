@@ -6,10 +6,27 @@ import { graphql } from "gatsby"
 import { Container, Row, Col, Button, Carousel, Modal } from "react-bootstrap"
 
 import { slugify, dateFormat, chunkArray} from "../libs/helpers";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+
 
 import Fade from 'react-reveal/Fade';
 
 const MethodologyPage = ({data}) => {
+
+  const pageContent = data.allContentfulTimelinePageTemplate.edges[0].node;
+  
+    //set up documentToReact options
+    const options = {
+      renderNode: {
+        "embedded-asset-block": (node) => {
+          const alt = node.data.target.fields.title["en-US"];
+          const url = node.data.target.fields.file["en-US"].url;
+          console.log(node);
+          return <img src={ url } className="img-fluid mb-3" alt={ alt } />;
+        },
+      }
+    }
+
   //Preview Modal
   const [ showPreviewModal, setShowPreviewModal ] = useState(false);
   const [ isPreview, setIsPreview ] = useState(false);
@@ -339,7 +356,7 @@ const MethodologyPage = ({data}) => {
 
   return (
     <Layout>
-      <Head title="Methodology"/>
+      <Head title={ pageContent.title } />
 
       <Modal
         ref={documentModal}
@@ -509,8 +526,8 @@ const MethodologyPage = ({data}) => {
       <Container className="my-5 pt-4 pt-lg-5">
         <Row className="justify-content-center">
           <Col md="8">
-            <h1 className="text-rust text-center">LOREM IPSUM DOLOR SIT</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem commodo at rhoncus, vitae. Consequat, condimentum convallis nisl hac. Et a, sed suscipit egestas fringilla. Eu non tristique facilisi fringilla facilisi arcu urna sociis nibh. Volutpat gravida tincidunt ut venenatis egestas in tellus.</p>
+            <h1 className="text-rust text-center"> { pageContent.introHeading }</h1>
+            {documentToReactComponents(pageContent.introCopy.json, options) }
             <p className="d-lg-none">Click on a year to access the resources!</p>
           </Col>
         </Row>
@@ -665,6 +682,18 @@ export default MethodologyPage
 
 export const query = graphql`
 query {
+  allContentfulTimelinePageTemplate {
+    edges {
+      node {
+        title
+        introHeading
+        introCopy {
+          json
+        }
+      }
+    }
+  }
+
   allContentfulTimelineYear {
     edges {
       node {
