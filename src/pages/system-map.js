@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import "intersection-observer"
 import Layout from "../components/layout"
 import Head from "../components/head"
-import { graphql, StaticQuery } from "gatsby"
+import { graphql, StaticQuery, useStaticQuery } from "gatsby"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { Card, Col, Container, Row } from "react-bootstrap"
 import * as D3 from "d3"
 // import svgSystemMap from "../../static/assets/system-map/SM_oct7_good.svg"
@@ -377,21 +378,14 @@ console.log("now exiting" + index)
         <Container className="my-5 pt-5">
           {/* New Row */}
           <Row>
-            <div className="text-center col-md-12">
+            {/* <div className="text-center col-md-12">
               <h1 className="display-1 mb-5 text-rust">System Map</h1>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem
-                commodo at rhoncus, vitae. Consequat, condimentum convallis nisl
-                hac. Et a, sed suscipit egestas fringilla. Eu non tristique
-                facilisi fringilla facilisi arcu urna sociis nibh. Volutpat
-                gravida tincidunt ut venenatis egestas in tellus. Ridiculus
-                commodo vel arcu, facilisis velit, mattis fermentum
-                pellentesque.
-              </p>
+              <h2>{data.introText.nodes[0].heading}</h2>
+              {documentToReactComponents(data.introText.nodes[0].introText.json)}
             </div>
             <div className="text-dark" id="characters__title">
               <p>Meet the characters</p>
-            </div>
+            </div> */}
 
             <StaticQuery
               query={graphql`
@@ -410,10 +404,32 @@ console.log("now exiting" + index)
                       }
                     }
                   }
+                  introText: allContentfulSystemMapIntro {
+                    nodes {
+                      heading
+                      introText {
+                        json
+                      }
+                    }
+                  }
                 }
               `}
               render={data => (
                 <Container id="characters__wrapper" className="stepx">
+                  <Row className="mb-5">
+                    <div className="text-center col-md-12">
+                      <h1 className="display-1 mb-5 text-rust">System Map</h1>
+                      <h2>{data.introText.nodes[0].heading}</h2>
+                      {documentToReactComponents(data.introText.nodes[0].introText.json)}
+                    </div>
+                  </Row>
+
+                  <Row>
+                    <div className="text-dark" id="characters__title">
+                      <p>Meet the characters</p>
+                    </div>
+                  </Row>
+
                   <Row>
                     {data.allContentfulSystemMapCharacters.edges.map(edge => {
                       return (
