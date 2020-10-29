@@ -88,9 +88,14 @@ const StoriesPage = ({data}) => {
       >
         <Modal.Body>
           <h2 className="text-rust">{modalContent.title}</h2>
-          <p>
-          {modalContent.body}
-          </p>
+          <RichText json={ modalContent.json }/>
+          <div className="float-right">
+          <Img 
+            fluid={ modalContent.fluid }
+            className={`w-25`}
+          />
+          </div>
+          
         </Modal.Body>
       </Modal>
 
