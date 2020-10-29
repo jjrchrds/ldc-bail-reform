@@ -14,6 +14,8 @@ import GeorgeComponent from "../components/stories/george"
 import RichText from "../components/stories/rich-text"
 import ChevronDown from "../../static/assets/svg/chevron-down.svg"
 
+import BottomButtons from "../components/bottom-buttons"
+
 const StoriesPage = ({data}) => {
 
   const pageContent = data.allContentfulStoriesPageTemplate.edges[0].node;
@@ -89,12 +91,13 @@ const StoriesPage = ({data}) => {
         <Modal.Body>
           <h2 className="text-rust">{modalContent.title}</h2>
           <RichText json={ modalContent.json }/>
-          <div className="float-right">
-          <Img 
+          
+          { modalContent.fluid ? 
+            <Img 
             fluid={ modalContent.fluid }
             className={`w-25`}
           />
-          </div>
+          : ''}
           
         </Modal.Body>
       </Modal>
@@ -152,6 +155,17 @@ const StoriesPage = ({data}) => {
         <KaraComponent handleShow={handleShow} handleBg={updateBackground}/>
         <GeorgeComponent/>
       </section>
+
+      <section className="position-relative z-100">
+        <BottomButtons
+          btn1={"How Bail Worsens Lives"}
+          btn1Url={"/theme1"}
+          btn2={"Bail Reform Timeline"}
+          btn2Url={"/timeline"}
+          ctaColor={"text-white"}
+        />
+      </section>
+
     </Layout>
   )
 }
@@ -192,7 +206,3 @@ export const query = graphql`
     }
   }
 `
-
-
-              
-            
