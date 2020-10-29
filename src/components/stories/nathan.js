@@ -95,7 +95,7 @@ const NathanComponent = ({handleShow, handleBg}) => {
         <Scene 
           indicators={true}
           triggerHook={-2} 
-          duration={"70%"} 
+          duration={"40%"} 
           pinSettings={{pushFollowers: false}}
           pin
         >
@@ -105,7 +105,7 @@ const NathanComponent = ({handleShow, handleBg}) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col className="text-center">
-                    <Img fluid={slides[1].slideImage.fluid } className={`d-inline-block w-50 slide-from-left ${ progress > .1 ? 'active' : ''}`}/>
+                    <Img fluid={slides[1].slideImage.fluid } className={`d-inline-block w-50 slide-from-left ${ progress > .6 ? 'active' : ''}`}/>
                   </Col>
                 </Row>
               </Container>
