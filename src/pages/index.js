@@ -69,6 +69,17 @@ const IndexPage = () => {
           }
           card3Title
           card3Leed
+          card3Gif {
+            file {
+              url
+            }
+          }
+          card3Img {
+            description
+            file {
+              url
+            }
+          }
           themesHeadline
           themesBlurb {
             json
@@ -183,8 +194,8 @@ const IndexPage = () => {
           <Col sm="12" md="4" className="text-center">
             <Link to="/methodology">
               <Card className="text-left text-dark gif-card">
-                <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
-                <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
+                <Card.Img src={content.card3Img.file.url} alt={content.card3Img.description} className="img-static"/>
+                <Card.Img src={content.card3Gif.file.url} alt={content.card3Img.description} className="img-gif"/>
                 <Card.Body>
                   <Card.Title><h3 className="text-rust">{content.card3Title}</h3></Card.Title>
                   <Card.Text className="min-height-3rem">
