@@ -11,7 +11,13 @@ import NathanComponent from "../components/stories/nathan"
 import KaraComponent from "../components/stories/kara"
 import GeorgeComponent from "../components/stories/george"
 
+import RichText from "../components/stories/rich-text"
+import ChevronDown from "../../static/assets/svg/chevron-down.svg"
+
 const StoriesPage = ({data}) => {
+
+  const pageContent = data.allContentfulStoriesPageTemplate.edges[0].node;
+
   let value = 0;
 
   // const [ slideIndex, setSlideIndex ] = useState(0);
@@ -50,14 +56,6 @@ const StoriesPage = ({data}) => {
       
     })
   }
-
-  //initialize slideData
-  const slideData = [];
-  data.allContentfulNarrativePageBackground.edges.forEach((item, index) => {
-    item.node.slides.forEach((slide) => {
-      slideData.push(slide);
-    })
-  });
 
   const [show, setShow] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -126,15 +124,21 @@ const StoriesPage = ({data}) => {
             pin
           >
             <div className="vh-100 bg-dark text-white">
-              <Container className="h-100">
-                <Row className="h-100 d-flex align-items-center">
-                  <Col className="text-center">
-                    <h1 className="text-uppercase text-pink">Lorem Ipsum</h1>
-                    <p className="lead">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero rem adipisci sit possimus. Asperiores recusandae quaerat assumenda aliquid, harum voluptate minima quibusdam libero? Exercitationem dolore porro rerum tempore possimus enim.</p>
-                    <p>Start Scrolling</p>
-                  </Col>
-                </Row>
-              </Container>
+              <BackgroundImage className="bg-cover" fluid={data.intro_bg.childImageSharp.fluid}>
+
+                <Container className="h-100 position-relative z-100">
+                  <Row className="h-100 d-flex justify-content-center align-items-end">
+                    <Col md={10} className="text-center mb-5">
+                      <h1 className="text-uppercase text-pink">{ pageContent.introHeading }</h1>
+                      <RichText json={ pageContent.introCopy.json }/>
+                      <p className="mt-4">Start scrolling</p>
+                      <ChevronDown className="fill-rust"/>
+                    </Col>
+                  </Row>
+                </Container>
+                <div className="bg-cover position-absolute bg-gradient opacity-1"/>
+
+              </BackgroundImage>
             </div>
           </Scene>
         
@@ -160,44 +164,21 @@ export const query = graphql`
               ...GatsbyContentfulFluid
             }
           }
-          slides {
-            character
-            heading
-            slideNumber
-            story {
-              json
-            }
-            slideImage {
-              fluid(maxWidth: 1200) {
-                ...GatsbyContentfulFluid
-              }
-            }
+        }
+      }
+    }
+    allContentfulStoriesPageTemplate {
+      edges {
+        node {
+          title
+          introHeading
+          introCopy {
+            json
           }
         }
       }
     }
     intro_bg: file(relativePath: { eq: "images/intro_bg.jpg" }) {
-      childImageSharp {
-        fluid(maxWidth: 2000) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-    nathan_bg: file(relativePath: { eq: "images/nathan_bg.jpg" }) {
-      childImageSharp {
-        fluid(maxWidth: 2000) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-    kara_bg: file(relativePath: { eq: "images/kara_bg.jpg" }) {
-      childImageSharp {
-        fluid(maxWidth: 2000) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-    george_bg: file(relativePath: { eq: "images/george_bg.jpg" }) {
       childImageSharp {
         fluid(maxWidth: 2000) {
           ...GatsbyImageSharpFluid

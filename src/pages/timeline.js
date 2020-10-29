@@ -15,17 +15,17 @@ const MethodologyPage = ({data}) => {
 
   const pageContent = data.allContentfulTimelinePageTemplate.edges[0].node;
   
-    //set up documentToReact options
-    const options = {
-      renderNode: {
-        "embedded-asset-block": (node) => {
-          const alt = node.data.target.fields.title["en-US"];
-          const url = node.data.target.fields.file["en-US"].url;
-          console.log(node);
-          return <img src={ url } className="img-fluid mb-3" alt={ alt } />;
-        },
-      }
+  //set up documentToReact options
+  const options = {
+    renderNode: {
+      "embedded-asset-block": (node) => {
+        const alt = node.data.target.fields.title["en-US"];
+        const url = node.data.target.fields.file["en-US"].url;
+        console.log(node);
+        return <img src={ url } className="img-fluid mb-3" alt={ alt } />;
+      },
     }
+  }
 
   //Preview Modal
   const [ showPreviewModal, setShowPreviewModal ] = useState(false);
