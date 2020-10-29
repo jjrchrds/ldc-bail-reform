@@ -124,3 +124,13 @@
               transform:rotate(0)
   }
 }
+
+.z-100 {
+  z-index: 100;
+}
+
+.fill-rust {
+  path {
+    fill: $rust;
+  }
+}
