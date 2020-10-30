@@ -1,11 +1,8 @@
-import React, { useState, useRef } from "react"
+import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Controller, Scene } from 'react-scrollmagic';
-import { Container, Row, Col, Button, Card } from "react-bootstrap"
+import { Container, Row, Col, Button } from "react-bootstrap"
 import RichText from "./rich-text"
-import { queryModalContent } from './common'
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-
 import Img from "gatsby-image"
 
 
@@ -34,6 +31,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                 }
               }
               modalButtons {
+                buttonLabel
                 heading
                 content {
                   json
@@ -53,7 +51,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
   const slides = data.allContentfulNarrativePageBackground.edges[0].node.slides
 
   console.log('slides', slides);
-  
+
   // const Text = ({ children }) => <p>{children}</p>
   // const richTextOptions = {
   //   renderNode: {
@@ -90,8 +88,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   <Col className="h-100 offset-md-6 col-md-6" >
                     <div className="h-100 w-100 position-relative">
                       <Img
+                        style={{ width: '85%' }}
                         fluid={slides[0].slideImage.fluid}
-                        className={`h-100 w-100 position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
+                        className={`position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
                       />
                     </div>
                   </Col>
@@ -118,7 +117,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[0].heading}
                     </h1>
-                    <RichText json={slides[0].story.json}/>
+                    <RichText json={slides[0].story.json} />
                   </Col>
                 </Row>
               </Container>
@@ -127,7 +126,53 @@ const KaraComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-      {/* opportunity for bail - text */}
+      {/* Arrest - police car img */}
+      <Scene
+        // indicators={true}
+        triggerHook={0}
+        duration={"70%"}
+        pinSettings={{ pushFollowers: false }}
+        pin
+      >
+        {(progress, event) => {
+          return (
+            <div className={`vh-100 character-01`}>
+              <Container className={`h-100`}>
+                <Row className="h-100 d-flex align-items-center text-white">
+                  <Col className="text-center">
+                    <Img fluid={slides[1].slideImage.fluid} className={`d-inline-block w-50 slide-from-left ${progress > 0 ? 'active' : ''}`} />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          )
+        }}
+      </Scene>
+
+      {/* arrest -text */}
+      <Scene
+        // indicators={true}
+        triggerHook={0}
+        duration={"60%"}
+        pin
+      >
+        {(progress, event) => {
+          return (
+            <div className={`vh-100 character-01`}>
+              <Container className={`h-100`}>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  <Col lg="10" className="text-left">
+                    <h1>{slides[1].heading}</h1>
+                    <RichText json={slides[1].story.json} />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          )
+        }}
+      </Scene>
+
+      {/* talking to lawyer */}
       <Scene
         // indicators={true}
         triggerHook={0}
@@ -142,9 +187,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   <Col>
                     <div>
                       <h1>
-                        {slides[1].heading}
+                        {slides[2].heading}
                       </h1>
-                      <RichText json={slides[1].story.json}/>
+                      <RichText json={slides[2].story.json} />
                     </div>
                   </Col>
                 </Row>
@@ -154,8 +199,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-      {/* contacting family */}
-      <Scene
+      {/* text with contact cards - may no 
+        longer be needed - commented out for now */}
+      {/* <Scene
         // indicators={true}
         triggerHook={0}
         duration={"70%"}
@@ -215,9 +261,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             </div>
           )
         }}
-      </Scene>
+      </Scene> */}
 
-      {/* family or money  */}
+      {/* phoen call home  */}
       <Scene
         // indicators={true}
         triggerHook={0}
@@ -233,23 +279,22 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[3].heading}
                     </h1>
-                    
-                      <RichText json={slides[3].story.json}/>
-                    
+                    <RichText json={slides[3].story.json} />
                     <div className="text-center mt-5">
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
                         <Button
                           className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`}
                           variant="pink"
                           onClick={() => showModal(
-                            { 
-                              title: slides[3].modalButtons[0].heading, 
+                            {
+                              title: slides[3].modalButtons[0].heading,
                               json: slides[3].modalButtons[0].content.json,
-                              fluid: slides[3].modalButtons[0].image.fluid
+                              fluid: slides[3].modalButtons[0].image ?
+                                slides[3].modalButtons[0].image.fluid : null
                             }
-                          )} 
+                          )}
                         >
-                          <span>Buy Landline</span>
+                          <span>{slides[3].modalButtons[0].buttonLabel}</span>
                         </Button>
                       </div>
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
@@ -257,14 +302,15 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                           className={`text-uppercase btn-stories btn-rotate-left text-white py-2`}
                           variant="pink"
                           onClick={() => showModal(
-                            { 
-                              title: slides[3].modalButtons[1].heading, 
+                            {
+                              title: slides[3].modalButtons[1].heading,
                               json: slides[3].modalButtons[1].content.json,
-                              fluid: slides[3].modalButtons[1].image.fluid
+                              fluid: slides[3].modalButtons[1].image ?
+                                slides[3].modalButtons[1].image.fluid : null
                             }
-                          )} 
+                          )}
                         >
-                          <span>Call Amy</span>
+                          <span>{slides[3].modalButtons[1].buttonLabel}</span>
                         </Button>
                       </div>
                     </div>
@@ -290,13 +336,17 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             <div className={`vh-100`}>
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
-                  <Col className="text-center col-6 offset-6">
-                    {slides[4].slideImage ? 
-                    <Img
-                      className={`img-fluid ${progress > 0 ? 'active' : ''}`}
-                      fluid={slides[4].slideImage.fluid}
-                    />
-                    : ''}
+                  <Col className="text-center col-6 offset-6 h-100">
+                    <div className="h-100 position-relative">
+                      {slides[4].slideImage ?
+                        <Img
+                          style={{ width: '35%' }}
+                          className={`opacity-0 ${progress > 0 ? 'opacity-1 active' : ''}`}
+                          fluid={slides[4].slideImage ?
+                            slides[4].slideImage.fluid : null}
+                        />
+                        : ''}
+                    </div>
                   </Col>
                 </Row>
               </Container>
@@ -321,7 +371,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[4].heading}
                     </h1>
-                    <RichText json={slides[4].story.json}/>
+                    <RichText json={slides[4].story.json} />
                   </Col>
                 </Row>
               </Container>
@@ -332,7 +382,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
 
 
 
-      {/* opportunity for bail - text */}
+      {/* couldn't get residential surity  */}
       <Scene
         // indicators={true}
         triggerHook={0}
@@ -349,7 +399,46 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                       <h1>
                         {slides[4].heading}
                       </h1>
-                      <RichText json={slides[4].story.json}/>
+                      <RichText json={slides[5].story.json} />
+                      <div className="text-center mt-5">
+                        {new Array(2).fill(null).map((val, index) => {
+                          const leftModalIndex = index * 2;
+                          const rightModalIndex = leftModalIndex + 1;
+
+                          return (
+                            <div className="m-3">
+                              <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
+                                <Button
+                                  onClick={() => showModal(
+                                    {
+                                      title: slides[5].modalButtons[leftModalIndex].heading,
+                                      json: slides[5].modalButtons[leftModalIndex].content.json,
+                                      fluid: slides[5].modalButtons[leftModalIndex].image ?
+                                        slides[5].modalButtons[leftModalIndex].image : null
+                                    }
+                                  )}
+                                  className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`} variant="pink">
+                                  <span>{slides[5].modalButtons[leftModalIndex].buttonLabel}</span>
+                                </Button>
+                              </div>
+                              <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
+
+                                <Button
+                                  onClick={() => showModal(
+                                    {
+                                      title: slides[5].modalButtons[rightModalIndex].heading,
+                                      json: slides[5].modalButtons[rightModalIndex].content.json,
+                                      fluid: slides[5].modalButtons[rightModalIndex].image ?
+                                        slides[5].modalButtons[rightModalIndex].image.fluid : null
+                                    }
+                                  )} right
+                                  className={`text-uppercase btn-stories btn-rotate-left text-white py-2`} variant="pink">
+                                  <span>{slides[5].modalButtons[rightModalIndex].buttonLabel}</span>
+                                </Button>
+                              </div>
+                            </div>)
+                        })}
+                      </div>
                     </div>
                   </Col>
                 </Row>
@@ -359,8 +448,10 @@ const KaraComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-      {/* opportunity for bail - cards */}
-      <Scene
+      {/* opportunity for bail - cards
+      //no longer needed - delete when ready -
+      commented out below */}
+      {/* <Scene
         // indicators={true}
         triggerHook={0}
         duration={"50%"}
@@ -419,10 +510,10 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             </div>
           )
         }}
-      </Scene>
+      </Scene> */}
 
-      {/* phone call */}
-      <Scene
+      {/* phone call - no longer needed - commented out below*/}
+      {/* <Scene
         // indicators={true}
         triggerHook={0}
         duration={"70%"}
@@ -446,14 +537,14 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[5].heading}
                     </h1>
-                    <RichText json={slides[5].story.json}/>
+                    <RichText json={slides[5].story.json} />
                   </Col>
                 </Row>
               </Container>
             </div>
           )
         }}
-      </Scene>
+      </Scene> */}
 
       {/* what happened next */}
       < Scene
@@ -478,7 +569,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[6].heading}
                     </h1>
-                    <RichText json={slides[6].story.json}/>
+                    <RichText json={slides[6].story.json} />
                   </Col>
                 </Row>
               </Container>
