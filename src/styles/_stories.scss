@@ -137,7 +137,6 @@
   }
 }
 
-
 //kara section 
 .contacting-family .kara-contact-cards {
   color: #89969F;
@@ -169,5 +168,14 @@
       font-size: 60px;
       transform: rotate(-1.75deg);
     }
+  }
+}
+.z-100 {
+  z-index: 100;
+}
+
+.fill-rust {
+  path {
+    fill: $rust;
   }
 }
