@@ -59,7 +59,7 @@ const ZapModal = props => {
         size="lg"
         centered
       >
-        <Modal.Header className="zap-modal__header">
+        <Modal.Header closeButton className="zap-modal__header">
           <Img
             className="modal-header-icon mr-2"
             fluid={modalContent.node.zapImage.fluid}
