@@ -29,6 +29,17 @@ const NathanComponent = ({handleShow, handleBg}) => {
                   ...GatsbyContentfulFluid
                 }
               }
+              modalButtons {
+                heading
+                content {
+                  json
+                }
+                image {
+                  fluid(maxWidth: 400) {
+                    ...GatsbyContentfulFluid
+                  }
+                }
+              }
             }
           }
         }
@@ -182,7 +193,13 @@ const NathanComponent = ({handleShow, handleBg}) => {
                     <div className="text-center mt-5">
                       <div className={`d-inline-block slide-from-bottom ${ progress > .1 ? 'active' : ''}`}>
                         <Button 
-                          onClick={() => showModal({title: 'Buy a landline', body: 'body test'})} 
+                          onClick={() => showModal(
+                            { 
+                              title: slides[3].modalButtons[0].heading, 
+                              json: slides[3].modalButtons[0].content.json,
+                              fluid: slides[3].modalButtons[0].image.fluid
+                            }
+                          )} 
                           className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`} variant="pink">
                           <span>Speak Up</span>
                         </Button>

@@ -45,6 +45,12 @@
 }
 
 .stories {
+  //////variables for this section
+  $color-offwhite: #FFFDFB;
+  //////////
+
+  color: $color-offwhite;
+
   p {
     font-size: 16px;
     &.lead {
@@ -57,6 +63,12 @@
       }
     }
   }
+
+
+  .intro-slide {
+    z-index: 500;
+  }
+  
 }
 
 .slide-from-left {
@@ -125,6 +137,39 @@
   }
 }
 
+//kara section 
+.contacting-family .kara-contact-cards {
+  color: #89969F;
+
+  .card-body {
+    >*:first-child {
+      margin-right: 15px;
+    }
+  }
+}
+.opportunity-for-bail {
+  .kara-card.monique { margin-bottom: 60px; }
+  .kara-card.alex { margin-bottom: 70px; }
+
+  .kara-card-content {
+    min-width: 420px;
+    font-size: 24px;
+    color: #000000;
+    span { 
+      color: $pink; 
+      text-transform: uppercase;
+    }
+  }
+
+  .none-fits-requirements-text {
+    p {
+      font-family: $font-family-headings;
+      color: $rust;
+      font-size: 60px;
+      transform: rotate(-1.75deg);
+    }
+  }
+}
 .z-100 {
   z-index: 100;
 }
