@@ -11,6 +11,7 @@ import Img from "gatsby-image"
 
 
 const KaraComponent = ({ handleShow, handleBg }) => {
+
   const data = useStaticQuery(graphql`
     query {
       allContentfulNarrativePageBackground(filter: { pageTitle:{eq:"Kara"}}) {
@@ -141,7 +142,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   <Col>
                     <div>
                       <h1>
-                        {slides[6].heading}
+                        {slides[1].heading}
                       </h1>
                       <RichText json={slides[1].story.json}/>
                     </div>
@@ -232,9 +233,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[3].heading}
                     </h1>
-                    <p>
+                    
                       <RichText json={slides[3].story.json}/>
-                    </p>
+                    
                     <div className="text-center mt-5">
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
                         <Button
@@ -290,10 +291,12 @@ const KaraComponent = ({ handleShow, handleBg }) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col className="text-center col-6 offset-6">
+                    {slides[4].slideImage ? 
                     <Img
                       className={`img-fluid ${progress > 0 ? 'active' : ''}`}
-                    // fluid={slides[4].slideImage.fluid}
+                      fluid={slides[4].slideImage.fluid}
                     />
+                    : ''}
                   </Col>
                 </Row>
               </Container>
@@ -316,9 +319,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col md={{ span: 6, offset: 0 }}>
                     <h1>
-                      {slides[3].heading}
+                      {slides[4].heading}
                     </h1>
-                    <RichText json={slides[3].story.json}/>
+                    <RichText json={slides[4].story.json}/>
                   </Col>
                 </Row>
               </Container>

@@ -1,79 +1,81 @@
 import React, { useState, useRef } from "react"
-import { StaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button } from "react-bootstrap"
 import { querySlideContent, queryModalContent } from './common'
+import RichText from "./rich-text"
 import { BLOCKS } from "@contentful/rich-text-types"
 import Img from 'gatsby-image'
 
 
-const GeorgeComponent = ({ handleShow, handleBg }) => (
-  <StaticQuery
-    query={graphql`
-          query GeorgeSlideQuery {
-            allContentfulNarrativePageTemplate(
-              filter: { character: { regex: "/george/" } }
-            ) {
-              edges {
-                node {
-                  slideNumber
-                  heading
-                  story {
-                    json
-                  }
-                  slideImage {
-                    fluid(maxWidth: 500) {
-                      src
-                    }
-                  }
-                }
+
+const GeorgeComponent = ({handleShow, handleBg}) => {
+
+  const data = useStaticQuery(graphql`
+
+    query {
+      allContentfulNarrativePageBackground(filter: { pageTitle:{eq:"George"}}) {
+        edges {
+          node {
+            pageTitle
+            backgroundImage {
+              fluid(maxWidth: 1920) {
+                ...GatsbyContentfulFluid
               }
             }
-            allContentfulNarrativeModalTemplate(
-              filter: { character: { regex: "/george/" } }
-            ) {
-              edges {
-                node {
-                  modalId
-                  heading
-                  content {
-                    json
+            slides {
+              heading
+              story {
+                json
+              }
+              slideImage {
+                fluid(maxWidth: 600) {
+                  ...GatsbyContentfulFluid
+                }
+              }
+              modalButtons {
+                heading
+                content {
+                  json
+                }
+                image {
+                  fluid(maxWidth: 400) {
+                    ...GatsbyContentfulFluid
                   }
-                  image {
-                    fluid(maxWidth: 500) {
-                      src
-                    }
-                  }
-                  slide
                 }
               }
             }
           }
-        `}
-    render={data => {
-      const narrativeContent = data.allContentfulNarrativePageTemplate.edges
-      const modalContent = data.allContentfulNarrativeModalTemplate.edges
-
-      const Text = ({ children }) => <p>{children}</p>
-      const ListItem = ({ children }) => <li>{children}</li>
-      const UnorderedList = ({ children }) => <ul className="x">{children}</ul>
-      const OrderedList = ({ children }) => <ol>{children}</ol>
-      const richTextOptions = {
-        renderNode: {
-          [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
-          [BLOCKS.LIST_ITEM]: (node, children) => <ListItem>{children}</ListItem>,
-          [BLOCKS.UL_LIST]: (node, children) => (
-            <UnorderedList>{children}</UnorderedList>
-          ),
-          [BLOCKS.OL_LIST]: (node, children) => <OrderedList>{children}</OrderedList>,
-        },
+        }
       }
+    }`
+  )
 
-      const showModal = (data) => {
-        handleShow(data);
-      }
-      return (
-        <Controller>
+  const slides = data.allContentfulNarrativePageBackground.edges[0].node.slides
+
+
+  const Text = ({ children }) => <p>{children}</p>
+  const ListItem = ({ children }) => <li>{children}</li>
+  const UnorderedList = ({ children }) => <ul className="x">{children}</ul>
+  const OrderedList = ({ children }) => <ol>{children}</ol>
+
+  const richTextOptions = {
+    renderNode: {
+      [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
+      [BLOCKS.LIST_ITEM]: (node, children) => <ListItem>{children}</ListItem>,
+      [BLOCKS.UL_LIST]: (node, children) => (
+        <UnorderedList>{children}</UnorderedList>
+      ),
+      [BLOCKS.OL_LIST]: (node, children) => <OrderedList>{children}</OrderedList>,
+    },
+  }
+
+  const showModal = (data) => {
+    handleShow(data);
+  }
+
+  return (
+    <Controller>
 
           {/* meet george - portrait */}
           <Scene
@@ -84,10 +86,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
             pin
           >
             {(progress, event) => {
-              if (event.scrollDirection === "REVERSE" && event.type === "leave") {
-                // console.log(event.type);
-                handleBg('kara');
-              }
+              
               return (
                 <div className={`vh-100`}>
                   <Container className={`h-100`}>
@@ -107,7 +106,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
             }}
           </Scene>
 
-          {/* meet george - text */}
+          {/* meet george - text
           <Scene
             // indicators={true}
             triggerHook={0}
@@ -120,10 +119,8 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                   <Container className={`h-100`}>
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col md={{ span: 6, offset: 6 }}>
-                        <h1>
-                          {querySlideContent(narrativeContent, 1, "heading", richTextOptions)}
-                        </h1>
-                        {querySlideContent(narrativeContent, 1, "body", richTextOptions)}
+                        <h1> { slides[0].heading }</h1>
+                        <RichText json={slides[0].story.json}/>
                       </Col>
                     </Row>
                   </Container>
@@ -133,7 +130,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
           </Scene>
 
           {/* conditions */}
-          <Scene
+          {/* <Scene
             // indicators={true}
             triggerHook={0}
             duration={"50%"}
@@ -146,14 +143,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                     <Row className="h-100 d-flex align-items-center text-white">
                       <Col>
                         <div>
-                          <h1>
-                            {querySlideContent(
-                              narrativeContent,
-                              2,
-                              "heading",
-                              richTextOptions
-                            )}
-                          </h1>
+                          <h1> { slides[1].heading }</h1>
                           {querySlideContent(narrativeContent, 2, "body", richTextOptions)}
                         </div>
                       </Col>
@@ -162,10 +152,10 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene>
+          </Scene> */}
 
           {/* out on bail - keys img */}
-          <Scene
+          {/* <Scene
             // indicators={true}
             triggerHook={0}
             duration={"150%"}
@@ -194,10 +184,10 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene>
+          </Scene> */}
 
           {/* out on bail - text */}
-          <Scene
+          {/* <Scene
             // indicators={true}
             triggerHook={0}
             duration={"50%"}
@@ -219,11 +209,11 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene>
+          </Scene> */}
 
 
           {/* working while on bail - watch img */}
-          <Scene
+          {/* <Scene
             // indicators={true}
             triggerHook={0}
             duration={"50%"}
@@ -247,10 +237,10 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene>
+          </Scene> */}
 
           {/* working while on bail */}
-          <Scene
+          {/* <Scene
             // indicators={true}
             triggerHook={0}
             duration={"70%"}
@@ -303,10 +293,10 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene >
+          </Scene > */}
 
           {/* police check */}
-          < Scene
+          {/* < Scene
             // indicators={true}
             triggerHook={0}
             duration={"70%"}
@@ -339,11 +329,11 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene >
+          </Scene > */}
 
 
           {/* what happened next */}
-          < Scene
+          {/* < Scene
             // indicators={true}
             triggerHook={0}
             duration={"50%"}
@@ -365,10 +355,10 @@ const GeorgeComponent = ({ handleShow, handleBg }) => (
                 </div>
               )
             }}
-          </Scene >
-        </Controller >
+          </Scene > */}
+        </Controller>
       )
-    }} />
-)
+    }
+    
 
 export default GeorgeComponent
