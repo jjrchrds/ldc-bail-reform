@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button, Card } from "react-bootstrap"
-import { BLOCKS } from "@contentful/rich-text-types"
+import RichText from "./rich-text"
 import { queryModalContent } from './common'
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
@@ -12,62 +12,53 @@ import Img from "gatsby-image"
 
 const KaraComponent = ({ handleShow, handleBg }) => {
   const data = useStaticQuery(graphql`
-        query  {
-          allContentfulNarrativePageBackground(filter: { pageTitle:{eq:"Kara"}}) {
-            edges {
-              node {
-                pageTitle
-                backgroundImage {
-                  fluid(maxWidth: 1920) {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                slides {
-                  heading
-                  story {
-                    json
-                  }
-                  slideImage {
-                    fluid(maxWidth: 600) {
-                      ...GatsbyContentfulFluid
-                    }
-                  }
-                }
+    query {
+      allContentfulNarrativePageBackground(filter: { pageTitle:{eq:"Kara"}}) {
+        edges {
+          node {
+            pageTitle
+            backgroundImage {
+              fluid(maxWidth: 1920) {
+                ...GatsbyContentfulFluid
               }
             }
-          }
-          allContentfulNarrativeModalTemplate(
-            filter: { character: { regex: "/kara/" } }
-          ) {
-            edges {
-              node {
-                modalId
+            slides {
+              heading
+              story {
+                json
+              }
+              slideImage {
+                fluid(maxWidth: 600) {
+                  ...GatsbyContentfulFluid
+                }
+              }
+              modalButtons {
                 heading
                 content {
                   json
                 }
                 image {
-                  fluid(maxWidth: 500) {
-                    src
+                  fluid(maxWidth: 400) {
+                    ...GatsbyContentfulFluid
                   }
                 }
-                slide
               }
             }
           }
-        }`
+        }
+      }
+    }`
   )
   const slides = data.allContentfulNarrativePageBackground.edges[0].node.slides
 
-  // const narrativeContent = data.allContentfulNarrativePageTemplate.edges
-  const modalContent = data.allContentfulNarrativeModalTemplate.edges
-
-  const Text = ({ children }) => <p>{children}</p>
-  const richTextOptions = {
-    renderNode: {
-      [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
-    },
-  }
+  console.log('slides', slides);
+  
+  // const Text = ({ children }) => <p>{children}</p>
+  // const richTextOptions = {
+  //   renderNode: {
+  //     [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
+  //   },
+  // }
 
 
   const showModal = (data) => {
@@ -96,11 +87,11 @@ const KaraComponent = ({ handleShow, handleBg }) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col className="h-100 offset-md-6 col-md-6" >
-                  <div className="h-100 w-100 position-relative">
-                    <Img
-                      fluid={slides[0].slideImage.fluid}
-                      className={`h-100 w-100 position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
-                    />
+                    <div className="h-100 w-100 position-relative">
+                      <Img
+                        fluid={slides[0].slideImage.fluid}
+                        className={`h-100 w-100 position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -126,7 +117,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[0].heading}
                     </h1>
-                    {documentToReactComponents(slides[0].story.json, richTextOptions)}
+                    <RichText json={slides[0].story.json}/>
                   </Col>
                 </Row>
               </Container>
@@ -135,8 +126,8 @@ const KaraComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-        {/* opportunity for bail - text */}
-        <Scene
+      {/* opportunity for bail - text */}
+      <Scene
         // indicators={true}
         triggerHook={0}
         duration={"50%"}
@@ -150,9 +141,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   <Col>
                     <div>
                       <h1>
-                        {slides[1].heading}
+                        {slides[6].heading}
                       </h1>
-                      {documentToReactComponents(slides[1].story.json, richTextOptions)}
+                      <RichText json={slides[1].story.json}/>
                     </div>
                   </Col>
                 </Row>
@@ -215,7 +206,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                       <h1>
                         {slides[1].heading}
                       </h1>
-                      {documentToReactComponents(slides[2].story.json, richTextOptions)}
+                      <RichText json={slides[2].story.json}/>
                     </div>
                   </Col>
                 </Row>
@@ -242,7 +233,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                       {slides[3].heading}
                     </h1>
                     <p>
-                      {documentToReactComponents(slides[3].story.json, richTextOptions)}
+                      <RichText json={slides[3].story.json}/>
                     </p>
                     <div className="text-center mt-5">
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
@@ -250,12 +241,12 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                           className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`}
                           variant="pink"
                           onClick={() => showModal(
-                            {
-                              title:
-                                queryModalContent(modalContent, 3, "heading", richTextOptions),
-                              body:
-                                queryModalContent(modalContent, 3, "body", richTextOptions)
-                            })}
+                            { 
+                              title: slides[3].modalButtons[0].heading, 
+                              json: slides[3].modalButtons[0].content.json,
+                              fluid: slides[3].modalButtons[0].image.fluid
+                            }
+                          )} 
                         >
                           <span>Buy Landline</span>
                         </Button>
@@ -265,12 +256,12 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                           className={`text-uppercase btn-stories btn-rotate-left text-white py-2`}
                           variant="pink"
                           onClick={() => showModal(
-                            {
-                              title:
-                                queryModalContent(modalContent, 4, "heading", richTextOptions),
-                              body:
-                                queryModalContent(modalContent, 4, "body", richTextOptions)
-                            })}
+                            { 
+                              title: slides[3].modalButtons[1].heading, 
+                              json: slides[3].modalButtons[1].content.json,
+                              fluid: slides[3].modalButtons[1].image.fluid
+                            }
+                          )} 
                         >
                           <span>Call Amy</span>
                         </Button>
@@ -301,7 +292,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   <Col className="text-center col-6 offset-6">
                     <Img
                       className={`img-fluid ${progress > 0 ? 'active' : ''}`}
-                      // fluid={slides[4].slideImage.fluid}
+                    // fluid={slides[4].slideImage.fluid}
                     />
                   </Col>
                 </Row>
@@ -327,7 +318,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[3].heading}
                     </h1>
-                    {documentToReactComponents(slides[3].story.json, richTextOptions)}
+                    <RichText json={slides[3].story.json}/>
                   </Col>
                 </Row>
               </Container>
@@ -355,7 +346,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                       <h1>
                         {slides[4].heading}
                       </h1>
-                      {documentToReactComponents(slides[4].story.json, richTextOptions)}
+                      <RichText json={slides[4].story.json}/>
                     </div>
                   </Col>
                 </Row>
@@ -452,7 +443,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[5].heading}
                     </h1>
-                    {documentToReactComponents(slides[5].story.json, richTextOptions)}
+                    <RichText json={slides[5].story.json}/>
                   </Col>
                 </Row>
               </Container>
@@ -484,7 +475,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[6].heading}
                     </h1>
-                    {documentToReactComponents(slides[6].story.json, richTextOptions)}
+                    <RichText json={slides[6].story.json}/>
                   </Col>
                 </Row>
               </Container>
