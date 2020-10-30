@@ -1,11 +1,8 @@
-import React, { useState, useRef } from "react"
+import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Controller, Scene } from 'react-scrollmagic';
 import { Container, Row, Col, Button, Card } from "react-bootstrap"
 import RichText from "./rich-text"
-import { queryModalContent } from './common'
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-
 import Img from "gatsby-image"
 
 
