@@ -1,7 +1,7 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Controller, Scene } from 'react-scrollmagic';
-import { Container, Row, Col, Button, Card } from "react-bootstrap"
+import { Container, Row, Col, Button } from "react-bootstrap"
 import RichText from "./rich-text"
 import Img from "gatsby-image"
 
@@ -88,8 +88,9 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                   <Col className="h-100 offset-md-6 col-md-6" >
                     <div className="h-100 w-100 position-relative">
                       <Img
+                        style={{ width: '85%' }}
                         fluid={slides[0].slideImage.fluid}
-                        className={`h-100 w-100 position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
+                        className={`position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
                       />
                     </div>
                   </Col>
@@ -326,7 +327,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
       <Scene
         // indicators={true}
         triggerHook={0}
-        duration={"100%"}
+        duration={"150%"}
         pinSettings={{ pushFollowers: false }}
         pin
       >
@@ -339,7 +340,8 @@ const KaraComponent = ({ handleShow, handleBg }) => {
                     <div className="h-100 position-relative">
                       {slides[4].slideImage ?
                         <Img
-                          className={`w-50 opacity-0 ${progress > 0 ? 'opacity-1 active' : ''}`}
+                          style={{ width: '35%' }}
+                          className={`opacity-0 ${progress > 0 ? 'opacity-1 active' : ''}`}
                           fluid={slides[4].slideImage ?
                             slides[4].slideImage.fluid : null}
                         />
