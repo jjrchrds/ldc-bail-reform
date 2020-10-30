@@ -107,7 +107,7 @@ const StoriesPage = ({ data }) => {
                       <Col 
                         xs={6}
                         className="d-flex align-items-end">
-                        <img className={`opacity-0 ${progress < .9 ? 'opacity-1' : ''}`} src="http://placehold.it/500x500/" />
+                        <img className={`opacity-0 ${progress < .9 ? 'opacity-1' : ''}`} src="https://placehold.it/500x500/" />
                       </Col>
                     </Row>
                   </Container>
@@ -155,7 +155,7 @@ const StoriesPage = ({ data }) => {
                       <Col className="text-center">
                         <img
                           className={`slide-from-left ${progress > 0 ? 'active' : ''}`}
-                          src="http://placehold.it/500x300/"
+                          src="https://placehold.it/500x300/"
                         />
                       </Col>
                     </Row>
