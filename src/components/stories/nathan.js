@@ -104,7 +104,7 @@ const NathanComponent = ({handleShow, handleBg}) => {
         
         {/* Arrest */}
         <Scene 
-          indicators={true}
+          // indicators={true}
           triggerHook={-2} 
           duration={"40%"} 
           pinSettings={{pushFollowers: false}}
