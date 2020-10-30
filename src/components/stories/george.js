@@ -39,6 +39,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
                     ...GatsbyContentfulFluid
                   }
                 }
+                buttonLabel
               }
             }
           }
@@ -49,7 +50,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
 
   const slides = data.allContentfulNarrativePageBackground.edges[0].node.slides
 
-  console.log('georgeslides', slides)
+  // console.log('georgeslides', slides)
 
   const showModal = (data) => {
     handleShow(data);
@@ -74,12 +75,13 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col md={{ span: 6, offset: 0 }} className="h-100">
-                    <img
-                      src="https://via.placeholder.com/500x600"
-                      // fluid={querySlideContent(narrativeContent, 1, "image", richTextOptions)}
-                      alt=""
-                      className={`img-fluid bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
-                    />
+                    <div className="h-100 w-100 position-relative">
+                      <Img
+                        fluid={slides[0].slideImage.fluid}
+                        alt=""
+                        className={`w-100 position-absolute bottom-locked opacity-0 ${progress < .9 ? 'opacity-1' : ''}`}
+                      />
+                    </div>
                   </Col>
                 </Row>
               </Container>
@@ -113,11 +115,35 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-      {/* conditions */}
+
+      {/* Arrest - police car img*/}
       <Scene
         // indicators={true}
         triggerHook={0}
-        duration={"50%"}
+        duration={"70%"}
+        pinSettings={{ pushFollowers: false }}
+        pin
+      >
+        {(progress, event) => {
+          return (
+            <div className={`vh-100 character-01`}>
+              <Container className={`h-100`}>
+                <Row className="h-100 d-flex align-items-center text-white">
+                  <Col className="text-center">
+                    <Img fluid={slides[1].slideImage.fluid} className={`d-inline-block w-50 slide-from-left ${progress > 0 ? 'active' : ''}`} />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          )
+        }}
+      </Scene>
+
+      {/* arrest - text */}
+      <Scene
+        // indicators={true}
+        triggerHook={0}
+        duration={"60%"}
         pin
       >
         {(progress, event) => {
@@ -140,7 +166,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-      {/* out on bail - keys img */}
+      {/* bail conditions - keys */}
       <Scene
         // indicators={true}
         triggerHook={0}
@@ -154,15 +180,10 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex align-items-center text-white">
                   <Col className="text-center col-6 offset-6">
-                    <img
+                    <Img
                       className={`img-fluid slide-from-right ${progress > 0 ? 'active' : ''}`}
-                      // fluid={querySlideContent(
-                      //   narrativeContent,
-                      //   3,
-                      //   "image",
-                      //   richTextOptions
-                      // )}
-                      src="https://via.placeholder.com/500x600"
+                      fluid={slides[2].slideImage ? 
+                        slides[2].slideImage.fluid : null}
                     />
                   </Col>
                 </Row>
@@ -172,7 +193,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
         }}
       </Scene>
 
-      {/* out on bail - text */}
+      {/*  bail conditions - text */}
       <Scene
         // indicators={true}
         triggerHook={0}
@@ -198,34 +219,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
       </Scene>
 
 
-      {/* working while on bail - watch img */}
-      <Scene
-        // indicators={true}
-        triggerHook={0}
-        duration={"50%"}
-        pinSettings={{ pushFollowers: false }}
-        pin
-      >
-        {(progress, event) => {
-          return (
-            <div className={`vh-100 character-01`}>
-              <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col className="text-center col-6 offset-6">
-                    <img
-                      className={`img-fluid slide-from-left w-100 ${progress > 0 ? 'active' : ''}`}
-                      // src="./assets/watch.png"
-                      src="https://via.placeholder.com/500x300"
-                    />
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-          )
-        }}
-      </Scene>
-
-      {/* working while on bail */}
+      {/* working extra shift */}
       <Scene
         // indicators={true}
         triggerHook={0}
@@ -241,7 +235,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
                     <h1>
                       {slides[3].heading}
                     </h1>
-                    <RichText json={slides[3].story.json}/>
+                    <RichText json={slides[3].story.json} />
                     <div className="d-flex justify-content-center">
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
                         <Button
@@ -249,12 +243,13 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
                             {
                               title: slides[3].modalButtons[0].heading,
                               json: slides[3].modalButtons[0].content.json,
-                              fluid: slides[3].modalButtons[0].image.fluid
+                              fluid: slides[3].modalButtons[0].image ?
+                                slides[3].modalButtons[0].image.fluid : null
                             }
                           )}
                           className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`} variant="pink"
                         >
-                          <span>Work</span>
+                          <span>{slides[3].modalButtons[0].buttonLabel}</span>
                         </Button>
                       </div>
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
@@ -263,12 +258,13 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
                             {
                               title: slides[3].modalButtons[1].heading,
                               json: slides[3].modalButtons[1].content.json,
-                              fluid: slides[3].modalButtons[1].image.fluid
+                              fluid: slides[3].modalButtons[1].image ?
+                                slides[3].modalButtons[1].image.fluid : null
                             }
                           )}
                           className={`text-uppercase btn-stories btn-rotate-left text-white py-2 mr-3`} variant="pink"
                         >
-                          <span>Go Home</span>
+                          <span>{slides[3].modalButtons[1].buttonLabel}</span>
                         </Button>
                       </div>
                     </div>
@@ -292,18 +288,14 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
             <div className={`vh-100 character-01`}>
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex justify-content-center align-items-center text-white">
-                  <Col className="text-center h-100 d-flex align-items-center">
-                    <img
-                      className={`img-fluid ${progress > .1 ? 'active' : ''}`}
-                      // src={querySlideContent(
-                      //   narrativeContent,
-                      //   5,
-                      //   "image"
-                      // )}
-                      src="http://via.placeholder.com/500x600"
+                  <Col className="text-center h-100 w-100 d-flex justify-content-center align-items-center col-3">
+                    <Img
+                      className={`w-100 ${progress > 0 ? 'active' : ''}`}
+                      fluid={slides[4].slideImage ? 
+                        slides[4].slideImage.fluid : null}
                     />
                   </Col>
-                  <Col lg="7" className="text-left">
+                  <Col className="text-left d-flex flex-column justify-content-center">
                     <h1>
                       {slides[4].heading}
                     </h1>
@@ -344,7 +336,5 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
     </Controller >
   )
 }
-
-
 
 export default GeorgeComponent
