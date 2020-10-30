@@ -64,8 +64,9 @@ const CogModal = props => {
         id="modal-cog"
         size="lg"
         centered
+        
       >
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Img
             className="modal-header-icon mr-2"
             fluid={modalContent.node.cogImage.fluid}
