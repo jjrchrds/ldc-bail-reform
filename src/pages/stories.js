@@ -30,6 +30,7 @@ const StoriesPage = ({data}) => {
   }
 
   const updateBackground = ( id ) => {
+    return
     // console.log('update bg called' + id);
     const activeId = 'bg-'+id;
     const activeBg = bgs.current.querySelectorAll('.bg-character.opacity-1');
@@ -39,7 +40,7 @@ const StoriesPage = ({data}) => {
     }
     
     console.log('did not return');
-    
+
     const backgrounds = bgs.current.querySelectorAll('.bg-character');
     const newZIndex = parseInt(activeBg[0].style.zIndex) ? parseInt(activeBg[0].style.zIndex) + 1 : 1;
 
