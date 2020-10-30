@@ -254,7 +254,6 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
                           )}
                           className={`text-uppercase btn-stories btn-rotate-right text-white py-2 mr-3`} variant="pink"
                         >
-
                           <span>Work</span>
                         </Button>
                       </div>

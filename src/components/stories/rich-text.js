@@ -4,7 +4,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const RichText = ({json}) => {
 
-  console.log(json);
+  // console.log(json);
 
   const Bold = ({ children }) => <span className="bold">{children}</span>
   const Text = ({ children }) => <p className="align-center">{children}</p>
