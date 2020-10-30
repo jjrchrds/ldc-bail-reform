@@ -38,6 +38,8 @@ const StoriesPage = ({data}) => {
       return;
     }
     
+    console.log('did not return');
+    
     const backgrounds = bgs.current.querySelectorAll('.bg-character');
     const newZIndex = parseInt(activeBg[0].style.zIndex) ? parseInt(activeBg[0].style.zIndex) + 1 : 1;
 

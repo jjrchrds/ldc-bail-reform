@@ -183,8 +183,8 @@ const KaraComponent = ({ handleShow, handleBg }) => {
           return (
             <div className={`vh-100`}>
               <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  <Col lg="10">
                     <div>
                       <h1>
                         {slides[2].heading}
@@ -267,7 +267,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
       <Scene
         // indicators={true}
         triggerHook={0}
-        duration={"50%"}
+        duration={"80%"}
         pin
       >
         {(progress, event) => {
@@ -275,7 +275,7 @@ const KaraComponent = ({ handleShow, handleBg }) => {
             <div className={`vh-100 character-01`}>
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex justify-content-center align-items-center text-white">
-                  <Col lg="7" className="text-left">
+                  <Col lg="10" className="text-left">
                     <h1>
                       {slides[3].heading}
                     </h1>
@@ -386,15 +386,15 @@ const KaraComponent = ({ handleShow, handleBg }) => {
       <Scene
         // indicators={true}
         triggerHook={0}
-        duration={"50%"}
+        duration={"80%"}
         pin
       >
         {(progress, event) => {
           return (
             <div className={`vh-100`}>
               <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  <Col lg="10">
                     <div>
                       <h1>
                         {slides[4].heading}
@@ -564,8 +564,8 @@ const KaraComponent = ({ handleShow, handleBg }) => {
           return (
             <div className={`vh-100 character-01`}>
               <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  <Col lg="10">
                     <h1>
                       {slides[6].heading}
                     </h1>

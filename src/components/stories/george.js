@@ -150,8 +150,8 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
           return (
             <div className={`vh-100`}>
               <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  <Col lg="8">
                     <div>
                       <h1>
                         {slides[1].heading}
@@ -223,7 +223,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
       <Scene
         // indicators={true}
         triggerHook={0}
-        duration={"70%"}
+        duration={"80%"}
         pin
       >
         {(progress, event) => {
@@ -236,7 +236,7 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
                       {slides[3].heading}
                     </h1>
                     <RichText json={slides[3].story.json} />
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex mt-5 justify-content-center">
                       <div className={`d-inline-block slide-from-bottom ${progress > .1 ? 'active' : ''}`}>
                         <Button
                           onClick={() => showModal(
@@ -320,8 +320,8 @@ const GeorgeComponent = ({ handleShow, handleBg }) => {
           return (
             <div className={`vh-100 character-01`}>
               <Container className={`h-100`}>
-                <Row className="h-100 d-flex align-items-center text-white">
-                  <Col>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  <Col lg="10">
                     <h1>
                       {slides[5].heading}
                     </h1>
