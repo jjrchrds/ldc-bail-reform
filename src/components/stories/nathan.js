@@ -165,7 +165,7 @@ const NathanComponent = ({handleShow, handleBg}) => {
                     
                   </Col>
                   <Col lg="7" className="text-left">
-                    <h1>The Police Station</h1>
+                    <h1>{slides[2].heading}</h1>
                     <RichText json={slides[2].story.json}/>
                   </Col>
                 </Row>
@@ -187,7 +187,7 @@ const NathanComponent = ({handleShow, handleBg}) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex justify-content-center align-items-center text-white">
                   <Col lg="7" className="text-left">
-                    <h1>The Police Station</h1>
+                    <h1>{slides[3].heading}</h1>
                     <RichText json={slides[3].story.json}/>
 
                     <div className="text-center mt-5">
@@ -207,13 +207,74 @@ const NathanComponent = ({handleShow, handleBg}) => {
                       <div className={`d-inline-block slide-from-bottom ${ progress > .1 ? 'active' : ''}`}>
 
                         <Button 
-                          onClick={showModal} 
+                          onClick={() => showModal(
+                            { 
+                              title: slides[3].modalButtons[1].heading, 
+                              json: slides[3].modalButtons[1].content.json,
+                              fluid: slides[3].modalButtons[1].image.fluid
+                            }
+                          )} 
                           className={`text-uppercase btn-stories btn-rotate-left text-white py-2`} variant="pink">
                           <span>Wait</span>
                         </Button>
                       </div>
                     </div>
                   </Col>
+                </Row>
+              </Container>
+            </div>
+          )}}
+        </Scene>
+
+        <Scene 
+          // indicators={true}
+          triggerHook={0} 
+          duration={"70%"} 
+          pin
+        >
+          {(progress, event) => {
+
+            return (
+            <div className={`vh-100 character-01`}>
+              <Container className={`h-100`}>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  
+                  <Col lg="6" className="text-left">
+                  <h1>{slides[4].heading}</h1>
+                    <RichText json={slides[4].story.json}/>
+                  </Col>
+                  
+                  <Col lg="4" className="text-center">
+                    <Img 
+                      fluid={ slides[4].slideImage.fluid }
+                      className={`${ progress >.1 ? 'active' : ''}`}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          )}}
+        </Scene>
+
+        <Scene 
+          // indicators={true}
+          triggerHook={0} 
+          duration={"70%"} 
+          pin
+        >
+          {(progress, event) => {
+
+            return (
+            <div className={`vh-100 character-01`}>
+              <Container className={`h-100`}>
+                <Row className="h-100 d-flex justify-content-center align-items-center text-white">
+                  
+                  <Col lg="8" className="text-left">
+                  <h1>{slides[5].heading}</h1>
+                    <RichText json={slides[5].story.json}/>
+                  </Col>
+                  
+                 
                 </Row>
               </Container>
             </div>
@@ -240,17 +301,11 @@ const NathanComponent = ({handleShow, handleBg}) => {
               <Container className={`h-100`}>
                 <Row className="h-100 d-flex justify-content-center align-items-center text-white">
                   
-                  <Col lg="6" className="text-left">
-                    <h1>The Police Station</h1>
-                    <RichText json={slides[4].story.json}/>
+                  <Col lg="8" className="text-left">
+                  <h1>{slides[6].heading}</h1>
+                    <RichText json={slides[6].story.json}/>
                   </Col>
                   
-                  <Col lg="4" className="text-center">
-                    <Img 
-                      fluid={ slides[4].slideImage.fluid }
-                      className={`${ progress >.1 ? 'active' : ''}`}
-                    />
-                  </Col>
                 </Row>
               </Container>
             </div>
