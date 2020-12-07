@@ -2,7 +2,8 @@
     font-family: "Martin";
     font-weight: 400;
     font-style: normal;
-    src: url("../../static/fonts/MARTIN-Regular.otf") format("opentype"), url("../../static/fonts/MARTIN-Regular.ttf") format("truetype");
+    src: url("../../static/fonts/MARTIN-Regular.eot");
+    src: url("../../static/fonts/MARTIN-Regular.eot") format("embedded-opentype"), url("../../static/fonts/MARTIN-Regular.otf") format("opentype"), url("../../static/fonts/MARTIN-Regular.ttf") format("truetype");
     font-display: swap;
   }
 
