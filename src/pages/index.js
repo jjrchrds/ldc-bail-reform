@@ -177,7 +177,7 @@ const IndexPage = () => {
           </Col>
 
           <Col sm="12" md="4" className="text-center">
-            <Link to="/narrative">
+            <Link to="/stories">
               <Card className="text-left text-dark gif-card">
                 <Card.Img src={content.card2Img.file.url} alt={content.card2Img.description} className="img-static"/>
                 <Card.Img src={content.card2Gif.file.url} alt={content.card2Img.description} className="img-gif"/>
