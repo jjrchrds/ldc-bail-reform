@@ -192,7 +192,7 @@ const IndexPage = () => {
           </Col>
 
           <Col sm="12" md="4" className="text-center">
-            <Link to="/methodology">
+            <Link to="/timeline">
               <Card className="text-left text-dark gif-card">
                 <Card.Img src={content.card3Img.file.url} alt={content.card3Img.description} className="img-static"/>
                 <Card.Img src={content.card3Gif.file.url} alt={content.card3Img.description} className="img-gif"/>
