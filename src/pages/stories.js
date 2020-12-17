@@ -20,14 +20,9 @@ const StoriesPage = ({data}) => {
 
   const pageContent = data.allContentfulStoriesPageTemplate.edges[0].node;
 
-  let value = 0;
-
   // const [ slideIndex, setSlideIndex ] = useState(0);
   const bgs = useRef();
   const progress = useRef();
-
-  const pinDuration = 200; //inpixels
-
 
   //progress bar update
   const updateProgress = (value) => {
@@ -35,6 +30,7 @@ const StoriesPage = ({data}) => {
   }
 
   const updateBackground = ( id ) => {
+    return
     // console.log('update bg called' + id);
     const activeId = 'bg-'+id;
     const activeBg = bgs.current.querySelectorAll('.bg-character.opacity-1');
@@ -43,10 +39,10 @@ const StoriesPage = ({data}) => {
       return;
     }
     
+    console.log('did not return');
+
     const backgrounds = bgs.current.querySelectorAll('.bg-character');
     const newZIndex = parseInt(activeBg[0].style.zIndex) ? parseInt(activeBg[0].style.zIndex) + 1 : 1;
-
-    console.log(newZIndex)
 
     backgrounds.forEach(background => {
       
@@ -87,18 +83,19 @@ const StoriesPage = ({data}) => {
       <Modal
         show={show}
         onHide={handleClose} 
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Body>
-          <h2 className="text-rust">{modalContent.title}</h2>
-          <RichText json={ modalContent.json }/>
-          
+          <div className={`${ modalContent.fluid ? 'w-75' : ''}`}>
+            <h3 className="text-rust lh-1">{modalContent.title}</h3>
+            <RichText json={ modalContent.json }/>
+          </div>
+
           { modalContent.fluid ? 
             <Img 
             fluid={ modalContent.fluid }
-            className={`w-25`}
+            className={`w-25 position-absolute modal-art`}
           />
           : ''}
           
